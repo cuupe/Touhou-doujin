@@ -52,19 +52,17 @@ namespace Engine {
         void ProcessMaterial(const aiMaterial* material, const std::string& dir);
 
     public:
-        // 构造函数：加载模型
         Model(ID3D11Device* device, const std::string& path, ComPtr<ID3DBlob>& vsBlob);
         ~Model();
 
         // 绘制所有网格
         void Draw(ID3D11DeviceContext* context) const;
-        // 获取网格/材质数量（调试用）
+        // 获取网格/材质数量
         size_t GetMeshCount() const { return meshes.size(); }
         size_t GetMaterialCount() const { return materials.size(); }
 
         // 获取材质（用于纹理加载）
         const Material& GetMaterial(size_t index) const { return materials[index]; }
         const Mesh& GetMesh(size_t index) const { return meshes[index]; }
-    
     };
 }

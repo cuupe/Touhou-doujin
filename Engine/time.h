@@ -2,7 +2,7 @@
 #include <thread>
 #include <chrono>
 
-namespace Engine {
+namespace Engine::Time {
 	class time {
 	private:
 		std::chrono::high_resolution_clock::time_point start;
@@ -25,5 +25,6 @@ namespace Engine {
 		void Update();
 		long long GetDeltaTime() const;
 		double DeltaTime() const;
+		long long GetCount() const;
 	};
 }

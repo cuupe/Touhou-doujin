@@ -332,12 +332,12 @@ namespace Engine {
         // 绑定采样器（PS slot 0）
         context->PSSetSamplers(0, 1, samplerState.GetAddressOf());
 
-        // 绘制模型（遍历网格，绑定纹理）
+
         for (size_t i = 0; i < model.GetMeshCount(); ++i) {
             const auto& mesh = model.GetMesh(i);
-            UINT stride = sizeof(Vertex);  // 假设 Vertex 结构
+            UINT stride = sizeof(Vertex);
             UINT offset = 0;
-            ID3D11Buffer* vb = mesh.vertexBuffer.Get();  // 假设 mesh 有 vertexBuffer
+            ID3D11Buffer* vb = mesh.vertexBuffer.Get();
             context->IASetVertexBuffers(0, 1, &vb, &stride, &offset);
             context->IASetIndexBuffer(mesh.indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
             context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -349,19 +349,18 @@ namespace Engine {
             }
             else {
                 ID3D11ShaderResourceView* nullSRV = nullptr;
-                context->PSSetShaderResources(0, 1, &nullSRV);  // 默认白纹理
+                context->PSSetShaderResources(0, 1, &nullSRV);
             }
 
             context->DrawIndexed(mesh.indexCount, 0, 0);
         }
 
-        std::cout << "渲染一帧完成" << std::endl;  // 调试输出
+        std::cout << "渲染一帧完成" << std::endl;
     }
 
     void D3D11Renderer::SetDebugMode(bool enable) {
         debugMode = enable;
         if (enable) {
-            // 注意：调试层需在 Device 创建时设置 D3D11_CREATE_DEVICE_DEBUG
             std::cout << "调试模式已设置（重建 Device 以启用完整调试）" << std::endl;
         }
     }

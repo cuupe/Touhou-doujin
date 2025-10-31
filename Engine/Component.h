@@ -1,10 +1,10 @@
 ﻿#pragma once
-namespace Engine {
+namespace Engine::Core {
 	class Component {
 		friend class GameObject;
 
 	protected:
-		GameObject* owner;
+		GameObject* owner = nullptr;
 
 	public:
 		Component() = default;
@@ -15,14 +15,14 @@ namespace Engine {
 		Component& operator=(Component&&) = delete;
 
 	public:
-		GameObject* GetOwner() const { return owner; }
+		[[nodiscard]] GameObject* GetOwner() const { return owner; }
 		void SetOwner(GameObject* o) { owner = o; }
 
 	protected:
-		virtual void Init();
-		virtual void Render();
-		virtual void Update();
-		virtual void HandleInput();
-		virtual void Destory();
+		virtual void Init() {};
+		virtual void Render() {};
+		virtual void Update(float) {};
+		virtual void HandleInput() {};
+		virtual void Destory() {};
 	};
-}
+};

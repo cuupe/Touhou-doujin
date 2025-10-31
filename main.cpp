@@ -4,7 +4,7 @@ int main()
 {
 	SetConsoleOutputCP(CP_UTF8);
 
-	Game g("game", 1024, 720, 0, 60);
+	Game g("game", 1280, 960, 0, 60);
 	if (g.GetInit()) {
 		g.Run();
 	}

@@ -1,8 +1,8 @@
 ﻿#pragma once
 #include "../prefix.h"
 #include "Component.h"
-namespace Engine {
-	class GameObject {
+namespace Engine::Core {
+	class GameObject final{
 	protected:
 		std::string name;
 		std::string tag;
@@ -10,14 +10,12 @@ namespace Engine {
 		bool need_remove = false;
 
 	public:
-		GameObject() = default;
+		GameObject(const std::string& name = "", const std::string& tag = "");
 		virtual ~GameObject() = default;
 		GameObject(const GameObject&) = delete;
 		GameObject& operator=(const GameObject&) = delete;
 		GameObject(GameObject&&) = delete;
 		GameObject& operator=(GameObject&&) = delete;
-
-
 
 	public:
 		void SetName(const std::string& new_name) { name = new_name; }
@@ -40,7 +38,7 @@ namespace Engine {
 			}
 			// 如果不存在则创建组件     /* std::forward -- 用于实现完美转发。传递多个参数的时候使用...标识 */
 			auto new_component = std::make_unique<T>(std::forward<Args>(args)...);
-			T* ptr = new_component.Get();
+			T* ptr = new_component.get();
 			new_component->SetOwner(this);
 			components[type_index] = std::move(new_component);
 			ptr->Init();
@@ -79,17 +77,9 @@ namespace Engine {
 			}
 		}
 
-
-
-
-		GameObject* Get();
 		void Destroy();
-		void Update();
+		void Update(float);
 		void Render();
 		void HandleInput();
-
-
-
-
 	};
 }

@@ -15,7 +15,7 @@ namespace Engine {
 
 	protected:
 		int width, height;
-		time t;
+		Time::time t;
 		SDL_Event event;
 
 	public:

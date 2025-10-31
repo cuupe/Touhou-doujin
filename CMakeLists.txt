@@ -36,12 +36,20 @@ main.cpp
 "Engine/model.cpp" 
 "Engine/time.h" 
 "Engine/time.cpp" 
-"Game/resources.h" 
-"Game/resources.cpp" 
+"Engine/resources.h" 
+"Engine/resources.cpp" 
 "Engine/GameObject.h" 
 "Game/Player.h" 
 "Engine/GameObject.cpp"
- "Game/Enemy.h" "Game/Player.cpp" "Game/Enemy.cpp" "Engine/Component.h" "Engine/Component.cpp")
+ "Game/Enemy.h" 
+ "Game/Player.cpp" 
+ "Game/Enemy.cpp" 
+ "Engine/Component.h" 
+ "Engine/Component.cpp" 
+ "Engine/render.h" 
+ "Engine/render.cpp" 
+ "Engine/context.h" 
+ "Engine/context.cpp")
 target_include_directories(worky PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
 target_link_libraries(
