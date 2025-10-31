@@ -1,11 +1,12 @@
 ﻿#include "render.h"
 #include "resources.h"
+#include "maths.h"
 namespace Engine::Render {
 	Renderer::Renderer(SDL_Renderer* s_r, ResourceMannager* r_s)
 		:renderer(s_r), res(r_s)
 	{ }
 
-	std::optional<SDL_FRect> Renderer::GetSpriteSrcRect(const sprite& sprite)
+	std::optional<SDL_FRect> Renderer::GetSpriteSrcRect(const Sprite& sprite)
 	{
 		SDL_Texture* texture = res->GetTexture(sprite.GetTextureName())->texture.get();
 		if (!texture) {
@@ -59,7 +60,7 @@ namespace Engine::Render {
 	}
 
 	//vector为二维向量
-	void Renderer::DrawSprite(const sprite& sprite, const Pos2& pos, const SpriteRect& s_rc, double angle)
+	void Renderer::DrawSprite(const Sprite& sprite, const Vec2& pos, const SpriteRect& s_rc, double angle)
 	{
 		auto texture = res->GetTexture(sprite.GetTextureName())->texture.get();
 		if (!texture) {
@@ -97,7 +98,7 @@ namespace Engine::Render {
 		}
 	}
 
-	void Renderer::DrawUI(const sprite& sprite, const Pos2& pos, const SpriteRect& s_rc)
+	void Renderer::DrawUI(const Sprite& sprite, const Vec2& pos, const SpriteRect& s_rc)
 	{
 		auto texture = res->GetTexture(sprite.GetTextureName())->texture.get();
 		if (!texture) {

@@ -16,7 +16,9 @@ namespace Engine::Time {
 
 	public:
 		time(int limit);
+		time& operator=(const time&) = delete;
 		time(const time&) = delete;
+		time& operator=(time&&) = delete;
 		time(time&&) = delete;
 		~time();
 

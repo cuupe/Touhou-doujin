@@ -49,7 +49,12 @@ main.cpp
  "Engine/render.h" 
  "Engine/render.cpp" 
  "Engine/context.h" 
- "Engine/context.cpp")
+ "Engine/context.cpp" 
+ "Engine/Components/TransformComponent.h" 
+ "Engine/Components/TransformComponent.cpp" 
+ "Engine/maths.h" 
+ "Engine/Components/SpriteComponent.h"
+ "Engine/Components/SpriteComponent.cpp")
 target_include_directories(worky PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
 target_link_libraries(

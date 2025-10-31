@@ -6,18 +6,17 @@ namespace Engine::Core {
     {
     }
 
-    void GameObject::Update(float delta_time) {
+    void GameObject::Update(float delta_time, Context& ctx) {
         for (auto& pair : components) {
-            pair.second->Update(delta_time);
+            pair.second->Update(delta_time, ctx);
         }
     }
 
-    void GameObject::Render() {
+    void GameObject::Render(Context& ctx) {
         for (auto& pair : components) {
-            pair.second->Render();
+            pair.second->Render(ctx);
         }
     }
-
 
     void GameObject::Destroy() {
         spdlog::trace("销毁 GameObject 中...");
@@ -27,9 +26,9 @@ namespace Engine::Core {
         components.clear();
     }
 
-    void GameObject::HandleInput() {
+    void GameObject::HandleInput(Context& ctx) {
         for (auto& pair : components) {
-            pair.second->HandleInput();
+            pair.second->HandleInput(ctx);
         }
     }
 }

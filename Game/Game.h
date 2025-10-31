@@ -6,6 +6,7 @@
 #include "../Engine/resources.h"
 #include "../Engine/Component.h"
 #include "../Engine/GameObject.h"
+#include "../Engine/maths.h"
 
 class Game final : public Engine::engine {
 private:

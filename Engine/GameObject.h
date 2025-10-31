@@ -2,6 +2,8 @@
 #include "../prefix.h"
 #include "Component.h"
 namespace Engine::Core {
+	class Context;
+
 	class GameObject final{
 	protected:
 		std::string name;
@@ -78,8 +80,8 @@ namespace Engine::Core {
 		}
 
 		void Destroy();
-		void Update(float);
-		void Render();
-		void HandleInput();
+		void HandleInput(Context&);
+		void Update(float, Context&);
+		void Render(Context&);
 	};
 }

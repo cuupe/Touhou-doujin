@@ -3,56 +3,21 @@
 namespace Engine::Resource {
 	class ResourceMannager;
 }
+namespace Engine::Maths {
+	struct SpriteRect;
+	struct Vec2;
+}
 using namespace Engine::Resource;
-
+using namespace Engine::Maths;
 namespace Engine::Render {
-	//精灵图的绘图区域
-	struct SpriteRect {
-		float x;
-		float y;
-		float h;
-		float w;
-		float scale_x;
-		float scale_y;
-		SpriteRect(float x, float y, float w, float h) :
-			x(x), y(y),
-			h(h), w(w),
-			scale_x(1),
-			scale_y(1) {
-		}
-
-		SpriteRect(float x, float y, float w, float h, float scale_x, float scale_y) :
-			x(x), y(y),
-			h(h), w(w),
-			scale_x(scale_x),
-			scale_y(scale_y) {
-		}
-	};
-
-	struct Pos2 {
-		float x;
-		float y;
-
-		Pos2():
-			x(0),y(0){ }
-		Pos2(float x) :
-			x(x), y(0) {
-		}
-		Pos2(float x, float y) :
-			x(x), y(y) {
-		}
-	};
-
-
-
-	class sprite final {
+	class Sprite final {
 	private:
 		std::string tex_name;
 		std::optional<SDL_FRect> source_rect;
 		bool is_flipped;
 
 	public:
-		sprite(const std::string& t_n,
+		Sprite(const std::string& t_n,
 			const std::optional<SDL_FRect>& s_r = std::nullopt,
 			bool i_f = false):
 			tex_name(t_n),source_rect(s_r),is_flipped(i_f){ }
@@ -84,7 +49,7 @@ namespace Engine::Render {
 		SDL_Renderer* getSDLRenderer() const { return renderer; }
 
 	public:
-		std::optional<SDL_FRect> GetSpriteSrcRect(const sprite& sprite);
+		std::optional<SDL_FRect> GetSpriteSrcRect(const Sprite& sprite);
 		//bool isRectInViewport(const SDL_FRect& rect);
 		void SetDrawColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 		void SetDrawColorFloat(float r, float g, float b, float a);
@@ -93,9 +58,9 @@ namespace Engine::Render {
 
 		//2D部分
 	public:
-		void DrawSprite(const sprite& sprite, const Pos2& pos, const SpriteRect& s_rc, double angle = 0.0f);
+		void DrawSprite(const Sprite& sprite, const Vec2& pos, const SpriteRect& s_rc, double angle = 0.0f);
 
-		void DrawUI(const sprite& sprite, const Pos2& pos,
+		void DrawUI(const Sprite& sprite, const Vec2& pos,
 			const SpriteRect& s_rc);
 
 		//3D部分

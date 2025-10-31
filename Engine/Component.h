@@ -1,5 +1,8 @@
 ﻿#pragma once
 namespace Engine::Core {
+	class Context;
+	class GameObject;
+
 	class Component {
 		friend class GameObject;
 
@@ -20,9 +23,9 @@ namespace Engine::Core {
 
 	protected:
 		virtual void Init() {};
-		virtual void Render() {};
-		virtual void Update(float) {};
-		virtual void HandleInput() {};
+		virtual void Render(Context&) {};
+		virtual void Update(float, Context&) = 0;
+		virtual void HandleInput(Context&) {};
 		virtual void Destory() {};
 	};
 };
