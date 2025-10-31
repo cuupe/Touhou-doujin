@@ -1,28 +1,5 @@
 ﻿#pragma once
 namespace Engine::Maths {
-	//精灵图的绘图区域(主要针对图像本身)
-	struct SpriteRect {
-		float x;
-		float y;
-		float h;
-		float w;
-		float scale_x;
-		float scale_y;
-		SpriteRect(float x, float y, float w, float h) :
-			x(x), y(y),
-			h(h), w(w),
-			scale_x(1),
-			scale_y(1) {
-		}
-
-		SpriteRect(float x, float y, float w, float h, float scale_x, float scale_y) :
-			x(x), y(y),
-			h(h), w(w),
-			scale_x(scale_x),
-			scale_y(scale_y) {
-		}
-	};
-
 	//泛用二维向量
 	struct Vec2 {
 		float x;

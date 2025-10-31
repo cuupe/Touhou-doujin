@@ -41,4 +41,5 @@ public:
 
 public:
 	//test
+	void test(){}
 };

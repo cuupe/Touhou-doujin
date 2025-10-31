@@ -60,7 +60,8 @@ namespace Engine::Render {
 	}
 
 	//vector为二维向量
-	void Renderer::DrawSprite(const Sprite& sprite, const Vec2& pos, const SpriteRect& s_rc, double angle)
+	void Renderer::DrawSprite(const Sprite& sprite, const Vec2& pos, 
+		const Vec2& scale, const std::optional<SDL_FRect>& s_rc, double angle)
 	{
 		auto texture = res->GetTexture(sprite.GetTextureName())->texture.get();
 		if (!texture) {
@@ -68,19 +69,18 @@ namespace Engine::Render {
 			return;
 		}
 
-		auto s_r = GetSpriteSrcRect(sprite);
-		if (!s_r.has_value()) {
-			spdlog::error("无法获取精灵的源矩形，ID: {}", sprite.GetTextureName());
-			return;
+		SDL_FRect s_r;
+		if (s_rc.has_value()) {
+			s_r = s_rc.value();
 		}
-		s_r->w = s_rc.w;
-		s_r->h = s_rc.h;
-		s_r->x = s_rc.x;
-		s_r->y = s_rc.y;
+		else {
+			s_r = GetSpriteSrcRect(sprite).value();
+		}
 
 
-		float s_w = s_r->w * s_rc.scale_x;
-		float s_h = s_r->h * s_rc.scale_y;
+
+		float s_w = s_r.w * scale.x;
+		float s_h = s_r.h * scale.y;
 
 		SDL_FRect d_r = {
 			pos.x,
@@ -93,12 +93,12 @@ namespace Engine::Render {
 
 
 		if (!SDL_RenderTextureRotated(renderer,
-			texture, &s_r.value(), &d_r, angle, nullptr, sprite.IsFlipped() ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE)) {
+			texture, &s_r, &d_r, angle, nullptr, sprite.IsFlipped() ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE)) {
 			spdlog::error("渲染旋转纹理失败（ID: {}）：{}", sprite.GetTextureName(), SDL_GetError());
 		}
 	}
 
-	void Renderer::DrawUI(const Sprite& sprite, const Vec2& pos, const SpriteRect& s_rc)
+	void Renderer::DrawUI(const Sprite& sprite, const Vec2& pos, const std::optional<SDL_FRect>& s_rc)
 	{
 		auto texture = res->GetTexture(sprite.GetTextureName())->texture.get();
 		if (!texture) {

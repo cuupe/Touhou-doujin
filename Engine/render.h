@@ -58,10 +58,11 @@ namespace Engine::Render {
 
 		//2D部分
 	public:
-		void DrawSprite(const Sprite& sprite, const Vec2& pos, const SpriteRect& s_rc, double angle = 0.0f);
+		void DrawSprite(const Sprite& sprite, const Vec2& pos, 
+			const Vec2& scale, const std::optional<SDL_FRect>& s_rc, double angle = 0.0f);
 
 		void DrawUI(const Sprite& sprite, const Vec2& pos,
-			const SpriteRect& s_rc);
+			const std::optional<SDL_FRect>& s_rc);
 
 		//3D部分
 	public:

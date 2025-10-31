@@ -17,6 +17,15 @@ namespace Engine::Core::Components {
 
 		Sprite s;
 		Align align;
+		SDL_FRect rect;
+		bool is_filpped = false;
 
+	public:
+		//SpriteComponent(
+		//	const std::string& t_name,
+		//	ResourceMannager& r,
+		//	Align a,
+
+		//)
 	};
 }

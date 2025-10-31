@@ -88,8 +88,8 @@ inline void Game::Render()
     r->SetDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
     //test
     {
-        r->DrawUI(Engine::Render::Sprite("rank00"), {0,0}, {0, 0, 1024, 1024});
-        r->DrawSprite(Engine::Render::Sprite("pl00"), { pos.x * 4, pos.y * 4 }, { offset, line, 256.0 / 8, 48, 2.0, 2.0 });
+        r->DrawUI(Engine::Render::Sprite("rank00"), {0,0}, SDL_FRect{0, 0, 1024, 1024});
+        r->DrawSprite(Engine::Render::Sprite("pl00"), { pos.x * 4, pos.y * 4 }, {2, 2}, SDL_FRect{ offset, line, 256.0 / 8, 48 });
         long long se = t.GetCount();
         if (se > 0 && se % 15 == 0) {
             offset += (!rec ? 256.0 / 8 : -256.0 / 8);
