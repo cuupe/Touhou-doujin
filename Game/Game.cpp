@@ -1,4 +1,5 @@
 ﻿#include "Game.h"
+
 //test用
 static SDL_FRect square = { 350, 250, 100, 100 };
 using namespace Resources;
@@ -23,6 +24,7 @@ Game::Game(const char* win_name, int width, int height, int flag, int fps)
     initialized = true;
 }
 
+
 Game::~Game()
 { }
 
@@ -34,10 +36,11 @@ inline void Game::HandleInput()
         case SDL_EVENT_QUIT:
             running = false;
             break;
+
         case SDL_EVENT_WINDOW_MINIMIZED:
             spdlog::info("窗口最小化");
             break;
-        case SDL_EVENT_WINDOW_RESTORED:
+        case SDL_EVENT_WINDOW_RESTORED:  // 恢复时重绘
             spdlog::info("窗口恢复");
             break;
         case SDL_EVENT_KEY_DOWN:
@@ -87,6 +90,7 @@ inline void Game::Render()
     };
 
     SDL_FRect* srcRect = NULL;
+
     SDL_RenderTexture(
         renderer,
         texs["rank00"]->texture.get(), 
@@ -96,12 +100,15 @@ inline void Game::Render()
 
     
     SDL_RenderFillRect(GetRenderer(), &square);
+
+    // 渲染
     SDL_RenderPresent(GetRenderer());
 }
 
 inline void Game::Update()
 {
     t.Update();
+
 }
 
 

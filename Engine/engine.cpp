@@ -56,7 +56,7 @@ Engine::engine::engine(const char* win_name, int width, int height, int flag, in
         std::cout << "获取 Properties 失败" << std::endl;
         return;
     }
-    
+
     void* devicePtr = SDL_GetPointerProperty(props, SDL_PROP_RENDERER_D3D11_DEVICE_POINTER, nullptr);
 
     if (devicePtr) {
@@ -91,6 +91,8 @@ Engine::engine::engine(const char* win_name, int width, int height, int flag, in
     }
 
     spdlog::info("D3D11 设备/上下文获取成功（已准备好使用）");
+    initialized = true;
+
 }
 
 Engine::engine::~engine()

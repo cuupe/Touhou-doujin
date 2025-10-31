@@ -10,7 +10,8 @@ namespace Engine {
 		MIX_Mixer* mixer = nullptr;
 		ComPtr<ID3D11Device> device;
 		ComPtr<ID3D11DeviceContext> context;
-		
+		bool initialized = false;
+
 
 	protected:
 		int width, height;
@@ -32,6 +33,7 @@ namespace Engine {
 		SDL_Renderer* GetRenderer() const { return renderer; }
 		ID3D11Device* GetDevice() const { return device.Get(); }
 		ID3D11DeviceContext* GetDeviceContext() const { return context.Get(); }
+		bool GetInitState() const { return initialized; }
 
 	protected:
 		virtual void HandleInput() = 0;
