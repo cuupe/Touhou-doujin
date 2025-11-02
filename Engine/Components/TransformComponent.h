@@ -32,6 +32,10 @@ namespace Engine::Core::Components {
 		void SetScale(const Vec2&);
 		void SetScale(float, float);
 		void SetRotation(float);
+		void Translate(const Vec2&);
+
+	private:
+		void Update(float, Context&) override {}
 	};
 
 }

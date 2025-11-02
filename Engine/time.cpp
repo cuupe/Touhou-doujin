@@ -11,8 +11,7 @@ namespace Engine::Time {
     }
 
     time::~time()
-    {
-    }
+    { }
 
     void time::ChangeLimitFps(int newfps)
     {
@@ -46,7 +45,7 @@ namespace Engine::Time {
         return std::chrono::duration_cast<std::chrono::milliseconds>(during).count();
     }
 
-    double time::DeltaTime() const
+    float time::DeltaTime() const
     {
         return static_cast<double>(std::chrono::duration_cast<std::chrono::milliseconds>(during).count()) / 1000;
     }

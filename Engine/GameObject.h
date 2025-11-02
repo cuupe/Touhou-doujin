@@ -25,7 +25,7 @@ namespace Engine::Core {
 		void SetTag(const std::string& new_tag) { tag = new_tag; }
 		const std::string& GetTag() const { return tag; }
 		void SetNeedRemove(bool new_state) { need_remove = new_state; }
-		const bool GetNeedRemove() const { return need_remove; }
+		const bool IsNeedRemove() const { return need_remove; }
 
 
 		template <typename T, typename... Args>

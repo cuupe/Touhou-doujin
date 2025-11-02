@@ -78,7 +78,6 @@ namespace Engine::Render {
 		}
 
 
-
 		float s_w = s_r.w * scale.x;
 		float s_h = s_r.h * scale.y;
 

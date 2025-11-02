@@ -50,7 +50,6 @@ namespace Engine::Render {
 
 	public:
 		std::optional<SDL_FRect> GetSpriteSrcRect(const Sprite& sprite);
-		//bool isRectInViewport(const SDL_FRect& rect);
 		void SetDrawColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 		void SetDrawColorFloat(float r, float g, float b, float a);
 		void ClearScreen();

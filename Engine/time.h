@@ -26,7 +26,7 @@ namespace Engine::Time {
 		void ChangeLimitFps(int newfps);
 		void Update();
 		long long GetDeltaTime() const;
-		double DeltaTime() const;
+		float DeltaTime() const;
 		long long GetCount() const;
 	};
 }

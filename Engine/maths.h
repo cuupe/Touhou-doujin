@@ -1,4 +1,8 @@
 ﻿#pragma once
+namespace Engine::Core::Components {
+	class ColliderComponent;
+}
+using namespace Engine::Core::Components;
 namespace Engine::Maths {
 	//泛用二维向量
 	struct Vec2 {
@@ -8,14 +12,174 @@ namespace Engine::Maths {
 		Vec2() :
 			x(0), y(0) {
 		}
-		Vec2(float x) :
+		explicit Vec2(float x) :
 			x(x), y(0) {
 		}
 		Vec2(float x, float y) :
 			x(x), y(y) {
 		}
-	};
+		Vec2(const Vec2& o) :
+			x(o.x), y(o.y) {
+		}
+		Vec2(Vec2&& o) noexcept :
+			x(o.x), y(o.y) {
+		}
+		Vec2& operator=(const Vec2& o) 
+	    {
+			x = o.x;
+			y = o.y;
+			return *this;
+		}
+		Vec2& operator=(Vec2&& o) noexcept {
+			x = o.x;
+			y = o.y;
+			return *this;
+		}
+		Vec2 operator+(const Vec2& o) const {
+			return Vec2(this->x + o.x, this->y + o.y);
+		}
+		Vec2 operator-(const Vec2& o) const {
+			return Vec2(this->x - o.x, this->y - o.y);
+		}
+		Vec2 operator*(const Vec2& o) const {
+			return Vec2(this->x * o.x, this->y * o.y);
+		}
+		bool operator==(const Vec2& o) const {
+			return (this->x == o.x) && (this->y == o.y);
+		}
+		bool operator!() const {
+			return (this->x == 0) && (this->y == 0);
+		}
+		Vec2& operator+=(const Vec2& o) {
+			x += o.x;
+			y += o.y;
+			return *this;
+		}
+		Vec2& operator-=(const Vec2 & o) {
+			x -= o.x;
+			y -= o.y;
+			return *this;
+		}
+		Vec2& operator*=(const Vec2& o) {
+			x *= o.x;
+			y *= o.y;
+			return *this;
+		}
+		Vec2 operator*(float s) const {
+			return Vec2(this->x * s, this->y * s);
+		}
+		Vec2& operator*=(float s) {
+			x *= s;
+			y *= s;
+			return *this;
+		}
+		
+		float mod() const {
+			return std::sqrtf(this->x * this->x + this->y * this->y);
+		}
 
+		void Reserve() {
+			this->x *= -1;
+			this->y *= -1;
+		}
+	};
+	//视口矩形
+	struct Rect {
+		float x;
+		float y;
+		float w;
+		float h;
+
+		Rect() :
+			x(0), y(0), w(0), h(0) {
+		}
+		explicit Rect(float x) :
+			x(x), y(0), w(0), h(0) {
+		}
+		Rect(float x, float y) :
+			x(x), y(y), w(0), h(0) {
+		}
+		Rect(float x, float y, float w, float h) :
+			x(x), y(y), w(w), h(h) {
+		}
+		Rect(const Vec2& p, const Vec2& s) :
+			x(p.x), y(p.y), w(s.x), h(s.y) {
+		}
+		explicit Rect(const Vec2& s) :
+			x(0), y(0), w(s.x), h(s.y) {
+		}
+		Rect(const Rect& o) :
+			x(o.x), y(o.y), w(o.w), h(o.h) {
+		}
+		Rect(Rect&& o) noexcept:
+			x(o.x), y(o.y), w(o.w), h(o.h) {
+		}
+		Rect& operator=(const Rect& o)
+		{
+			x = o.x;
+			y = o.y;
+			w = o.w;
+			h = o.h;
+			return *this;
+		}
+		Rect& operator=(Rect&& o) noexcept {
+			x = o.x;
+			y = o.y;
+			w = o.w;
+			h = o.h;
+			return *this;
+		}
+		Rect operator+(const Vec2& v) const {
+			return Rect(this->x + v.x, this->y + v.y, w, h);
+		}
+		Rect operator-(const Vec2& v) const {
+			return Rect(this->x - v.x, this->y - v.y, w, h);
+		}
+		Rect operator*(const Vec2& v) const {
+			return Rect(this->x * v.x, this->y * v.y, w * v.x, h * v.y);
+		}
+		bool operator==(const Rect& o) const {
+			return (this->x == o.x) && (this->y == o.y) && (this->w == o.w) && (this->h == o.h);
+		}
+		bool operator!() const {
+			return (this->w == 0) && (this->h == 0);
+		}
+		Rect& operator+=(const Vec2& v) {
+			x += v.x;
+			y += v.y;
+			return *this;
+		}
+		Rect& operator-=(const Vec2& v) {
+			x -= v.x;
+			y -= v.y;
+			return *this;
+		}
+		Rect& operator*=(const Vec2& v) {
+			x *= v.x;
+			y *= v.y;
+			w *= v.x;
+			h *= v.y;
+			return *this;
+		}
+		Rect operator*(float s) const {
+			return Rect(this->x * s, this->y * s, this->w * s, this->h * s);
+		}
+		Rect& operator*=(float s) {
+			x *= s;
+			y *= s;
+			w *= s;
+			h *= s;
+			return *this;
+		}
+		float diagonal() const {
+			return std::sqrtf(this->w * this->w + this->h * this->h);
+		}
+		void Reserve() {
+			this->x *= -1;
+			this->y *= -1;
+		}
+	};
+	//对齐方式
 	enum class Align {
 		NONE,           
 		TOP_LEFT,       
@@ -28,4 +192,31 @@ namespace Engine::Maths {
 		BOTTOM_CENTER,  
 		BOTTOM_RIGHT    
 	};
+
+
+	bool CheckCollision(
+		const ColliderComponent& a,
+		const ColliderComponent& b);
+
+	bool CheckCircleOverlap(
+		const Vec2& a_center,
+		float a_redius,
+		const Vec2& b_center,
+		float b_redius);
+
+	bool CheckAABBOverlap(
+		const Vec2& a_pos,
+		const Vec2& a_size,
+		const Vec2& b_pos,
+		const Vec2& b_size);
+
+	bool CheckRectOverlap(
+		const Rect& a,
+		const Rect& b);
+
+	bool CheckPointInCircle(
+		const Vec2& point,
+		const Vec2& center,
+		float radius);
+
 }

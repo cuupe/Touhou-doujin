@@ -16,6 +16,7 @@
 #include <locale>
 #include <fstream>
 #include <filesystem>
+#include <algorithm>
 #include <map>
 #include <typeindex>
 #include <utility> 

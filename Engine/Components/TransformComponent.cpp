@@ -45,4 +45,9 @@ namespace Engine::Core::Components {
 		rotation = rotate;
 	}
 
+	void TransformComponent::Translate(const Vec2& vec)
+	{
+		position += vec;
+	}
+
 }
