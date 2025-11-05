@@ -5,6 +5,10 @@
 #include "../Engine/scene.h"
 #include "../Engine/Components/TransformComponent.h"
 #include "../Engine/Components/SpriteComponent.h"
+#include "../Engine/Components/ColliderComponent.h"
+#include "../Engine/Components/AnimationComponent.h"
+#include "../Engine/Components/PlayerComponent.h"
+#include "../Engine/animation.h"
 
 namespace Game::Scene {
 	class GameScene final : public Engine::Scene::Scene {

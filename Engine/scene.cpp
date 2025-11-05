@@ -55,6 +55,7 @@ namespace Engine::Scene {
 		for (auto it = game_objects.begin(); it != game_objects.end();) {
 			if (*it && !(*it)->IsNeedRemove()) {
 				(*it)->HandleInput(ctx);
+				++it;
 			}
 			else {
 				if (*it) {

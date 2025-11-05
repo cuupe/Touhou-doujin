@@ -95,19 +95,6 @@ namespace Engine::Resource {
         audios.insert({ filename, std::move(au) });
     }
 
-    void ResourceMannager::LoadAudios(MIX_Mixer* mixer, const std::string& path, bool predecode)
-    {
-        namespace fs = std::filesystem;
-
-        if (!fs::exists(path) || !fs::is_directory(path)) {
-            spdlog::error("路径错误 : {}", path);
-            throw std::runtime_error("发生错误");
-            return;
-        }
-        //todo::
-
-    }
-
 
     void ResourceMannager::LoadFont(SDL_Renderer* renderer, const std::string& path, int size)
     {

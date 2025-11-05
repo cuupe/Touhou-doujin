@@ -1,13 +1,15 @@
 ﻿#include "Game.h"
 #include "../Engine/Components/SpriteComponent.h"
+#include "../Engine/collider.h"
+#include "../Engine/Components/ColliderComponent.h"
 #include "GameScene.h"
 
 namespace Game {
     //test用
-    Engine::Core::GameObject gb("instance", "player");
+
     bool rec = false;
     static SDL_FRect square = { 350, 250, 100, 100 };
-    static Engine::Maths::Vec2 pos{ 0.f,0.f };
+    static Engine::Maths::Vec2 pos{ 30.f, 30.f };
     static float offset = 0;
     static float line = 0;
 
@@ -20,7 +22,8 @@ namespace Game {
         try {
             res = std::make_unique<Engine::Resource::ResourceMannager>();
             r = std::make_unique<Engine::Render::Renderer>(renderer, res.get());
-            ctx = std::make_unique<Engine::Core::Context>(*r, *res);
+            input = std::make_unique<Engine::Input::InputManager>(renderer);
+            ctx = std::make_unique<Engine::Core::Context>(*r, *res, *input);
             sc = std::make_unique<Engine::Scene::SceneManager>(*ctx);
         }
         catch (const std::exception& e) {
@@ -35,8 +38,9 @@ namespace Game {
                 return;
             }
             res->LoadTexture(renderer, "resources/textures/player/pl00/pl00.png");
-            res->LoadAudio(mixer, "resources/audios/bgm/menu.wav");
             res->LoadTexture(renderer, "resources/textures/UI/rank00.png");
+            res->LoadTexture(renderer, "resources/textures/enemy/enemy5.png");
+            res->LoadAudio(mixer, "resources/audios/bgm/menu.wav");
             MIX_SetTrackAudio(bgm.get(), res->GetAudio("menu")->audio.get());
             bool ok = MIX_PlayTrack(bgm.get(), 0);
             if (!ok) {
@@ -46,14 +50,6 @@ namespace Game {
         }
         //test -- gameobject
         {
-            gb.AddComponent<Engine::Core::Components::TransformComponent>(
-                Vec2{ 0, 20 }, Vec2{ 2, 2 });
-
-            gb.AddComponent<Engine::Core::Components::SpriteComponent>(
-                "pl00", *res, SDL_FRect{ offset, line, 256.0 / 8, 48 });
-
-            
-
             auto scene = std::make_unique<Scene::GameScene>("pao", *ctx, *sc);
 
             sc->RequestPushScene(std::move(scene));
@@ -64,106 +60,71 @@ namespace Game {
         initialized = true;
     }
 
-
     Game::~Game()
     { }
 
     inline void Game::HandleInput()
     {
-        const bool* keystate = SDL_GetKeyboardState(NULL);
-        while (SDL_PollEvent(&event)) {
-            switch (event.type) {
-            case SDL_EVENT_QUIT:
-                running = false;
-                break;
-            case SDL_EVENT_WINDOW_MINIMIZED:
-                spdlog::info("窗口最小化");
-                break;
-            case SDL_EVENT_WINDOW_RESTORED:  // 恢复时重绘
-                spdlog::info("窗口恢复");
-                break;
-            case SDL_EVENT_KEY_DOWN:
-            case SDL_EVENT_KEY_UP: {
-                //TODO:处理按键响应
+        sc->HandleInput();
 
-                SDL_Scancode scancode = event.key.scancode;
-                bool is_down = event.key.down;
-                bool is_repeat = event.key.repeat;
+        {
+            const bool* keystate = SDL_GetKeyboardState(NULL);
+            //TODO:处理轮询(test)
+            if (keystate[SDL_SCANCODE_UP]) {
 
-                break;
+                pos.y -= 5;
+                if (pos.y < 20) {
+                    pos.y = 20;
+                }
             }
-            default:
-                break;
+            if (keystate[SDL_SCANCODE_DOWN]) {
+
+                pos.y += 5;
+                if (pos.y > 700) {
+                    pos.y = 700;
+                }
             }
-        }
-
-        //TODO:处理轮询
-        if (keystate[SDL_SCANCODE_UP]) {
-
-            pos.y -= 5;
-            if (pos.y < 20) {
-                pos.y = 20;
+            if (keystate[SDL_SCANCODE_LEFT]) {
+                pos.x -= 5;
+                if (pos.x < 0) {
+                    pos.x = 0;
+                }
+            }
+            if (keystate[SDL_SCANCODE_RIGHT]) {
+                pos.x += 5;
+                if (pos.x > 700) {
+                    pos.x = 700;
+                }
             }
         }
-        if (keystate[SDL_SCANCODE_DOWN]) {
-
-            pos.y += 5;
-            if (pos.y > 700) {
-                pos.y = 700;
-            }
-        }
-        if (keystate[SDL_SCANCODE_LEFT]) {
-            pos.x -= 5;
-            if (pos.x < 0) {
-                pos.x = 0;
-            }
-        }
-        if (keystate[SDL_SCANCODE_RIGHT]) {
-            pos.x += 5;
-            if (pos.x > 700) {
-                pos.x = 700;
-            }
-        }
-
     }
 
     inline void Game::Render()
     {
-        r->SetDrawColor(0x00, 0x00, 0x00, 0x0F);
-        r->ClearScreen();
         r->SetDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
+        r->ClearScreen();
 
-        //test
-        {
-            
-
-            sc->Render();
-            gb.Render(*ctx);
-
-            long long se = t.GetCount();
-            if (se > 0 && se % 10 == 0) {
-                offset += (!rec ? 256.0 / 8 : -256.0 / 8);
-                if (offset >= 256 - 256 / 8) {
-                    rec = true;
-                }
-                else if (offset <= 0) {
-                    rec = false;
-                }
-
-            }
-        }
+        sc->Render();
 
         r->Present();
     }
 
     inline void Game::Update()
     {
+        input->Update();
         t.Update();
-
         sc->Update(t.DeltaTime());
-        
-        gb.GetComponent<Engine::Core::Components::TransformComponent>()->SetPosition(pos);
-        gb.GetComponent<Engine::Core::Components::SpriteComponent>()->SetRect(SDL_FRect{ offset, line, 256.0 / 8, 48 });
+        //test
+        {
+            //if (!gb.IsNeedRemove()) {
+            //    gb.GetComponent<Engine::Core::Components::TransformComponent>()->SetPosition(pos);
+            //    gb.GetComponent<Engine::Core::Components::SpriteComponent>()->SetRect(SDL_FRect{ offset, line, 256.0 / 8, 48 });
+
+
+
+
+
+        }
     }
 
 
@@ -171,8 +132,8 @@ namespace Game {
     {
         while (running) {
             HandleInput();
-            Render();
             Update();
+            Render();
         }
     }
 

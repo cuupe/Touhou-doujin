@@ -1,9 +1,20 @@
 ﻿#pragma once
+#include <cmath>
 namespace Engine::Core::Components {
 	class ColliderComponent;
 }
 using namespace Engine::Core::Components;
 namespace Engine::Maths {
+	template <typename T>
+	using allowed = std::integral_constant<bool,
+		std::is_same<T, short>::value ||
+		std::is_same<T, int>::value ||
+		std::is_same<T, long>::value ||
+		std::is_same<T, long long>::value ||
+		std::is_same<T, float>::value ||
+		std::is_same<T, double>::value ||
+		std::is_same<T, long double>::value>;
+
 	//泛用二维向量
 	struct Vec2 {
 		float x;
@@ -68,21 +79,36 @@ namespace Engine::Maths {
 		Vec2 operator*(float s) const {
 			return Vec2(this->x * s, this->y * s);
 		}
+		friend Vec2 operator*(float s, const Vec2& v) {
+			return Vec2(v.x * s, v.y * s);
+		}
 		Vec2& operator*=(float s) {
 			x *= s;
 			y *= s;
 			return *this;
 		}
-		
-		float mod() const {
-			return std::sqrtf(this->x * this->x + this->y * this->y);
+		float Length() const {
+			return std::sqrtf(x * x + y * y);
 		}
-
+		void Normalized() {
+			float length = Length();
+			if (length > 0.0f) {
+				x /= length;
+				y /= length;
+			}
+		}
 		void Reserve() {
-			this->x *= -1;
-			this->y *= -1;
+			x *= -1;
+			y *= -1;
 		}
 	};
+	inline float Vec2_Length(const Vec2& a);
+	inline float Vec2_SquareLength(const Vec2& a);
+
+	//Vec2特供
+	Vec2 Clamp(const Vec2& t, const Vec2& mini, const Vec2& maxi);
+	Vec2 Clamp(const Vec2& t, float mini, float maxi);
+
 	//视口矩形
 	struct Rect {
 		float x;
@@ -171,7 +197,7 @@ namespace Engine::Maths {
 			h *= s;
 			return *this;
 		}
-		float diagonal() const {
+		float Square() const {
 			return std::sqrtf(this->w * this->w + this->h * this->h);
 		}
 		void Reserve() {
@@ -193,6 +219,11 @@ namespace Engine::Maths {
 		BOTTOM_RIGHT    
 	};
 
+
+	//基本类型
+	template <typename T,
+		typename = typename std::enable_if<allowed<T>::value>::type>
+	T Clamp(T v, T mini, T maxi);
 
 	bool CheckCollision(
 		const ColliderComponent& a,

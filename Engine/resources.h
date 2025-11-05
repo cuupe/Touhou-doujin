@@ -67,8 +67,6 @@ namespace Engine::Resource {
         void LoadTextures(SDL_Renderer* renderer, const std::string& path);
         //加载音频资源
         void LoadAudio(MIX_Mixer* mixer, const std::string& path, bool predecode = false);
-        //加载文件夹下所有音频资源
-        void LoadAudios(MIX_Mixer* mixer, const std::string& path, bool predecode = false);
         //加载字体资源
         void LoadFont(SDL_Renderer* renderer, const std::string& path, int size);
         //加载文件夹下所有字体资源

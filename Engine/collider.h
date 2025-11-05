@@ -1,4 +1,5 @@
-﻿#include "../prefix.h"
+﻿#pragma once
+#include "../prefix.h"
 #include "maths.h"
 using namespace Engine::Maths;
 namespace Engine::Core::Collider {
@@ -7,6 +8,7 @@ namespace Engine::Core::Collider {
 		AABB,
 		CIRCLE
 	};
+
 	//本质上都是AABB的拓展，所以基类使用AABB
 	class Collider {
 	protected:
@@ -15,7 +17,7 @@ namespace Engine::Core::Collider {
 	public:
 		virtual ~Collider() = default;
 		virtual ColliderType GetType() const = 0;
-		void Set_AABB_Size(const Vec2& size) { aabb_size = std::move(size); }
+		void Set_AABB_Size(Vec2 size) { aabb_size = std::move(size); }
 		const Vec2& Get_AABB_Size() const { return aabb_size; }
 	};
 
@@ -24,12 +26,12 @@ namespace Engine::Core::Collider {
 		Vec2 size = { 0.0f, 0.0f };
 
 	public:
-		explicit AABBCollider(const Vec2& size) : size(std::move(size)) { Set_AABB_Size(size); }
+		explicit AABBCollider(Vec2 size) : size(std::move(size)) { Set_AABB_Size(size); }
 		~AABBCollider() override = default;
 
 		ColliderType GetType() const override { return ColliderType::AABB; }
 		const Vec2& GetSize() const { return size; }
-		void SetSize(const Vec2& size_) { size = std::move(size_); }
+		void SetSize(Vec2& size_) { size = std::move(size_); }
 	};
 
 	class CircleCollider final : public Collider {

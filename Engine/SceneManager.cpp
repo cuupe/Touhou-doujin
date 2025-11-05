@@ -50,6 +50,14 @@ namespace Engine::Scene {
 		ProcessPendingActions();
 	}
 
+	void SceneManager::HandleInput() {
+		Scene* current_scene = GetCurrentScene();
+		if (current_scene) {
+			current_scene->HandleInput();
+		}
+	}
+
+
 	void SceneManager::Render() {
 		for (const auto& scene : scene_stack) {
 			if (scene) {

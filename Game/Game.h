@@ -10,7 +10,8 @@
 #include "../Engine/context.h"
 #include "../Engine/scene.h"
 #include "../Engine/SceneManager.h"
-
+#include "../Engine/InputManager.h"
+#include "../Engine/config.h"
 namespace Game {
 	class Game final : public Engine::engine {
 	private:
@@ -23,10 +24,12 @@ namespace Game {
 		std::map<std::string, Engine::Resource::TrackPtr> sfx;	//音频轨道 - 音效
 
 	private:
+		//std::unique_ptr<Engine::Core::Config> config;
 		std::unique_ptr<Engine::Core::Context> ctx;
 		std::unique_ptr<Engine::Resource::ResourceMannager> res;
-		std::unique_ptr<Engine::Render::Renderer> r;
 		std::unique_ptr<Engine::Scene::SceneManager> sc;
+		std::unique_ptr<Engine::Input::InputManager> input;
+		std::unique_ptr<Engine::Render::Renderer> r;
 
 	public:
 		Game(const char* win_name, int width, int height, int flag, int fps);
@@ -44,6 +47,8 @@ namespace Game {
 
 	public:
 		bool GetInit() const { return initialized; }
+
+
 
 	public:
 		//test

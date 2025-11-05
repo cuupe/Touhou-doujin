@@ -57,40 +57,40 @@ namespace Engine {
             return;
         }
 
-        void* devicePtr = SDL_GetPointerProperty(props, SDL_PROP_RENDERER_D3D11_DEVICE_POINTER, nullptr);
+        //void* devicePtr = SDL_GetPointerProperty(props, SDL_PROP_RENDERER_D3D11_DEVICE_POINTER, nullptr);
 
-        if (devicePtr) {
-            ID3D11Device* rawDevice = static_cast<ID3D11Device*>(devicePtr);
-            if (rawDevice) {
-                ULONG refCount = rawDevice->AddRef();
-                spdlog::debug("AddRef 返回引用计数: {}", refCount);
+        //if (devicePtr) {
+        //    ID3D11Device* rawDevice = static_cast<ID3D11Device*>(devicePtr);
+        //    if (rawDevice) {
+        //        ULONG refCount = rawDevice->AddRef();
+        //        spdlog::debug("AddRef 返回引用计数: {}", refCount);
 
-                device = ComPtr<ID3D11Device>(rawDevice);
-                if (!device) {
-                    spdlog::error("ComPtr<ID3D11Device> 构造失败 (ptr 有效但 ComPtr 为空)");
-                    rawDevice->Release();
-                    return;
-                }
-                spdlog::debug("ComPtr<ID3D11Device> 构造成功，引用计数: {}", device->AddRef());
+        //        device = ComPtr<ID3D11Device>(rawDevice);
+        //        if (!device) {
+        //            spdlog::error("ComPtr<ID3D11Device> 构造失败 (ptr 有效但 ComPtr 为空)");
+        //            rawDevice->Release();
+        //            return;
+        //        }
+        //        spdlog::debug("ComPtr<ID3D11Device> 构造成功，引用计数: {}", device->AddRef());
 
-                device->GetImmediateContext(context.GetAddressOf());
-                if (!context) {
-                    spdlog::error("GetImmediateContext 失败 (device 有效但 context 为空)");
-                    return;
-                }
-                spdlog::info("D3D11 device/context 获取成功");
-            }
-            else {
-                spdlog::error("static_cast<ID3D11Device*> 失败 (devicePtr 无效类型)");
-                return;
-            }
-        }
-        else {
-            spdlog::error("D3D11 devicePtr 为空，创建失败");
-            return;
-        }
+        //        device->GetImmediateContext(context.GetAddressOf());
+        //        if (!context) {
+        //            spdlog::error("GetImmediateContext 失败 (device 有效但 context 为空)");
+        //            return;
+        //        }
+        //        spdlog::info("D3D11 device/context 获取成功");
+        //    }
+        //    else {
+        //        spdlog::error("static_cast<ID3D11Device*> 失败 (devicePtr 无效类型)");
+        //        return;
+        //    }
+        //}
+        //else {
+        //    spdlog::error("D3D11 devicePtr 为空，创建失败");
+        //    return;
+        //}
 
-        spdlog::info("D3D11 设备/上下文获取成功（已准备好使用）");
+        //spdlog::info("D3D11 设备/上下文获取成功（已准备好使用）");
         initialized = true;
 
     }

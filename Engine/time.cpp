@@ -36,7 +36,7 @@ namespace Engine::Time {
             fps = static_cast<double>(count) / sum * 1000.0;
             sum = 0;
             count = 0;
-            spdlog::info("fps: {}", fps);
+            //spdlog::info("fps: {}", fps);
         }
     }
 

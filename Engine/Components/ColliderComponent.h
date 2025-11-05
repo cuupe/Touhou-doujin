@@ -1,18 +1,18 @@
 ﻿#pragma once
-#include "../prefix.h"
+#include "../GameObject.h"
 #include "../maths.h"
 #include "../Component.h"
-#include "TransformComponent.h"
 #include "../collider.h"
+#include "TransformComponent.h"
 using namespace Engine::Maths;
-using namespace Engine::Core::Collider;
 namespace Engine::Core::Components {
-	class ColliderComponent final :public Component {
-		friend class GameObject;
+	//TransformComponent的属性scale会影响到这里碰撞体的大小
+	class ColliderComponent final :public Component {	
+		friend class Engine::Core::GameObject;
 
 	private:
 		TransformComponent* trans = nullptr;
-		std::unique_ptr<Collider::Collider> collider;
+		std::unique_ptr<Engine::Core::Collider::Collider> collider;
 		Vec2 offset = { 0.0f, 0.0f };  //坐标按照左上角变换
 		Align align = Align::NONE;
 

@@ -21,6 +21,8 @@ namespace Engine::Core::Components {
             spdlog::error("碰撞器未获取到Transform组件");
             return;
         }
+        auto a = trans->GetPosition();
+        spdlog::info("owner:{}, {}, {}", owner->GetName(), a.x, a.y);
 
         UpdateOffset();
     }
@@ -47,35 +49,37 @@ namespace Engine::Core::Components {
 
         switch (align) {
         case Align::TOP_LEFT:
-            offset = Vec2{ 0.0f, 0.0f } *scale;
+            offset = Vec2{ 0.0f, 0.0f } * scale;
             break;
         case Align::TOP_CENTER:
-            offset = Vec2{ -collider_size.x / 2.0f, 0.0f } *scale;
+            offset = Vec2{ -collider_size.x / 2.0f, 0.0f } * scale;
             break;
         case Align::TOP_RIGHT:
-            offset = Vec2{ -collider_size.x, 0.0f } *scale;
+            offset = Vec2{ -collider_size.x, 0.0f } * scale;
             break;
         case Align::CENTER_LEFT:
-            offset = Vec2{ 0.0f, -collider_size.y / 2.0f } *scale;
+            offset = Vec2{ 0.0f, -collider_size.y / 2.0f } * scale;
             break;
         case Align::CENTER:
-            offset = Vec2{ -collider_size.x / 2.0f, -collider_size.y / 2.0f } *scale;
+            offset = Vec2{ -collider_size.x / 2.0f, -collider_size.y / 2.0f } * scale;
             break;
         case Align::CENTER_RIGHT:
-            offset = Vec2{ -collider_size.x, -collider_size.y / 2.0f } *scale;
+            offset = Vec2{ -collider_size.x, -collider_size.y / 2.0f } * scale;
             break;
         case Align::BOTTOM_LEFT:
-            offset = Vec2{ 0.0f, -collider_size.y } *scale;
+            offset = Vec2{ 0.0f, -collider_size.y } * scale;
             break;
         case Align::BOTTOM_CENTER:
-            offset = Vec2{ -collider_size.x / 2.0f, -collider_size.y } *scale;
+            offset = Vec2{ -collider_size.x / 2.0f, -collider_size.y } * scale;
             break;
         case Align::BOTTOM_RIGHT:
-            offset = Vec2{ -collider_size.x, -collider_size.y } *scale;
+            offset = Vec2{ -collider_size.x, -collider_size.y } * scale;
             break;
         default:
             break;
         }
+
+        spdlog::info("owner: {}, {}, {}", owner->GetName(), offset.x, offset.y);
     }
 
 
@@ -83,14 +87,14 @@ namespace Engine::Core::Components {
     Rect ColliderComponent::GetWorldAABB() const
     {
         if (!trans || !collider) {
-            return { 0.0f,0.0f,0.0f,0.0f };
+            return { 0.0f, 0.0f, 0.0f, 0.0f };
         }
 
         const Vec2 top_left = trans->GetPosition() + offset;
         const Vec2 base_size = collider->Get_AABB_Size();
         const Vec2 scale = trans->GetScale();
-
-        return { top_left, scale };
+        Vec2 scaled_size = base_size * scale;
+        return { top_left, scaled_size };
     }
 
 

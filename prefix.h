@@ -18,7 +18,9 @@
 #include <filesystem>
 #include <algorithm>
 #include <map>
+#include <unordered_map>
 #include <typeindex>
+#include <type_traits>
 #include <utility> 
 #include <optional>
 
