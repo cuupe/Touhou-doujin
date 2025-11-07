@@ -28,10 +28,10 @@ namespace Engine::Core::Components {
 		bool is_dead = false;
 
 		Engine::Maths::Vec2 direct = {0.0f, 0.0f};
-		float speed = 1.0f;
+		float speed = 100.0f;
 
 	public:
-		PlayerComponent(float sp = 1.0f);
+		PlayerComponent(float sp = 100.0f);
 		~PlayerComponent() override = default;
 		PlayerComponent(const PlayerComponent&) = delete;
 		PlayerComponent& operator=(const PlayerComponent&) = delete;
@@ -50,7 +50,7 @@ namespace Engine::Core::Components {
 		void SetDirection(const Engine::Maths::Vec2& dir) { direct = dir; }
 		void SetDirection(Engine::Maths::Vec2&& dir) { direct = dir; }
 		float GetSpeed() const { return speed; }
-		Engine::Maths::Vec2 GetTo();
+		Engine::Maths::Vec2 GetTo(float);
 		void SetState(std::unique_ptr<State::PlayerState> new_state);
 
 		

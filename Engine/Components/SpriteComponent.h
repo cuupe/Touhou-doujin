@@ -4,6 +4,7 @@
 #include "../Component.h"
 #include "../maths.h"
 #include "../render.h"
+#include "../sprite.h"
 #include "TransformComponent.h"
 using namespace Engine::Maths;
 using namespace Engine::Resource;

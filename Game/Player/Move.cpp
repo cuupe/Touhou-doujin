@@ -8,8 +8,7 @@
 namespace Game::Components::State::Player {
 	void MoveState::Enter()
 	{
-		spdlog::info("进入Move");
-		player_component->SetSpeed(5.0f);
+
 	}
 
 	void MoveState::Exit()
@@ -62,7 +61,7 @@ namespace Game::Components::State::Player {
 	std::unique_ptr<Engine::Core::Components::State::PlayerState> MoveState::Update(float d_t, Context& ctx)
 	{
 		auto trans = player_component->GetTransform();
-		trans->Translate(player_component->GetTo());
+		trans->Translate(player_component->GetTo(d_t));
 		player_component->SetDirection({ 0,0 });
 		return nullptr;
 	}

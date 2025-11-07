@@ -15,10 +15,10 @@ namespace Engine::Core::Components {
 		:speed(speed_)
 	{ }
 
-	Vec2 PlayerComponent::GetTo()
+	Vec2 PlayerComponent::GetTo(float d_t)
 	{
 		direct.Normalized();
-		return speed * direct;
+		return speed * d_t * direct;
 	}
 
 	void PlayerComponent::SetState(std::unique_ptr<State::PlayerState> new_state)

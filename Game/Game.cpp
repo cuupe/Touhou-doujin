@@ -7,12 +7,6 @@
 namespace Game {
     //test用
 
-    bool rec = false;
-    static SDL_FRect square = { 350, 250, 100, 100 };
-    static Engine::Maths::Vec2 pos{ 30.f, 30.f };
-    static float offset = 0;
-    static float line = 0;
-
 
     using namespace Engine;
     Game::Game(const char* win_name, int width, int height, int flag, int fps)
@@ -25,6 +19,7 @@ namespace Game {
             input = std::make_unique<Engine::Input::InputManager>(renderer);
             ctx = std::make_unique<Engine::Core::Context>(*r, *res, *input);
             sc = std::make_unique<Engine::Scene::SceneManager>(*ctx);
+            audio = std::make_unique<Engine::Audio::AudioManager>(*ctx);
         }
         catch (const std::exception& e) {
             spdlog::error("初始化失败", e.what());
@@ -33,25 +28,15 @@ namespace Game {
 
         //test load
         {
-            bgm = TrackPtr(MIX_CreateTrack(mixer));
-            if (!bgm.get()) {
-                return;
-            }
             res->LoadTexture(renderer, "resources/textures/player/pl00/pl00.png");
             res->LoadTexture(renderer, "resources/textures/UI/rank00.png");
             res->LoadTexture(renderer, "resources/textures/enemy/enemy5.png");
-            res->LoadAudio(mixer, "resources/audios/bgm/menu.wav");
-            MIX_SetTrackAudio(bgm.get(), res->GetAudio("menu")->audio.get());
-            bool ok = MIX_PlayTrack(bgm.get(), 0);
-            if (!ok) {
-                spdlog::error("无法播放音频{}", SDL_GetError());
-                return;
-            }
+            res->LoadAudio(audio->GetMixer(), "resources/audios/bgm/menu.wav");
         }
         //test -- gameobject
         {
             auto scene = std::make_unique<Scene::GameScene>("pao", *ctx, *sc);
-
+            audio->PlayBGM("menu");
             sc->RequestPushScene(std::move(scene));
         }
 
@@ -70,30 +55,12 @@ namespace Game {
         {
             const bool* keystate = SDL_GetKeyboardState(NULL);
             //TODO:处理轮询(test)
-            if (keystate[SDL_SCANCODE_UP]) {
-
-                pos.y -= 5;
-                if (pos.y < 20) {
-                    pos.y = 20;
+            if (keystate[SDL_SCANCODE_SPACE]) {
+                if (audio->IsBGMPlaying()) {
+                    audio->PauseBGM();
                 }
-            }
-            if (keystate[SDL_SCANCODE_DOWN]) {
-
-                pos.y += 5;
-                if (pos.y > 700) {
-                    pos.y = 700;
-                }
-            }
-            if (keystate[SDL_SCANCODE_LEFT]) {
-                pos.x -= 5;
-                if (pos.x < 0) {
-                    pos.x = 0;
-                }
-            }
-            if (keystate[SDL_SCANCODE_RIGHT]) {
-                pos.x += 5;
-                if (pos.x > 700) {
-                    pos.x = 700;
+                else {
+                    audio->PlayBGM();
                 }
             }
         }
@@ -114,17 +81,6 @@ namespace Game {
         input->Update();
         t.Update();
         sc->Update(t.DeltaTime());
-        //test
-        {
-            //if (!gb.IsNeedRemove()) {
-            //    gb.GetComponent<Engine::Core::Components::TransformComponent>()->SetPosition(pos);
-            //    gb.GetComponent<Engine::Core::Components::SpriteComponent>()->SetRect(SDL_FRect{ offset, line, 256.0 / 8, 48 });
-
-
-
-
-
-        }
     }
 
 

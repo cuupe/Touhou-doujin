@@ -1,9 +1,0 @@
-﻿#pragma once
-#include "../Engine/GameObject.h"
-
-namespace Game::GameObject {
-	class Enemy {
-	private:
-
-	};
-}

@@ -47,9 +47,6 @@ namespace Game::Scene {
         for (float i = 0; i < 5; i += 1) {
             anim_0.AddFrame(SDL_FRect{ i * 32, 0, 32, 48 }, 0.2);
         }
-        for (float i = 3; i > 1; i -= 1) {
-            anim_0.AddFrame(SDL_FRect{ i * 32.0f, 0.0f, 32.0f, 48.0f }, 0.2f);
-        }
         Animation anim_1("left", false);
         anim_1.AddFrame(SDL_FRect{ 32.0f, 48.0f, 32.0f, 48.0f }, 0.05f);
         anim_1.AddFrame(SDL_FRect{ 2 * 32.0f, 48.0f, 32.0f, 48.0f }, 0.05f);
@@ -71,7 +68,7 @@ namespace Game::Scene {
         gb->GetComponent<Engine::Core::Components::AnimationComponent>()->AddAnimation(
             std::make_unique<Animation>(anim_2));
         gb->GetComponent<Engine::Core::Components::AnimationComponent>()->PlayAnimaiton("idle");
-        gb->AddComponent<Engine::Core::Components::PlayerComponent>(5.0f);
+        gb->AddComponent<Engine::Core::Components::PlayerComponent>(350.0f);
         AddGameObject(std::move(gb));
 
 

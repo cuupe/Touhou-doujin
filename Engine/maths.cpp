@@ -3,6 +3,11 @@
 #include "Components/ColliderComponent.h"
 using namespace Engine::Core::Collider;
 namespace Engine::Maths {
+	Vec2 AngleToVec2(float angle)
+	{
+		return Vec2{ cos(angle), sin(angle) };
+	}
+
 	inline float Vec2_Length(const Vec2& a) {
 		return sqrtf(a.x * a.x + a.y * a.y);
 	}
@@ -133,5 +138,42 @@ namespace Engine::Maths {
 	bool CheckPointInCircle(const Vec2& point, const Vec2& center, float radius)
 	{
 		return (Vec2_Length(point - center) < radius);
+	}
+
+	float GetRandomFloat(float min, float max)
+	{
+		using namespace std;
+		random_device seed;
+		ranlux48 engine(seed());
+		uniform_real_distribution<float> distrib(min, max);
+		return distrib(engine);
+	}
+	
+	float NormalizeAngle(float aim, float target)
+	{
+		aim += target;
+		unsigned char count = 0;
+		while (aim > _PI) {
+			aim -= _2PI;
+			if (++count > 16) {
+				break;
+			}
+		}
+
+		while (aim < -_PI) {
+			aim += _2PI;
+			if (++count > 16) {
+				break;
+			}
+		}
+		return aim;
+	}
+
+	Vec2 SpeedAngleToVec2(float speed, float angle)
+	{
+		Vec2 vel;
+		vel.x = speed * cos(angle);
+		vel.y = speed * sin(angle);
+		return vel;
 	}
 }

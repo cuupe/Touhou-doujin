@@ -7,7 +7,6 @@ namespace Engine {
 	protected:
 		SDL_Window* window = nullptr;
 		SDL_Renderer* renderer = nullptr;
-		MIX_Mixer* mixer = nullptr;
 		ComPtr<ID3D11Device> device;
 		ComPtr<ID3D11DeviceContext> context;
 		bool initialized = false;

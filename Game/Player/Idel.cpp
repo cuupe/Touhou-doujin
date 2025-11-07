@@ -8,8 +8,6 @@
 namespace Game::Components::State::Player {
 	void IdleState::Enter()
 	{
-		spdlog::info("进入idle");
-		player_component->SetSpeed(5.0f);
 		PlayAnimation("idle");
 	}
 
@@ -63,7 +61,7 @@ namespace Game::Components::State::Player {
 	std::unique_ptr<Engine::Core::Components::State::PlayerState> IdleState::Update(float d_t, Context& ctx)
 	{
 		auto trans = player_component->GetTransform();
-		trans->Translate(player_component->GetTo());
+		trans->Translate(player_component->GetTo(d_t));
 		player_component->SetDirection({ 0,0 });
 		return nullptr;
 	}

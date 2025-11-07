@@ -11,6 +11,7 @@
 #include "../Engine/scene.h"
 #include "../Engine/SceneManager.h"
 #include "../Engine/InputManager.h"
+#include "../Engine/AudioManager.h"
 #include "../Engine/config.h"
 namespace Game {
 	class Game final : public Engine::engine {
@@ -19,13 +20,9 @@ namespace Game {
 		bool initialized = false;
 
 	private:
-		//这里负责统一流程的管理，不属于资源
-		Engine::Resource::TrackPtr bgm;	//背景音乐
-		std::map<std::string, Engine::Resource::TrackPtr> sfx;	//音频轨道 - 音效
-
-	private:
 		//std::unique_ptr<Engine::Core::Config> config;
 		std::unique_ptr<Engine::Core::Context> ctx;
+		std::unique_ptr<Engine::Audio::AudioManager> audio;
 		std::unique_ptr<Engine::Resource::ResourceMannager> res;
 		std::unique_ptr<Engine::Scene::SceneManager> sc;
 		std::unique_ptr<Engine::Input::InputManager> input;

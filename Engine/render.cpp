@@ -1,4 +1,5 @@
 ﻿#include "render.h"
+#include "sprite.h"
 #include "resources.h"
 #include "maths.h"
 namespace Engine::Render {

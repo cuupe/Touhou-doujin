@@ -7,7 +7,6 @@ int main()
 	spdlog::set_level(spdlog::level::debug);
 #endif
 
-
 	Game::Game g("测试1", 1280, 960, 0, 60);
 	if (g.GetInit()) {
 		g.Run();

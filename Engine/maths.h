@@ -1,5 +1,10 @@
 ﻿#pragma once
 #include <cmath>
+#include <random>
+constexpr float _PI = 3.141592653f;
+constexpr float _2PI = 6.283185306f;
+constexpr float _1_2_PI = 1.5707963265f;
+
 namespace Engine::Core::Components {
 	class ColliderComponent;
 }
@@ -102,6 +107,7 @@ namespace Engine::Maths {
 			y *= -1;
 		}
 	};
+	inline Vec2 AngleToVec2(float angle);
 	inline float Vec2_Length(const Vec2& a);
 	inline float Vec2_SquareLength(const Vec2& a);
 
@@ -250,4 +256,8 @@ namespace Engine::Maths {
 		const Vec2& center,
 		float radius);
 
+
+	float GetRandomFloat(float min, float max);
+	float NormalizeAngle(float aim, float target);
+	Vec2 SpeedAngleToVec2(float speed, float angle);
 }

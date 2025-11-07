@@ -37,20 +37,6 @@ namespace Engine {
         spdlog::info("D3D11 Renderer 创建成功");
 
 
-        SDL_AudioSpec spec;
-        spec.freq = 22050;
-        spec.format = SDL_AUDIO_S16;
-        spec.channels = 2;
-
-        mixer = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &spec);
-        if (!mixer) {
-            spdlog::error("打开音频失败:{}", SDL_GetError());
-            MIX_Quit();
-            SDL_Quit();
-            return;
-        }
-
-
         SDL_PropertiesID props = SDL_GetRendererProperties(renderer);
         if (props == 0) {
             std::cout << "获取 Properties 失败" << std::endl;
@@ -106,14 +92,9 @@ namespace Engine {
                 SDL_DestroyWindow(window);
                 spdlog::debug("窗口销毁");
             }
-            if (mixer) {
-                MIX_DestroyMixer(mixer);
-                spdlog::debug("音频混合器销毁");
-            }
             device.Reset();
             context.Reset();
             TTF_Quit();
-            MIX_Quit();
             SDL_Quit();
         }
         catch (const std::exception& e) {
