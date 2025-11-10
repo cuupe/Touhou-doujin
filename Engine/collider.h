@@ -26,7 +26,7 @@ namespace Engine::Core::Collider {
 		Vec2 size = { 0.0f, 0.0f };
 
 	public:
-		explicit AABBCollider(Vec2 size) : size(std::move(size)) { Set_AABB_Size(size); }
+		explicit AABBCollider(Vec2 size) : size(size) { Set_AABB_Size(std::move(size)); }
 		~AABBCollider() override = default;
 
 		ColliderType GetType() const override { return ColliderType::AABB; }

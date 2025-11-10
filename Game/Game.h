@@ -8,13 +8,12 @@
 #include "../Engine/GameObject.h"
 #include "../Engine/maths.h"
 #include "../Engine/context.h"
-#include "../Engine/scene.h"
 #include "../Engine/SceneManager.h"
 #include "../Engine/InputManager.h"
 #include "../Engine/AudioManager.h"
 #include "../Engine/config.h"
 namespace Game {
-	class Game final : public Engine::engine {
+	class MGame final : public Engine::engine {
 	private:
 		bool running = true;
 		bool initialized = false;
@@ -29,10 +28,10 @@ namespace Game {
 		std::unique_ptr<Engine::Render::Renderer> r;
 
 	public:
-		Game(const char* win_name, int width, int height, int flag, int fps);
-		Game(const Game&) = delete;
-		Game(Game&&) = delete;
-		~Game();
+		MGame(const char* win_name, int width, int height, int flag, int fps);
+		MGame(const MGame&) = delete;
+		MGame(MGame&&) = delete;
+		~MGame();
 
 	private:
 		void HandleInput() override;

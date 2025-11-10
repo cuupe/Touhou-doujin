@@ -32,8 +32,6 @@ namespace Game::Scene {
         Scene::Destroy();
     }
 
-
-
     void GameScene::test() {
         auto gb = std::make_unique<Engine::Core::GameObject>("instance");
         gb->AddComponent<Engine::Core::Components::TransformComponent>(

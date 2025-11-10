@@ -2,16 +2,11 @@
 
 namespace Game::Component {
 	BulletComponent::BulletComponent()
-		:data()
 	{
 		spdlog::trace("Bullet组件初始化成功");
 	}
 
-	BulletComponent::BulletComponent(Game::Bullets::BulletData* _bullet_data)
-		:data(_bullet_data)
-	{
-		spdlog::trace("Bullet组件初始化成功");
-	}
+
 
 	void BulletComponent::Init()
 	{
@@ -31,6 +26,13 @@ namespace Game::Component {
 
 	void BulletComponent::Update(float d_t, Engine::Core::Context& ctx)
 	{
+		if (!owner) {
+			spdlog::error("Bullet未挂载游戏对象");
+			return;
+		}
+
 
 	}
+
+
 }

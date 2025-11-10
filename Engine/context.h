@@ -16,7 +16,9 @@ namespace Engine::Core {
 		Input::InputManager& input;
 
 	public:
-		Context(Render::Renderer& RENDERER, Resource::ResourceMannager& RES, Input::InputManager& INPUT);
+		Context(Render::Renderer& RENDERER, 
+			Resource::ResourceMannager& RES, 
+			Input::InputManager& INPUT);
 		~Context() = default;
 		Context(const Context&) = delete;
 		Context& operator=(const Context&) = delete;
@@ -27,6 +29,6 @@ namespace Engine::Core {
 	public:
 		Render::Renderer& GetRenderer() const { return renderer; }
 		Resource::ResourceMannager& GetResourceMannager() const { return res; }
-		Input::InputManager& GetInputManager()const { return input; }
+		Input::InputManager& GetInputManager() const { return input; }
 	};
 }

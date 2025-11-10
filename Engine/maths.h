@@ -107,9 +107,13 @@ namespace Engine::Maths {
 			y *= -1;
 		}
 	};
+	float Vec2ToAngle(const Vec2& a);
 	inline Vec2 AngleToVec2(float angle);
 	inline float Vec2_Length(const Vec2& a);
 	inline float Vec2_SquareLength(const Vec2& a);
+
+	float RadToDeg(float r);
+	float DegToRad(float d);
 
 	//Vec2特供
 	Vec2 Clamp(const Vec2& t, const Vec2& mini, const Vec2& maxi);
@@ -258,6 +262,7 @@ namespace Engine::Maths {
 
 
 	float GetRandomFloat(float min, float max);
+	int GetRandomInt(int min, int max);
 	float NormalizeAngle(float aim, float target);
 	Vec2 SpeedAngleToVec2(float speed, float angle);
 }

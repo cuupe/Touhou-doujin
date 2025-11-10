@@ -10,7 +10,3 @@ using u8 = unsigned char;
 constexpr i32 MAX_BULLET_SIZE = 1024;
 constexpr i32 MAX_LASER_SIZE = 64;
 
-struct SoundIndex {
-
-};
-

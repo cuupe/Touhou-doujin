@@ -21,8 +21,6 @@ namespace Engine::Scene {
 		std::vector<std::unique_ptr<GameObject>> game_objects;
 		std::vector<std::unique_ptr<GameObject>> pending;
 
-
-
 	public:
 		Scene(const std::string& s_n, Context& c, SceneManager& s_m);
 		virtual ~Scene();

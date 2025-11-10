@@ -107,6 +107,11 @@ namespace Engine::Audio {
         }
     }
 
+    void AudioManager::PlaySFXById(int id)
+    {
+
+    }
+
     void AudioManager::PlaySFX(const std::string& sound_name)
     {
         if (sfx.find(sound_name) != sfx.end()) {
@@ -121,6 +126,8 @@ namespace Engine::Audio {
             spdlog::error("无法找到音频：{}"), sound_name;
         }
     }
+
+
 
     void AudioManager::SetSound(float volume)
     {

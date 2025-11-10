@@ -1,15 +1,12 @@
 ﻿#include "Game.h"
-#include "../Engine/Components/SpriteComponent.h"
-#include "../Engine/collider.h"
-#include "../Engine/Components/ColliderComponent.h"
 #include "GameScene.h"
+#include "Scene/Stage.h"
+#include <thread>
 
 namespace Game {
     //test用
-
-
     using namespace Engine;
-    Game::Game(const char* win_name, int width, int height, int flag, int fps)
+    MGame::MGame(const char* win_name, int width, int height, int flag, int fps)
         :Engine::engine(win_name, width, height, flag, fps)
         //TODO:DIRECTX初始化
     {
@@ -26,18 +23,24 @@ namespace Game {
             return;
         }
 
-        //test load
+        //test load(后续将使用多线程)
         {
+
             res->LoadTexture(renderer, "resources/textures/player/pl00/pl00.png");
             res->LoadTexture(renderer, "resources/textures/UI/rank00.png");
             res->LoadTexture(renderer, "resources/textures/enemy/enemy5.png");
             res->LoadAudio(audio->GetMixer(), "resources/audios/bgm/menu.wav");
+            res->LoadAudio(audio->GetMixer(), "resources/audios/sfx/se_tan03.wav");
+            for (int i = 1; i <= 5; i++) {
+                std::string po = "resources/textures/bullet/bullet" + std::to_string(i) + ".png";
+                res->LoadTexture(renderer, po);
+            }
         }
-        //test -- gameobject
+
         {
-            auto scene = std::make_unique<Scene::GameScene>("pao", *ctx, *sc);
+            auto ss = std::make_unique<Scene::Stage>("fuck", *ctx, *sc, *audio);
             audio->PlayBGM("menu");
-            sc->RequestPushScene(std::move(scene));
+            sc->RequestPushScene(std::move(ss));
         }
 
 
@@ -45,28 +48,15 @@ namespace Game {
         initialized = true;
     }
 
-    Game::~Game()
+    MGame::~MGame()
     { }
 
-    inline void Game::HandleInput()
+    inline void MGame::HandleInput()
     {
         sc->HandleInput();
-
-        {
-            const bool* keystate = SDL_GetKeyboardState(NULL);
-            //TODO:处理轮询(test)
-            if (keystate[SDL_SCANCODE_SPACE]) {
-                if (audio->IsBGMPlaying()) {
-                    audio->PauseBGM();
-                }
-                else {
-                    audio->PlayBGM();
-                }
-            }
-        }
     }
 
-    inline void Game::Render()
+    inline void MGame::Render()
     {
         r->SetDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
         r->ClearScreen();
@@ -76,7 +66,7 @@ namespace Game {
         r->Present();
     }
 
-    inline void Game::Update()
+    inline void MGame::Update()
     {
         input->Update();
         t.Update();
@@ -84,7 +74,7 @@ namespace Game {
     }
 
 
-    void Game::Run()
+    void MGame::Run()
     {
         while (running) {
             HandleInput();
@@ -94,7 +84,7 @@ namespace Game {
     }
 
 
-    void Game::test()
+    void MGame::test()
     {
 
 

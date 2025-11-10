@@ -31,7 +31,8 @@ namespace Engine::Core::Components {
 		void SetPosition(float, float);
 		void SetScale(const Vec2&);
 		void SetScale(float, float);
-		void SetRotation(float);
+		void SetRotationDeg(float);
+		void SetRotationRad(float);
 		void Translate(const Vec2&);
 
 	private:

@@ -40,9 +40,14 @@ namespace Engine::Core::Components {
 		scale.y = y;
 	}
 
-	void TransformComponent::SetRotation(float rotate)
+	void TransformComponent::SetRotationDeg(float rotate)
 	{
-		rotation = rotate;
+		rotation = fmod(rotate, 360.0f);
+	}
+
+	void TransformComponent::SetRotationRad(float angle)
+	{
+		rotation = fmod(RadToDeg(angle), 360.0f);
 	}
 
 	void TransformComponent::Translate(const Vec2& vec)

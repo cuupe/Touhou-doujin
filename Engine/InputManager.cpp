@@ -30,6 +30,30 @@ namespace Engine::Input {
                 std::vector<std::string>{
                 "RIGHT"
             } });
+            actions_to_keyname_map.insert({ "ok" ,
+                std::vector<std::string>{
+                "Z"
+            } });
+            actions_to_keyname_map.insert({ "slow" ,
+                std::vector<std::string>{
+                "LEFT SHIFT"
+            } });
+            actions_to_keyname_map.insert({ "skill" ,
+                std::vector<std::string>{
+                "X"
+            } });
+            actions_to_keyname_map.insert({ "test_generate_bullet",
+                std::vector<std::string>{
+                "I"
+            } });
+            actions_to_keyname_map.insert({ "test_pause",
+                std::vector<std::string>{
+                "K"
+            } });
+            actions_to_keyname_map.insert({ "test",
+            std::vector<std::string>{
+                "L"
+            } });
         }
 
         for (const auto& pair : actions_to_keyname_map) {

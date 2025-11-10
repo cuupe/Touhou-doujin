@@ -21,8 +21,6 @@ namespace Engine::Core::Components {
             spdlog::error("碰撞器未获取到Transform组件");
             return;
         }
-        auto a = trans->GetPosition();
-        spdlog::info("owner:{}, {}, {}", owner->GetName(), a.x, a.y);
 
         UpdateOffset();
     }
@@ -78,8 +76,6 @@ namespace Engine::Core::Components {
         default:
             break;
         }
-
-        spdlog::info("owner: {}, {}, {}", owner->GetName(), offset.x, offset.y);
     }
 
 

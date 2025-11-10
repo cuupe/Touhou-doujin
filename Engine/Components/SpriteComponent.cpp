@@ -15,7 +15,7 @@ namespace Engine::Core::Components {
             rect = sr.value();
         }
         else {
-            rect = SDL_FRect{ 0,0, (float)(res->GetTexture(t_name)->width), 
+            rect = SDL_FRect{ 0.0f, 0.0f, (float)(res->GetTexture(t_name)->width), 
                 (float)(res->GetTexture(t_name)->height) };
         }
 

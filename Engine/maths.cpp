@@ -8,6 +8,11 @@ namespace Engine::Maths {
 		return Vec2{ cos(angle), sin(angle) };
 	}
 
+	float Vec2ToAngle(const Vec2& a)
+	{
+		return acos(a.x / Vec2_Length(a));
+	}
+
 	inline float Vec2_Length(const Vec2& a) {
 		return sqrtf(a.x * a.x + a.y * a.y);
 	}
@@ -15,6 +20,16 @@ namespace Engine::Maths {
 	inline float Vec2_SquareLength(const Vec2& a)
 	{
 		return a.x * a.x + a.y * a.y;
+	}
+
+	float RadToDeg(float r)
+	{
+		return fmod(360.0f * r / _2PI, 360.0f);
+	}
+
+	float DegToRad(float d)
+	{
+		return fmod(d / 360.0f * _2PI, _2PI);
 	}
 
 	Vec2 Clamp(const Vec2& t, const Vec2& mini, const Vec2& maxi) {
@@ -147,6 +162,14 @@ namespace Engine::Maths {
 		ranlux48 engine(seed());
 		uniform_real_distribution<float> distrib(min, max);
 		return distrib(engine);
+	}
+
+	int GetRandomInt(int min, int max) {
+		using namespace std;
+		random_device seed;
+		ranlux48 engine(seed());
+		uniform_int_distribution<int> dis(min, max);
+		return dis(engine);
 	}
 	
 	float NormalizeAngle(float aim, float target)

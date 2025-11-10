@@ -33,6 +33,7 @@ namespace Engine::Audio {
 		void StopBGM();
 		bool IsBGMPlaying() const;
 		void AddTrack_SFX(const std::string&);
+		void PlaySFXById(int id);
 		void PlaySFX(const std::string&);
 		void SetSound(float);
 		void SetBGMSound(float);
