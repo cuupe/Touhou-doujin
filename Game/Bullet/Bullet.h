@@ -7,18 +7,6 @@
 #include "../../Engine/collider.h"
 #include "../../Engine/context.h"
 namespace Game::Bullets {
-	enum AimMode {
-		FAN_AIMED,	//对称轴指向自机
-		FAN,	//普通扇形
-		CIRCLE_AIMED,	//初始角度指向自机
-		CIRCLE,
-		OFFSET_CIRCLE_AIMED,	
-		OFFSET_CIRCLE,
-		RANDOM_ANGLE,	// angle1 ~ angle2
-		RANDOM_SPEED,	// speed1 ~ speed2
-		RANDOM			// 角度速度双随机
-	};
-
 	struct BulletData {
 		std::string sprite_name;
 		SDL_FRect rect;
@@ -28,8 +16,12 @@ namespace Game::Bullets {
 		Engine::Maths::Vec2 v;
 		f32 angle_acc;
 		f32 angle;
+		f32 max_angle;
+		bool restrict_angle = false;
 		f32 speed_acc;
 		f32 speed;
+		f32 max_speed;
+		bool restrict_speed = false;
 		bool is_grazed = false;
 		bool is_active = false;
 	};

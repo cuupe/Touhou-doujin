@@ -12,6 +12,11 @@
 #include "../Engine/InputManager.h"
 #include "../Engine/AudioManager.h"
 #include "../Engine/config.h"
+
+#define WINDOWED 0
+#define FULL_WINDOW 1
+
+
 namespace Game {
 	class MGame final : public Engine::engine {
 	private:
@@ -43,11 +48,5 @@ namespace Game {
 
 	public:
 		bool GetInit() const { return initialized; }
-
-
-
-	public:
-		//test
-		void test();
 	};
 }

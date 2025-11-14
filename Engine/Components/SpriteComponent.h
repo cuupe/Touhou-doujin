@@ -21,6 +21,9 @@ namespace Engine::Core::Components {
 		SDL_FRect rect;
 		Vec2 offset;
 		Vec2 size;
+		Vec2 scale;
+		SDL_Color color_mod;
+		float angle;
 		bool is_hidden = false;
 		bool is_filpped = false;
 
@@ -28,7 +31,8 @@ namespace Engine::Core::Components {
 		SpriteComponent(
 			const std::string& t_name,
 			ResourceMannager& r, std::optional<SDL_FRect> sr = std::nullopt,
-			Align a = Align::NONE, 
+			Align a = Align::NONE, const Vec2& _scale = {1.0f, 1.0f},
+			const SDL_Color& _color_mod = {255, 255, 255, 255}, float _angle = 0.0f,
 			bool i_f = false);
 		~SpriteComponent() override = default;
 		SpriteComponent(const SpriteComponent&) = delete;
@@ -46,12 +50,16 @@ namespace Engine::Core::Components {
 		void SetSprite(const std::string& t_n,
 			const std::optional<SDL_FRect>& s_r = std::nullopt,
 			bool i_f = false);
+		float GetRotation() const { return angle; }
+		void SetRotation(float new_angle) { angle = new_angle; }
+		const SDL_Color& GetColorMod() const { return color_mod; }
+		void SetColorMod(const SDL_Color& color) { color_mod = color; }
 		Align GetAlignment() const { return align; }
 		void SetAlignment(Align new_alignment);
 		const SDL_FRect& GetRect() const { return rect; }
 		void SetRect(const SDL_FRect& rc) { rect = rc; }
-		const Vec2& GetSize() const { return size; }
-		void SetSize(const Vec2& new_size) { size = new_size; }
+		const Vec2& GetScale() const { return scale; }
+		void SetScale(const Vec2& new_scale) { scale = new_scale; }
 		const Vec2& GetOffset() const { return offset; }
 		void SetOffset(const Vec2& new_offset) { offset = new_offset; }
 		bool IsHidden() const { return is_hidden; }

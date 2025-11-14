@@ -87,7 +87,6 @@ namespace Engine::Resource {
         if (!audio) {
             spdlog::error("加载音频失败: {}", SDL_GetError());
             throw std::runtime_error("发生错误");
-            return;
         }
         std::unique_ptr<AudioResource> au = std::make_unique<AudioResource>();
         au->audio = MixAudioPtr(audio);
@@ -96,16 +95,16 @@ namespace Engine::Resource {
     }
 
 
-    void ResourceMannager::LoadFont(SDL_Renderer* renderer, const std::string& path, int size)
+    void ResourceMannager::LoadFont(const std::string& font_name, const std::string& path, int size)
     {
-
-    }
-
-    void ResourceMannager::LoadFonts(SDL_Renderer* renderer,
-        const std::string& path,
-        int size)
-    {
-
+        TTF_Font* font = TTF_OpenFont(path.c_str(), size);
+        if (font == nullptr) {
+            spdlog::error("无法加载字体文件：{} ,ERROR:{}", path, SDL_GetError());
+            throw std::runtime_error("发生错误");
+        }
+        std::unique_ptr<FontResource> ft = std::make_unique<FontResource>();
+        ft->font = FontPtr(font);
+        fonts.insert({ font_name, std::move(ft) });
     }
 };
 

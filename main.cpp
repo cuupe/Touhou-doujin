@@ -4,10 +4,9 @@ int main()
 {
 #ifdef _DEBUG
 	SetConsoleOutputCP(CP_UTF8);
-	//spdlog::set_level(spdlog::level::debug);
 #endif
 
-	Game::MGame g("测试2", 1280, 960, 0, 60);
+	Game::MGame g("测试3", 1280, 960, WINDOWED, 60);
 	if (g.GetInit()) {
 		g.Run();
 	}

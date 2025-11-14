@@ -50,7 +50,6 @@ namespace Engine::Resource {
         std::unique_ptr<TTF_Font, TTFFontDeleter> font = nullptr;
         int pointSize = 0;
     };
-
     using FontPtr = std::unique_ptr<TTF_Font, TTFFontDeleter>;
 
 
@@ -68,9 +67,7 @@ namespace Engine::Resource {
         //加载音频资源
         void LoadAudio(MIX_Mixer* mixer, const std::string& path, bool predecode = false);
         //加载字体资源
-        void LoadFont(SDL_Renderer* renderer, const std::string& path, int size);
-        //加载文件夹下所有字体资源
-        void LoadFonts(SDL_Renderer* renderer, const std::string& path, int size);
+        void LoadFont(const std::string& font_name, const std::string& path, int size);
 
         //TODO: directx模型加载（ASSIMP）
         //static void LoadModels(const std::string& path);

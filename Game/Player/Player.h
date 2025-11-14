@@ -14,13 +14,13 @@ namespace Game::GameObject {
 		~Player() = default;
 
 	public:
-		f32 AngleToPlayer(const Vec2& pos);
+		f32 AngleToPlayer(const Engine::Maths::Vec2& pos);
 
 		void SetToNormal();
 
 	public:
-		const Engine::Core::GameObject* GetPlayer() const { return role.get(); }
-		const Engine::Core::GameObject* GetPlayerCheckBox() const { return check.get(); }
+		Engine::Core::GameObject* GetPlayer() const { return role.get(); }
+		Engine::Core::GameObject* GetPlayerCheckBox() const { return check.get(); }
 
 	public:
 		void Update(f32 d_t);

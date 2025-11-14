@@ -53,6 +53,9 @@ main.cpp
 "Engine/Components/ColliderComponent.h" 
 "Engine/Components/ColliderComponent.cpp" 
 "Engine/collider.h"  
+"Engine/collider.cpp" 
+"Engine/Components/EffectComponent.h" 
+
 "Engine/maths.cpp"
 "Engine/SceneManager.h" 
 "Engine/SceneManager.cpp" 
@@ -89,8 +92,6 @@ main.cpp
 "Game/Game.cpp" 
 "Game/Enemy/Enemy.h" 
 "Game/Enemy/Enemy.cpp" 
-"Game/GameScene.h" 
-"Game/GameScene.cpp" 
 "Game/Bullet/Bullet.h" 
 "Game/Bullet/Bullet.cpp" 
 "Game/Bullet/Bullet.h"
@@ -99,12 +100,17 @@ main.cpp
 "Game/Bullet/BulletComponent.cpp" 
 "Game/Bullet/BulletManager.h" 
 "Game/Bullet/BulletManager.cpp" 
-"Game/Scene/UI.h" 
-"Game/Scene/UI.cpp" 
+"Game/Scene/TitleScene.h" 
+"Game/Scene/TitleScene.cpp" 
 "Game/Scene/Stage.h" 
 "Game/Scene/Stage.cpp" 
 "Game/Loading.h" 
-"Game/Loading.cpp")
+"Game/Loading.cpp" 
+"Game/Scene/Menu.h" 
+"Game/Scene/Menu.cpp" 
+"Game/Scene/HelpScene.h" 
+"Game/Scene/HelpScene.cpp" 
+ "Engine/effects.h" "Engine/EffectManager.h")
 target_include_directories(worky PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
 target_link_libraries(

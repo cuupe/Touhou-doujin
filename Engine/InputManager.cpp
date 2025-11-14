@@ -32,7 +32,7 @@ namespace Engine::Input {
             } });
             actions_to_keyname_map.insert({ "ok" ,
                 std::vector<std::string>{
-                "Z"
+                "Z","RETURN"
             } });
             actions_to_keyname_map.insert({ "slow" ,
                 std::vector<std::string>{
@@ -112,6 +112,8 @@ namespace Engine::Input {
             break;
         case SDL_EVENT_WINDOW_RESTORED:
             break;
+        case SDL_EVENT_WINDOW_RESIZED:
+            break;
         case SDL_EVENT_KEY_DOWN:
         case SDL_EVENT_KEY_UP: {
             SDL_Scancode sc = event.key.scancode;
@@ -130,6 +132,9 @@ namespace Engine::Input {
         case SDL_EVENT_MOUSE_BUTTON_UP: {
             //需要鼠标时再添加
         }break;
+        case SDL_EVENT_QUIT:
+            quit = true;
+            break;
         default:break;
         }
     }

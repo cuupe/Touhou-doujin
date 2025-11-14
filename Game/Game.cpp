@@ -1,6 +1,6 @@
 ﻿#include "Game.h"
-#include "GameScene.h"
 #include "Scene/Stage.h"
+#include "Scene/TitleScene.h"
 #include <thread>
 
 namespace Game {
@@ -29,8 +29,18 @@ namespace Game {
             res->LoadTexture(renderer, "resources/textures/player/pl00/pl00.png");
             res->LoadTexture(renderer, "resources/textures/UI/rank00.png");
             res->LoadTexture(renderer, "resources/textures/enemy/enemy5.png");
+            res->LoadTexture(renderer, "resources/textures/UI/title_ver.png");
+            res->LoadTexture(renderer, "resources/textures/UI/title_item00.png");
+            res->LoadTexture(renderer, "resources/textures/UI/title_pattern1.png");
+            res->LoadTexture(renderer, "resources/textures/UI/title_bk00.png");
+            res->LoadTexture(renderer, "resources/textures/UI/title.png");
             res->LoadAudio(audio->GetMixer(), "resources/audios/bgm/menu.wav");
-            res->LoadAudio(audio->GetMixer(), "resources/audios/sfx/se_tan03.wav");
+            res->LoadAudio(audio->GetMixer(), "resources/audios/sfx/se_tan01.wav");
+            res->LoadAudio(audio->GetMixer(), "resources/audios/sfx/se_pldead00.wav");
+            res->LoadAudio(audio->GetMixer(), "resources/audios/sfx/se_select00.wav");
+            res->LoadAudio(audio->GetMixer(), "resources/audios/sfx/se_ok00.wav");
+            res->LoadAudio(audio->GetMixer(), "resources/audios/sfx/se_cancel00.wav");
+
             for (int i = 1; i <= 5; i++) {
                 std::string po = "resources/textures/bullet/bullet" + std::to_string(i) + ".png";
                 res->LoadTexture(renderer, po);
@@ -38,7 +48,7 @@ namespace Game {
         }
 
         {
-            auto ss = std::make_unique<Scene::Stage>("fuck", *ctx, *sc, *audio);
+            auto ss = std::make_unique<Scene::TitleScene>("fuck", *ctx, *sc, *audio);
             audio->PlayBGM("menu");
             sc->RequestPushScene(std::move(ss));
         }
@@ -58,7 +68,7 @@ namespace Game {
 
     inline void MGame::Render()
     {
-        r->SetDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
+        r->SetDrawColor(0x00, 0x00, 0x00, 0xFF);
         r->ClearScreen();
 
         sc->Render();
@@ -71,6 +81,10 @@ namespace Game {
         input->Update();
         t.Update();
         sc->Update(t.DeltaTime());
+
+        if (input->ShouldQuit()) {
+            running = false;
+        }
     }
 
 
@@ -81,13 +95,6 @@ namespace Game {
             Update();
             Render();
         }
-    }
-
-
-    void MGame::test()
-    {
-
-
     }
 }
 

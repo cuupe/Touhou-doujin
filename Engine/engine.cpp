@@ -24,7 +24,7 @@ namespace Engine {
             return;
         }
         spdlog::info("窗口创建成功");
-
+        SDL_SetWindowResizable(window, true);
 
         renderer = SDL_CreateRenderer(window, "direct3d11");
         if (!renderer) {

@@ -1,5 +1,6 @@
 ﻿#include "Stage.h"
 #include "../Bullet/BulletManager.h"
+#include "../../Engine/EffectManager.h"
 #include "../../Engine/Components/ColliderComponent.h"
 #include "../Player/Player.h"
 #include "../../Engine/InputManager.h"
@@ -14,10 +15,10 @@ static float offset = 0.0f;
 
 namespace Game::Scene {
 	Stage::Stage(const std::string& name, Engine::Core::Context& ctx, Engine::Scene::SceneManager& s_m,
-		Engine::Audio::AudioManager& au)
-		:Scene(name, ctx, s_m)
+		Engine::Audio::AudioManager& _au)
+		:Scene(name, ctx, s_m), au(_au)
 	{ 
-		bm = std::make_unique<Manager::BulletManager>(ctx, au);
+		bm = std::make_unique<Manager::BulletManager>(ctx, _au);
 		player = std::make_unique<Game::GameObject::Player>(ctx);
 	}
 
@@ -37,28 +38,35 @@ namespace Game::Scene {
 					Engine::Maths::RadToDeg(Engine::Maths::GetRandomFloat(0.0f, _PI) + _1_2_PI), 0.0f, 0.0f, static_cast<float>(Engine::Maths::GetRandomInt(0, 14) * 16));
 			}
 			
-			if (deltatime > 0.02f) {
+			if (deltatime > 0.1f) {
 				ang += 0.2f;
 				
 				if (input.IsActionDown("test")) {
 					deltatime = 0.0f;
+					offset += 30.0f;
+					if (offset > 500.0f) {
+						offset = 0.0f;
+					}
 					//for (float i = 0.0f; i < 360.0f; i += 360.0f/8.0f) {
 					//	bm->SpawnSingleBullet({ 200.0f, 150.0f }, 15.0f,
 					//		i + 0.3f * ang * ang + ang, 0.0f, 0.0f, static_cast<float>(Engine::Maths::GetRandomInt(0, 14) * 16));
 					//}
-					//for(offset = 0.0f;offset<=900.0f;offset += 30.0f)
-					//bm->SpawnSingleBullet({ 200.0f + offset, 150.0f }, 5.0f,
-					//	Engine::Maths::RadToDeg(player->AngleToPlayer({ 200.0f + offset, 150.0f })),
-					//	15.0f, 0.0f, static_cast<float>(Engine::Maths::GetRandomInt(0, 14) * 16));
+					for(offset = 0.0f;offset<=900.0f;offset += 30.0f)
+					bm->SpawnSingleBullet({ 200.0f + offset, 150.0f }, 5.0f,
+						Engine::Maths::RadToDeg(player->AngleToPlayer({ 200.0f + offset, 150.0f })),
+						15.0f, 0.0f, static_cast<float>(Engine::Maths::GetRandomInt(0, 14) * 16));
 					//for (offset = 0.0f; offset <= 900.0f; offset += 30.0f)
 					//bm->SpawnSingleBullet({ 200.0f + offset, 150.0f }, 15.0f,
-					//		90.0f + ang, 15.0f, -30.0f, static_cast<float>(Engine::Maths::GetRandomInt(0, 14) * 16));
-					for (float i = 0.0f; i < 360.0f; i += 360.0f / 6.0f) {
-						bm->SpawnSingleBullet({ 500.0f, 150.0f }, 45.0f,
-							i + 4.0f * sin(2.0f * ang) + 30.0f + Engine::Maths::RadToDeg(player->AngleToPlayer({ 500.0f, 150.0f }))
-							, 0.0f, 0.0f, static_cast<float>(Engine::Maths::GetRandomInt(0, 14) * 16));
-					}
-
+					//		0.0f, 0.0f, 0.0f, static_cast<float>(Engine::Maths::GetRandomInt(0, 14) * 16));
+					//for (float i = 0.0f; i < 120.0f; i += 120.0f / 6.0f) {
+					//	bm->SpawnSingleBullet({ 400.0f, 150.0f }, 60.0f,
+					//		i + 2.0f * sin(3.0f * ang) + Engine::Maths::RadToDeg(player->AngleToPlayer({ 400.0f, 150.0f })) - 50.0f
+					//		, 0.0f, 0.0f, static_cast<float>(Engine::Maths::GetRandomInt(0, 14) * 16));
+						//bm->SpawnSingleBullet({ 900.0f, 150.0f }, 45.0f,
+						//	i + 2.0f * sin(3.0f * ang) - 60.0f + Engine::Maths::RadToDeg(player->AngleToPlayer({ 900.0f, 150.0f }))
+						//	, 0.0f, 0.0f, static_cast<float>(Engine::Maths::GetRandomInt(0, 14) * 16));
+					//}
+					au.PlaySFX("se_tan01", "shoot");
 				}
 			}
 		}
@@ -84,18 +92,16 @@ namespace Game::Scene {
 			for (auto& bullet : bullets) {
 				auto& bd = bullet.GetBulletData();
 				if (bd.is_active) {
-					if (CheckCollision(*coll, 
+					if (Engine::Core::Collider::CheckCollision(*coll, 
 						*(bullet.GetGameObject()->GetComponent<Engine::Core::Components::ColliderComponent>()))) {
-						spdlog::info("撞到了，你个fw");
+						au.PlaySFX("se_pldead00", "player");
+						Engine::Render::Effect::EffectManager::Flash(player->GetPlayer(), 3.0f);
 						player->SetToNormal();
-						bd.is_active = false;
-						bd.is_grazed = false;
+						bm->RemoveAllBullets(false);
 					}
 
 				}
 			}
-
-
 		}
 
 	}

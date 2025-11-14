@@ -85,16 +85,6 @@ namespace Game::GameObject {
         SDL_FRect f = { pos.x - 7.0f, pos.y - 7.0f, 14.0f, 14.0f };
         SDL_RenderRect(ctx.GetRenderer().getSDLRenderer(), &f);
     }
-
-
 }
 
-namespace Game::GameObject::PlayerUtils {
-	void Init_Player(const std::string& _name, float _speed)
-	{
-
-	}
-
-
-}
 

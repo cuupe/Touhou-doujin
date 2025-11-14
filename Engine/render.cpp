@@ -62,12 +62,19 @@ namespace Engine::Render {
 
 	//vector为二维向量
 	void Renderer::DrawSprite(const Sprite& sprite, const Vec2& pos, 
-		const Vec2& scale, const std::optional<SDL_FRect>& s_rc, double angle)
+		const Vec2& scale, const std::optional<SDL_FRect>& s_rc, 
+		const std::optional<SDL_Color>& color, double angle)
 	{
 		auto texture = res->GetTexture(sprite.GetTextureName())->texture.get();
 		if (!texture) {
 			spdlog::error("无法获取纹理：{}", sprite.GetTextureName());
 			return;
+		}
+
+		if(color.has_value()){
+			auto& c = color.value();
+			SDL_SetTextureColorMod(texture, c.r, c.g, c.b);
+			SDL_SetTextureAlphaMod(texture, c.a);
 		}
 
 		SDL_FRect s_r;
@@ -89,38 +96,12 @@ namespace Engine::Render {
 			s_h
 		};
 
-		//TODO:可能添加更多约束
-
-
 		if (!SDL_RenderTextureRotated(renderer,
 			texture, &s_r, &d_r, angle, nullptr, sprite.IsFlipped() ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE)) {
 			spdlog::error("渲染旋转纹理失败（ID: {}）：{}", sprite.GetTextureName(), SDL_GetError());
 		}
-	}
 
-	void Renderer::DrawUI(const Sprite& sprite, const Vec2& pos, const std::optional<SDL_FRect>& s_rc)
-	{
-		auto texture = res->GetTexture(sprite.GetTextureName())->texture.get();
-		if (!texture) {
-			spdlog::error("无法为 ID {} 获取纹理。", sprite.GetTextureName());
-			return;
-		}
-
-		auto s_r = GetSpriteSrcRect(sprite);
-		if (!s_r.has_value()) {
-			spdlog::error("无法获取精灵的源矩形，ID: {}", sprite.GetTextureName());
-			return;
-		}
-
-		SDL_FRect d_r = { pos.x, pos.y, 0, 0};
-
-		d_r.w = texture->w;
-		d_r.h = texture->h;
-
-
-		// 执行绘制(未考虑UI旋转)
-		if (!SDL_RenderTextureRotated(renderer, texture, &s_r.value(), &d_r, 0.0, nullptr, sprite.IsFlipped() ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE)) {
-			spdlog::error("渲染 UI Sprite 失败 (ID: {}): {}", sprite.GetTextureName(), SDL_GetError());
-		}
+		SDL_SetTextureColorMod(texture, 255, 255, 255);
+		SDL_SetTextureAlphaMod(texture, 255);
 	}
 }
