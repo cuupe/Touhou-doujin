@@ -8,6 +8,7 @@ namespace Engine::Core {
 
 	protected:
 		GameObject* owner = nullptr;
+		bool need_destroy = false;
 
 	public:
 		Component() = default;
@@ -20,6 +21,8 @@ namespace Engine::Core {
 	public:
 		[[nodiscard]] GameObject* GetOwner() const { return owner; }
 		void SetOwner(GameObject* o) { owner = o; }
+		bool IsNeedDestroy() const { return need_destroy; }
+		void SetNeedDestroy(bool snd) { need_destroy = snd; }
 
 	protected:
 		virtual void Init() {};

@@ -1,6 +1,13 @@
-﻿#pragma once
+#pragma once
 #include "../prefix.h"
+namespace Engine::Render::D3D {
+    struct Vertex;
+    struct Mesh;
+    struct ModelResource;
+    using ModelPtr = std::shared_ptr<ModelResource>;
+};
 namespace Engine::Resource {
+    using Microsoft::WRL::ComPtr;
     struct SDLTextureDeleter {
         void operator()(SDL_Texture* t) const {
             if (t) {
@@ -10,11 +17,11 @@ namespace Engine::Resource {
     };//用于释放SDL纹理资源
     struct TextureResource {
         std::unique_ptr<SDL_Texture, SDLTextureDeleter> texture = nullptr;
+        ComPtr<ID3D11ShaderResourceView> d3d_srv;
         int width = 0;
         int height = 0;
     };
     using TexturePtr = std::unique_ptr<SDL_Texture, SDLTextureDeleter>;
-
 
     // MIX_Audio 是静态音频数据，每一个音频对应一个实例
     struct MixAudioDeleter {
@@ -50,31 +57,27 @@ namespace Engine::Resource {
         std::unique_ptr<TTF_Font, TTFFontDeleter> font = nullptr;
         int pointSize = 0;
     };
-
     using FontPtr = std::unique_ptr<TTF_Font, TTFFontDeleter>;
 
 
-    class ResourceMannager final{
+    class ResourceManager final{
     private:
         std::map<std::string, std::unique_ptr<AudioResource>> audios;
         std::map<std::string, std::unique_ptr<TextureResource>> texs;
         std::map<std::string, std::unique_ptr<FontResource>> fonts;
 
+        ComPtr<ID3D11ShaderResourceView> default_srv;
+        std::map<std::string, Render::D3D::ModelPtr> models;
 
     public:
-        void LoadTexture(SDL_Renderer* renderer, const std::string& path);
-        //加载文件夹下所有2D纹理
-        void LoadTextures(SDL_Renderer* renderer, const std::string& path);
-        //加载音频资源
+        ResourceManager(ID3D11Device* device);
+
+    public:
+        void LoadTexture(SDL_Renderer* renderer, ID3D11Device* device, const std::string& path);
         void LoadAudio(MIX_Mixer* mixer, const std::string& path, bool predecode = false);
-        //加载字体资源
-        void LoadFont(SDL_Renderer* renderer, const std::string& path, int size);
-        //加载文件夹下所有字体资源
-        void LoadFonts(SDL_Renderer* renderer, const std::string& path, int size);
-
-        //TODO: directx模型加载（ASSIMP）
-        //static void LoadModels(const std::string& path);
-
+        void LoadFont(const std::string& font_name, const std::string& path, int size);
+        Render::D3D::ModelPtr LoadModel(SDL_Renderer* render, ID3D11Device* device, const std::string& path);
+        ID3D11ShaderResourceView* GetDefaultSRV() { return default_srv.Get(); }
     public:
         AudioResource* GetAudio(const std::string& name) {
             if (audios.find(name) != audios.end()) {
@@ -102,6 +105,16 @@ namespace Engine::Resource {
             }
             else {
                 spdlog::error("找不到字体资源：{}", name);
+                return nullptr;
+            }
+        }
+
+        Render::D3D::ModelResource* GetModel(const std::string& name) {
+            if (models.find(name) != models.end()) {
+                return models[name].get();
+            }
+            else {
+                spdlog::error("找不到模型资源: {}", name);
                 return nullptr;
             }
         }

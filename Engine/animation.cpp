@@ -1,5 +1,5 @@
-﻿#include "animation.h"
-#include "../prefix.h"
+﻿#include "../prefix.h"
+#include "animation.h"
 namespace Engine::Render {
 	Animation::Animation(const std::string& name_, bool loop_)
 	:name(name_), loop(loop_){ }
@@ -9,9 +9,20 @@ namespace Engine::Render {
 		if (dur <= 0.0f) {
 			spdlog::error("错误的持续时间");
 		}
-		frames.push_back({ rect_, dur });
+		frames.push_back(AnimationFrame{ rect_, dur });
 		total_duration += dur;
 
+	}
+
+	void Animation::AddFrame(const SDL_FRect& rect_, float dur,
+		const Maths::Vec2& scale_,
+		float rotation_) {
+		if (dur <= 0.0f) {
+			spdlog::error("错误的持续时间");
+			return;
+		}
+		frames.push_back(AnimationFrame(rect_, dur, scale_, rotation_));
+		total_duration += dur;
 	}
 
 	const AnimationFrame& Animation::GetFrame(float time) const
@@ -42,3 +53,4 @@ namespace Engine::Render {
 		return frames.back();
 	}
 }
+

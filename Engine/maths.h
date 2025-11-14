@@ -10,16 +10,6 @@ namespace Engine::Core::Components {
 }
 using namespace Engine::Core::Components;
 namespace Engine::Maths {
-	template <typename T>
-	using allowed = std::integral_constant<bool,
-		std::is_same<T, short>::value ||
-		std::is_same<T, int>::value ||
-		std::is_same<T, long>::value ||
-		std::is_same<T, long long>::value ||
-		std::is_same<T, float>::value ||
-		std::is_same<T, double>::value ||
-		std::is_same<T, long double>::value>;
-
 	//泛用二维向量
 	struct Vec2 {
 		float x;
@@ -107,18 +97,43 @@ namespace Engine::Maths {
 			y *= -1;
 		}
 	};
-	float Vec2ToAngle(const Vec2& a);
-	inline Vec2 AngleToVec2(float angle);
-	inline float Vec2_Length(const Vec2& a);
-	inline float Vec2_SquareLength(const Vec2& a);
+	inline float Vec2ToAngle(const Vec2& a) {
+		return std::atan2(a.y, a.x);
+	}
+	inline Vec2 AngleToVec2(float angle) {
+		return Vec2{ cos(angle), sin(angle) };
+	}
+	inline float Vec2_Length(const Vec2& a) {
+		return sqrtf(a.x * a.x + a.y * a.y);
+	}
+	inline float Vec2_SquareLength(const Vec2& a)
+	{
+		return a.x * a.x + a.y * a.y;
+	}
+	inline Vec2 LerpVec2(const Vec2& a, const Vec2& b, float t) {
+		t = std::clamp(t, 0.0f, 1.0f);
 
-	float RadToDeg(float r);
-	float DegToRad(float d);
+		return Engine::Maths::Vec2{
+			a.x + (b.x - a.x) * t,
+			a.y + (b.y - a.y) * t
+		};
+	}
+	inline float RadToDeg(float r) {
+		return fmod(360.0f * r / _2PI, 360.0f);
+	}
+	inline float DegToRad(float d) {
+		return fmod(d / 360.0f * _2PI, _2PI);
+	}
 
 	//Vec2特供
 	Vec2 Clamp(const Vec2& t, const Vec2& mini, const Vec2& maxi);
 	Vec2 Clamp(const Vec2& t, float mini, float maxi);
-
+	inline float Lerp(float a, float b, float t) {
+		return a + (b - a) * t;
+	}
+	inline Vec2 Lerp(const Maths::Vec2& a, const Maths::Vec2& b, float t) {
+		return { Lerp(a.x, b.x, t), Lerp(a.y, b.y, t) };
+	}
 	//视口矩形
 	struct Rect {
 		float x;
@@ -215,6 +230,7 @@ namespace Engine::Maths {
 			this->y *= -1;
 		}
 	};
+
 	//对齐方式
 	enum class Align {
 		NONE,           
@@ -228,38 +244,6 @@ namespace Engine::Maths {
 		BOTTOM_CENTER,  
 		BOTTOM_RIGHT    
 	};
-
-
-	//基本类型
-	template <typename T,
-		typename = typename std::enable_if<allowed<T>::value>::type>
-	T Clamp(T v, T mini, T maxi);
-
-	bool CheckCollision(
-		const ColliderComponent& a,
-		const ColliderComponent& b);
-
-	bool CheckCircleOverlap(
-		const Vec2& a_center,
-		float a_redius,
-		const Vec2& b_center,
-		float b_redius);
-
-	bool CheckAABBOverlap(
-		const Vec2& a_pos,
-		const Vec2& a_size,
-		const Vec2& b_pos,
-		const Vec2& b_size);
-
-	bool CheckRectOverlap(
-		const Rect& a,
-		const Rect& b);
-
-	bool CheckPointInCircle(
-		const Vec2& point,
-		const Vec2& center,
-		float radius);
-
 
 	float GetRandomFloat(float min, float max);
 	int GetRandomInt(int min, int max);

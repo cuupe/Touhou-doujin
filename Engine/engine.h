@@ -1,26 +1,23 @@
 ﻿#pragma once
 #include "../prefix.h"
 #include "time.h"
-using Microsoft::WRL::ComPtr;
 namespace Engine {
+	using Microsoft::WRL::ComPtr;
 	class engine {
 	protected:
 		SDL_Window* window = nullptr;
 		SDL_Renderer* renderer = nullptr;
 		ComPtr<ID3D11Device> device;
-		ComPtr<ID3D11DeviceContext> context;
+		ComPtr<ID3D11DeviceContext> device_context;
 		bool initialized = false;
 
-
 	protected:
-		int width, height;
 		Time::time t;
 		SDL_Event event;
 
 	public:
-		engine(const char* win_name,
-			int width, int height, int flag,
-			int fps);
+		engine(const char* win_name, int width,
+			int height, int flag, int fps);
 		engine(const engine&) = delete;
 		engine(engine&&) = delete;
 		engine& operator=(const engine&) = delete;
@@ -31,7 +28,7 @@ namespace Engine {
 		SDL_Window* GetWindow() const { return window; }
 		SDL_Renderer* GetRenderer() const { return renderer; }
 		ID3D11Device* GetDevice() const { return device.Get(); }
-		ID3D11DeviceContext* GetDeviceContext() const { return context.Get(); }
+		ID3D11DeviceContext* GetDeviceContext() const { return device_context.Get(); }
 		bool GetInitState() const { return initialized; }
 
 	protected:

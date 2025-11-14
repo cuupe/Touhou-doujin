@@ -6,7 +6,6 @@
 #include <SDL3_image/SDL_image.h>
 #include <SDL3_mixer/SDL_mixer.h>
 #include <SDL3_ttf/SDL_ttf.h>
-
 //STL头文件
 #include <memory>
 #include <iostream>
@@ -29,13 +28,13 @@
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
 #include <wrl/client.h>
+#include <dxgi1_4.h>
 
 #include <spdlog/spdlog.h>
 #include <nlohmann/json.hpp>
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
-#include <DirectXTex.h>
 
 
 

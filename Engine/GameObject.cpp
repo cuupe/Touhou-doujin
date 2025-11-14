@@ -3,12 +3,24 @@
 namespace Engine::Core {
     GameObject::GameObject(const std::string& name, const std::string& tag)
         :name(name), tag(tag)
-    {
-    }
+    { }
 
     void GameObject::Update(float delta_time, Context& ctx) {
         for (auto& pair : components) {
-            pair.second->Update(delta_time, ctx);
+            if (!(pair.second->need_destroy)) {
+                pair.second->Update(delta_time, ctx);
+            }
+            else {
+                pending_destroy.push_back(pair.second.get());
+            }
+        }
+
+        if (pending_destroy.size()) {
+            for (auto& del : pending_destroy) {
+                auto type_idx = std::type_index(typeid(*del));
+                components.erase(type_idx);
+            }
+            pending_destroy.clear();
         }
     }
 
@@ -19,7 +31,6 @@ namespace Engine::Core {
     }
 
     void GameObject::Destroy() {
-        spdlog::trace("销毁 GameObject 中...");
         for (auto& pair : components) {
             pair.second->Destory();
         }

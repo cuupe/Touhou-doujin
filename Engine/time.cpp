@@ -24,7 +24,7 @@ namespace Engine::Time {
         during = end - start;
         auto target_duration = std::chrono::milliseconds(limit_time);
         if (during < target_duration) {
-            std::this_thread::sleep_for((target_duration - during)*1.009);
+            std::this_thread::sleep_for(target_duration - during);
             end = std::chrono::high_resolution_clock::now();
             during = end - start;
         }
@@ -36,7 +36,7 @@ namespace Engine::Time {
             fps = static_cast<double>(count) / sum * 1000.0;
             sum = 0;
             count = 0;
-            spdlog::info("fps: {:.2}", fps);
+            //spdlog::info("fps: {}", fps);
         }
     }
 

@@ -28,10 +28,10 @@ add_executable (worky
 main.cpp
 "Engine/engine.h" 
 "Engine/engine.cpp"   
-"Engine/graphapi.h" 
-"Engine/graphapi.cpp" 
-"Engine/model.h" 
-"Engine/model.cpp" 
+ 
+ 
+ 
+ 
 "Engine/time.h" 
 "Engine/time.cpp" 
 "Engine/resources.h" 
@@ -53,6 +53,9 @@ main.cpp
 "Engine/Components/ColliderComponent.h" 
 "Engine/Components/ColliderComponent.cpp" 
 "Engine/collider.h"  
+"Engine/collider.cpp" 
+"Engine/Components/EffectComponent.h" 
+
 "Engine/maths.cpp"
 "Engine/SceneManager.h" 
 "Engine/SceneManager.cpp" 
@@ -89,8 +92,6 @@ main.cpp
 "Game/Game.cpp" 
 "Game/Enemy/Enemy.h" 
 "Game/Enemy/Enemy.cpp" 
-"Game/GameScene.h" 
-"Game/GameScene.cpp" 
 "Game/Bullet/Bullet.h" 
 "Game/Bullet/Bullet.cpp" 
 "Game/Bullet/Bullet.h"
@@ -99,12 +100,17 @@ main.cpp
 "Game/Bullet/BulletComponent.cpp" 
 "Game/Bullet/BulletManager.h" 
 "Game/Bullet/BulletManager.cpp" 
-"Game/Scene/UI.h" 
-"Game/Scene/UI.cpp" 
+"Game/Scene/TitleScene.h" 
+"Game/Scene/TitleScene.cpp" 
 "Game/Scene/Stage.h" 
 "Game/Scene/Stage.cpp" 
 "Game/Loading.h" 
-"Game/Loading.cpp")
+"Game/Loading.cpp" 
+ 
+ 
+ 
+ 
+ "Engine/effects.h" "Engine/EffectManager.h"   "Engine/ui.h" "Engine/UIManager.h" "Engine/UIManager.cpp" "Game/Scene/UIPanel/MainPanel.h" "Game/Scene/UIPanel/MainPanel.cpp" "Engine/schedule.h" "Game/Scene/UIPanel/ChoosePanel.h" "Game/Scene/UIPanel/ChoosePanel.cpp" "Game/Scene/UIPanel/OptionPanel.h" "Game/Scene/UIPanel/OptionPanel.cpp" "Game/Scene/UIPanel/InformationPanel.h" "Game/Scene/UIPanel/InformationPanel.cpp"     "Engine/D3D/model.h" )
 target_include_directories(worky PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
 target_link_libraries(

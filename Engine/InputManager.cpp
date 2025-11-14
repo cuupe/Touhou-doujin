@@ -1,12 +1,12 @@
 ﻿#include "InputManager.h"
-
+#include "render.h"
 namespace Engine::Input {
-	InputManager::InputManager(SDL_Renderer* sdl_renderer)
-		:renderer(sdl_renderer)
+	InputManager::InputManager(Render::Renderer* _renderer)
+		:render(_renderer)
 	{
-        if (!renderer) {
-            spdlog::error("输入管理器无法获取SDL_Renderer");
-            throw std::runtime_error("输入管理器: SDL_Renderer 为空指针");
+        if (!render) {
+            spdlog::error("输入管理器无法获取Render");
+            throw std::runtime_error("输入管理器: Renderer 为空指针");
         }
         actions_to_keyname_map.clear();
         scancode_to_actions_map.clear();
@@ -32,7 +32,7 @@ namespace Engine::Input {
             } });
             actions_to_keyname_map.insert({ "ok" ,
                 std::vector<std::string>{
-                "Z"
+                "Z","RETURN"
             } });
             actions_to_keyname_map.insert({ "slow" ,
                 std::vector<std::string>{
@@ -53,6 +53,10 @@ namespace Engine::Input {
             actions_to_keyname_map.insert({ "test",
             std::vector<std::string>{
                 "L"
+            } });
+            actions_to_keyname_map.insert({ "esc",
+                std::vector<std::string>{
+                "ESCAPE"
             } });
         }
 
@@ -112,6 +116,8 @@ namespace Engine::Input {
             break;
         case SDL_EVENT_WINDOW_RESTORED:
             break;
+        case SDL_EVENT_WINDOW_RESIZED: {
+        }break;   
         case SDL_EVENT_KEY_DOWN:
         case SDL_EVENT_KEY_UP: {
             SDL_Scancode sc = event.key.scancode;
@@ -130,6 +136,9 @@ namespace Engine::Input {
         case SDL_EVENT_MOUSE_BUTTON_UP: {
             //需要鼠标时再添加
         }break;
+        case SDL_EVENT_QUIT:
+            quit = true;
+            break;
         default:break;
         }
     }

@@ -20,6 +20,10 @@ namespace Game::Manager {
 		bd.hit_size = { 10.0f, 10.0f };
 		bd.rect = { 0.0f, 16.0f, 16.0f, 16.0f };
 		bd.speed = 0.0f;
+		bd.restrict_speed = false;
+		bd.restrict_angle = false;
+		bd.max_angle = 90.0f;
+		bd.max_speed = 40.0f;
 		bd.v = { 0.0f, 0.0f };
 		bd.is_grazed = false;
 		bd.is_active = false;
@@ -36,7 +40,7 @@ namespace Game::Manager {
 	}
 
 
-	void BulletManager::SpawnSingleBullet(const Vec2& position, float speed, float angle, 
+	void BulletManager::SpawnSingleBullet(const Engine::Maths::Vec2& position, float speed, float angle,
 		float speed_acc, float angle_acc, float sprite_offset)
 	{
 		if (angle >= 360.0f) {
@@ -66,19 +70,22 @@ namespace Game::Manager {
 		data.v = { data.speed * cos(Engine::Maths::DegToRad(data.angle)), data.speed * sin(Engine::Maths::DegToRad(data.angle)) };
 	}
 
-	void BulletManager::SpawnBulletPattern(Bullets::AimMode mode)
-	{
-
-	}
-
 	void BulletManager::RemoveAllBullets(bool turn_into_items)
 	{
-
+		for (auto& bullet : bullets) {
+			auto& data = bullet.GetBulletData();
+			if (data.is_active) {
+				data.is_active = false;
+				data.is_grazed = false;
+			}
+		}
 	}
 
-	void BulletManager::DespawnBullet()
+	void BulletManager::DespawnBullet(Bullet& bt)
 	{
-
+		auto& data = bt.GetBulletData();
+		data.is_active = false;
+		data.is_grazed = false;
 	}
 
 

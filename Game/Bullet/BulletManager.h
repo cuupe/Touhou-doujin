@@ -23,10 +23,11 @@ namespace Game::Manager {
 		std::vector<Bullets::Bullet>& GetBulletsPoll() { return bullets; }
 
 	public:
-		void SpawnSingleBullet(const Vec2&, float, float, float speed_acc = 0.0f, float angle_acc = 0.0f, float sprite_offset = 0.0f);
-		void SpawnBulletPattern(Bullets::AimMode);
-		void RemoveAllBullets(bool);
-		void DespawnBullet();
+		void SpawnSingleBullet(const Engine::Maths::Vec2&, 
+			float, float, float speed_acc = 0.0f, float angle_acc = 0.0f, float sprite_offset = 0.0f);
+	
+		void RemoveAllBullets(bool turn_into_items = true);
+		void DespawnBullet(Bullets::Bullet&);
 
 		void Update(float);
 		void Render();

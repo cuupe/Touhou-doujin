@@ -9,6 +9,7 @@ namespace Engine::Core {
 		std::string name;
 		std::string tag;
 		std::unordered_map<std::type_index, std::unique_ptr<Component>> components;
+		std::vector<Component*> pending_destroy;
 		bool need_remove = false;
 
 	public:
@@ -34,17 +35,15 @@ namespace Engine::Core {
 			// 获取类型标识。     /* typeid(T) -- 用于获取一个表达式或类型的运行时类型信息 (RTTI), 返回 std::type_info& */
 								/* std::type_index -- 针对std::type_info对象的包装器，主要设计用来作为关联容器（如 std::map）的键。*/
 			auto type_index = std::type_index(typeid(T));
-			// 如果组件已经存在，则直接返回组件指针
 			if (HasComponent<T>()) {
 				return GetComponent<T>();
 			}
-			// 如果不存在则创建组件     /* std::forward -- 用于实现完美转发。传递多个参数的时候使用...标识 */
+
 			auto new_component = std::make_unique<T>(std::forward<Args>(args)...);
 			T* ptr = new_component.get();
 			new_component->SetOwner(this);
 			components[type_index] = std::move(new_component);
 			ptr->Init();
-			spdlog::debug("GameObject::AddComponent: {} added component {}", name, typeid(T).name());
 			return ptr;
 		}
 
@@ -67,14 +66,13 @@ namespace Engine::Core {
 			return components.find(std::type_index(typeid(T))) != components.end();
 		}
 
-		//用于移除组件
 		template <typename T>
 		void RemoveComponent() {
 			static_assert(std::is_base_of<Component, T>::value, "T 必须继承自 Component");
 			auto type_index = std::type_index(typeid(T));
 			auto it = components.find(type_index);
 			if (it != components.end()) {
-				it->second->clean();
+				it->second->Destory();
 				components.erase(it);
 			}
 		}

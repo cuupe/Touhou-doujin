@@ -15,7 +15,7 @@ namespace Game::Bullets {
 		core->AddComponent<Engine::Core::Components::TransformComponent>(
 			bd.position, Vec2{2.0f, 2.0f});
 		core->AddComponent<Engine::Core::Components::SpriteComponent>(
-			bd.sprite_name, _ctx.GetResourceMannager(), bd.rect,
+			bd.sprite_name, _ctx.GetResourceManager(), bd.rect,
 			Engine::Maths::Align::CENTER);
 		core->AddComponent<Engine::Core::Components::ColliderComponent>(
 			std::make_unique<Engine::Core::Collider::AABBCollider>(bd.hit_size),
@@ -38,8 +38,19 @@ namespace Game::Bullets {
 		transform->Translate(bd.v);
 		bd.position = transform->GetPosition();
 		bd.angle += bd.angle_acc * d_t;
+		if (bd.restrict_angle) {
+			if (bd.angle > bd.max_angle) {
+				bd.angle = bd.max_angle;
+			}
+		}
 		transform->SetRotationDeg(bd.angle + 90.0f);
 		bd.speed += bd.speed_acc * d_t;
+		if (bd.restrict_speed) {
+			if (bd.speed > bd.max_speed) {
+				bd.speed = bd.max_speed;
+			}
+		}
+
 		bd.v = { bd.speed * cos(Engine::Maths::DegToRad(bd.angle)), bd.speed * sin(Engine::Maths::DegToRad(bd.angle)) };
 
 		if (bd.position.x > 1500.0f || bd.position.x < -200.0f || bd.position.y > 1000.0f || bd.position.y < -100.0f) {

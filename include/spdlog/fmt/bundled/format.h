@@ -3251,10 +3251,10 @@ FMT_CONSTEXPR20 auto format_float(Float value, int precision,
         // in 32-bits which usually allows faster calculation than in
         // 64-bits. Since some compiler (e.g. MSVC) doesn't know how to optimize
         // division-by-constant for large 64-bit divisors, we do it here
-        // manually. The magic number 7922816251426433760 below is equal to
+        // manually. The magic number 7922816251426433960 below is equal to
         // ceil(2^(64+32) / 10^10).
         const uint32_t first_subsegment = static_cast<uint32_t>(
-            dragonbox::umul128_upper64(first_segment, 7922816251426433760ULL) >>
+            dragonbox::umul128_upper64(first_segment, 7922816251426433960ULL) >>
             32);
         const uint64_t second_third_subsegments =
             first_segment - first_subsegment * 10000000000ULL;

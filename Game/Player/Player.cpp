@@ -13,7 +13,7 @@ namespace Game::GameObject {
 		role = std::make_unique<Engine::Core::GameObject>("", "player");
 		role->AddComponent<TransformComponent>(Vec2{ 512.0f, 650.0f }, Vec2{ 2.0f, 2.0f });
 		role->AddComponent<SpriteComponent>("pl00", 
-            ctx.GetResourceMannager(), SDL_FRect{ 0.0f, 0.0f, 256.0f / 8.0f, 48.0f },
+            ctx.GetResourceManager(), SDL_FRect{ 0.0f, 0.0f, 256.0f / 8.0f, 48.0f },
             Align::CENTER);
         role->AddComponent<ColliderComponent>(
             std::make_unique<Engine::Core::Collider::AABBCollider>(
@@ -47,7 +47,7 @@ namespace Game::GameObject {
 		check = std::make_unique<Engine::Core::GameObject>("", "player_check");
 		check->AddComponent<TransformComponent>(Vec2{ 0.0f, 0.0f }, Vec2{ 2.0f, 2.0f });
         //check->AddComponent<SpriteComponent>("eff_sloweffect", 
-        //    ctx.GetResourceMannager(), SDL_FRect{});
+        //    ctx.GetResourceManager(), SDL_FRect{});
 		check->AddComponent<ColliderComponent>(std::make_unique<Engine::Core::Collider::AABBCollider>(
             Vec2{ 20.0f, 20.0f }), Align::CENTER);
 	}
@@ -81,20 +81,7 @@ namespace Game::GameObject {
     void Player::Render() {
         role->Render(ctx);
         check->Render(ctx);
-        auto& pos = role->GetComponent<TransformComponent>()->GetPosition();
-        SDL_FRect f = { pos.x - 7.0f, pos.y - 7.0f, 14.0f, 14.0f };
-        SDL_RenderRect(ctx.GetRenderer().getSDLRenderer(), &f);
     }
-
-
 }
 
-namespace Game::GameObject::PlayerUtils {
-	void Init_Player(const std::string& _name, float _speed)
-	{
-
-	}
-
-
-}
 

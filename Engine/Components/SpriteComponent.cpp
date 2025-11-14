@@ -4,9 +4,11 @@
 namespace Engine::Core::Components {
     SpriteComponent::SpriteComponent(
         const std::string& t_name, 
-        ResourceMannager& r, std::optional<SDL_FRect> sr,
-        Align a, bool i_f)
-        :res(&r), s(t_name, sr, i_f), align(a)
+        ResourceManager& r, std::optional<SDL_FRect> sr, 
+        Align a, const Vec2& _scale, const SDL_Color& _color_mod,
+        float _angle, bool i_f)
+        :res(&r), s(t_name, sr, i_f), align(a), scale(_scale),
+        angle(_angle), color_mod(_color_mod)
     {
         if (!res) {
             spdlog::critical("创建的精灵图组件无法获取资源管理器对象");
@@ -97,9 +99,9 @@ namespace Engine::Core::Components {
             return;
         }
         const Vec2& pos = trans->GetPosition() + offset;
-        const Vec2& scale = trans->GetScale();
-        float angles = trans->GetRotation();
+        const Vec2& _scale = trans->GetScale() * scale;
+        float angles = trans->GetRotation() + angle;
 
-        ctx.GetRenderer().DrawSprite(s, pos, scale, rect, angles);
+        ctx.GetRenderer().DrawSprite(s, pos, _scale, rect, color_mod, angles);
     }
 }

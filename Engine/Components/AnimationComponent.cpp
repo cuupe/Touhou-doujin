@@ -34,6 +34,10 @@ namespace Engine::Core::Components {
 		}
 	}
 
+	void AnimationComponent::StopAnimaiton() {
+		is_playing = false;
+	}
+
 	std::string AnimationComponent::GetCurrentAnimationName() const
 	{
 		if (current_animation) {
@@ -67,10 +71,11 @@ namespace Engine::Core::Components {
 
 		animation_timer += d_t;
 
-		const auto& current_frame = current_animation->GetFrame(animation_timer);
+		AnimationFrame current_frame = current_animation->GetFrame(animation_timer);
 		sprite->SetRect(current_frame.rect);
-		
-		//处理非循环动画结束的逻辑
+		sprite->SetScale(current_frame.scale);
+		sprite->SetRotation(current_frame.rotation);
+
 		if (!current_animation->IsLooping() &&
 			animation_timer >= current_animation->GetTotalDuration()) {
 			animation_timer = current_animation->GetTotalDuration();
@@ -81,6 +86,4 @@ namespace Engine::Core::Components {
 		}
 
 	}
-
-
 }

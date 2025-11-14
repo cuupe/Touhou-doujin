@@ -60,7 +60,7 @@ namespace Engine::Audio {
 
     void AudioManager::PlayBGM(const std::string& sound_name)
     {
-        MIX_SetTrackAudio(bgm.get(), ctx.GetResourceMannager().GetAudio(sound_name)->audio.get());
+        MIX_SetTrackAudio(bgm.get(), ctx.GetResourceManager().GetAudio(sound_name)->audio.get());
         bool ok = MIX_PlayTrack(bgm.get(), -1);
         if (!ok) {
             spdlog::error("无法播放音频{}", SDL_GetError());
@@ -99,12 +99,13 @@ namespace Engine::Audio {
         return false;
     }
 
-    void AudioManager::AddTrack_SFX(const std::string& sound_name)
+    void AudioManager::AddTrack_SFX(const std::string& track_name)
     {
         auto temp = TrackPtr(MIX_CreateTrack(mixer));
         if (!temp.get()) {
             spdlog::error("不能够添加音频轨道");
         }
+        sfx.insert({ track_name, std::move(temp) });
     }
 
     void AudioManager::PlaySFXById(int id)
@@ -112,18 +113,24 @@ namespace Engine::Audio {
 
     }
 
-    void AudioManager::PlaySFX(const std::string& sound_name)
+    void AudioManager::PlaySFX(const std::string& sound_name, const std::string& track_name)
     {
-        if (sfx.find(sound_name) != sfx.end()) {
-            TrackPtr& t = sfx[sound_name];
-            MIX_SetTrackAudio(t.get(), ctx.GetResourceMannager().GetAudio(sound_name)->audio.get());
-            bool ok = MIX_PlayTrack(bgm.get(), 0);
+        if (sfx.find(track_name) != sfx.end()) {
+            TrackPtr& t = sfx[track_name];
+            MIX_SetTrackAudio(t.get(), ctx.GetResourceManager().GetAudio(sound_name)->audio.get());
+            bool ok = MIX_PlayTrack(t.get(), 0);
             if (!ok) {
                 spdlog::error("播放音频：{} 失败", sound_name);
             }
         }
         else {
-            spdlog::error("无法找到音频：{}"), sound_name;
+            AddTrack_SFX(track_name);
+            TrackPtr& t = sfx[track_name];
+            MIX_SetTrackAudio(t.get(), ctx.GetResourceManager().GetAudio(sound_name)->audio.get());
+            bool ok = MIX_PlayTrack(t.get(), 0);
+            if (!ok) {
+                spdlog::error("播放音频：{} 失败", sound_name);
+            }
         }
     }
 
