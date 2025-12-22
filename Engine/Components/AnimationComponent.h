@@ -3,8 +3,10 @@
 #include <string>
 #include <unordered_map>
 #include <memory>
+#include <functional>
 namespace Engine::Render {
 	class Animation;
+	class AnimationSequence;
 }
 using namespace Engine::Render;
 namespace Engine::Core::Components {
@@ -21,11 +23,14 @@ namespace Engine::Core::Components {
 		float animation_timer = 0.0f;
 		bool is_playing = false;
 		bool is_finished_and_remove = false;
+		std::function<void()> on_animation_finished_callback = nullptr;
 
 	public:
 		void AddAnimation(std::unique_ptr<Animation> animation);
+		void RemoveAllAnimations();
+		void RemoveAnimation(const std::string& anim_name);
 		void StopAnimation() { is_playing = false; }
-		void PlayAnimaiton(const std::string& name);
+		void PlayAnimation(const std::string& name, std::function<void()> on_finished = nullptr);
 		void StopAnimaiton();
 		std::string GetCurrentAnimationName() const;
 		bool IsAnimationFinished() const;

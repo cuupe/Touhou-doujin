@@ -4,7 +4,11 @@
 #include "SceneManager.h"
 namespace Engine::UISystem {
     class Panel {
+    protected:
+        std::string name;
+
     public:
+        explicit Panel(const std::string& panel_name = "") : name(panel_name) {}
         virtual ~Panel() = default;
 
     public:
@@ -13,6 +17,9 @@ namespace Engine::UISystem {
             Engine::Scene::SceneManager&) = 0;
         virtual void Update(float, Engine::Core::Context&) = 0;
         virtual void Render(Engine::Core::Context&) = 0;
+
+    public:
+        std::string GetName() const { return name; }
 
     public:
         virtual void OnEnter() {}

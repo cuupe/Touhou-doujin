@@ -1,6 +1,7 @@
-#pragma once
+﻿#pragma once
 #include "../../../Engine/ui.h"
 #include "../../GameData.h"
+#include <stack>
 namespace Engine::Audio {
     class AudioManager;
 }
@@ -11,19 +12,36 @@ namespace Engine::UISystem {
     class UIManager;
 }
 namespace Game::UI {
-    class MainMenuPanel final : public Engine::UISystem::Panel {
+    class MainPanel final : public Engine::UISystem::Panel {
     private:
-        std::vector<std::unique_ptr<Engine::Core::GameObject>> opts;
+        enum class State {
+            MENU,
+            PLAYER,
+            DIFF
+        };
+        State current_state = State::MENU;
         std::vector<std::unique_ptr<Engine::Core::GameObject>> bcgs;
-        Engine::Audio::AudioManager& au;
-        Engine::Scene::SceneManager& scene_manager;
+        std::vector<std::vector<std::unique_ptr<Engine::Core::GameObject>>> opts;
+        Engine::UISystem::UIManager& ui;
+        bool is_init = false;
+        
+        //MENU
         i16 index = 0;
         i16 old_index = -1;
         bool first = true;
 
+
+        //PLAYER
+        i16 index_player = 0;
+
+
+        //DIFF
+        i16 old_diff = -1;
+        i16 index_diff = 0;
+
     public:
-        MainMenuPanel(Engine::Audio::AudioManager& _au, Engine::Scene::SceneManager& sm)
-            : au(_au), scene_manager(sm){ }
+        MainPanel(const std::string& ui_name, Engine::UISystem::UIManager& _ui):
+            Engine::UISystem::Panel(ui_name), ui(_ui){ }
 
         void Init(Engine::Core::Context& ctx) override;
         void HandleInput(Engine::Core::Context& ctx, Engine::Audio::AudioManager& au,
@@ -36,8 +54,31 @@ namespace Game::UI {
         void OnActivate() override;
         void OnLeave() override;
 
-    public:
-        void OptChoose(Engine::Core::Context& ctx);
+    private:
+        void OptChoose(Engine::Core::Context& ctx, Engine::Audio::AudioManager& au,
+            Engine::Scene::SceneManager& sm);
+        void MenuHandleInput(Engine::Core::Context& ctx, Engine::Audio::AudioManager& au,
+            Engine::Scene::SceneManager& sm);
+        void MenuUpdate(f32 dt, Engine::Core::Context& ctx);
+        void MenuChoose(Engine::Core::Context& ctx, Engine::Audio::AudioManager& au,
+            Engine::Scene::SceneManager& sm);
+        void MenuOnEnter();
+        void MenuOnLeave();
+        void PlayerHandleInput(Engine::Core::Context& ctx, Engine::Audio::AudioManager& au,
+            Engine::Scene::SceneManager& sm);
+        void PlayerChoose(Engine::Core::Context& ctx, Engine::Audio::AudioManager& au,
+            Engine::Scene::SceneManager& sm);
+        void PlayerUpdate(f32 dt, Engine::Core::Context& ctx);
+        void PlayerOnEnter();
+        void PlayerOnLeave();
+        void DiffHandleInput(Engine::Core::Context& ctx, Engine::Audio::AudioManager& au,
+            Engine::Scene::SceneManager& sm);
+        void DiffChoose(Engine::Core::Context& ctx, Engine::Audio::AudioManager& au,
+            Engine::Scene::SceneManager& sm);
+        void DiffUpdate(f32 dt, Engine::Core::Context& ctx);
+        void DiffOnEnter();
+        void DiffOnLeave();
+        void SlideLeft();
+        void SlideRight();
     };
-
 }

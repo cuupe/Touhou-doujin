@@ -68,8 +68,6 @@ namespace Engine::Audio {
         }
     }
 
-    
-
     void AudioManager::PauseBGM()
     {
         if (MIX_TrackPaused(bgm.get())) {
@@ -106,11 +104,6 @@ namespace Engine::Audio {
             spdlog::error("不能够添加音频轨道");
         }
         sfx.insert({ track_name, std::move(temp) });
-    }
-
-    void AudioManager::PlaySFXById(int id)
-    {
-
     }
 
     void AudioManager::PlaySFX(const std::string& sound_name, const std::string& track_name)
@@ -151,7 +144,7 @@ namespace Engine::Audio {
             spdlog::error("未初始化的BGM轨道");
             return;
         }
-        MIX_SetTrackGain(bgm.get(), 0.5f);
+        MIX_SetTrackGain(bgm.get(), volume);
     }
 
     void AudioManager::SetSFXSound(float volume)
@@ -161,7 +154,7 @@ namespace Engine::Audio {
             return;
         }
         for (auto& [_name, _track] : sfx) {
-            MIX_SetTrackGain(_track.get(), 0.5f);
+            MIX_SetTrackGain(_track.get(), volume);
         }
         
     }

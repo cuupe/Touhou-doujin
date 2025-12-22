@@ -4,8 +4,9 @@
 #include <spdlog/spdlog.h>
 
 namespace Engine::UISystem {
-    UIManager::UIManager(Core::Context& _ctx, Audio::AudioManager& _au, Scene::SceneManager& _sc)
-        :ctx(_ctx), au(_au), sc(_sc)
+    UIManager::UIManager(Core::Context& _ctx, Audio::AudioManager& _au, 
+        Render::TextManager& _tm, Scene::SceneManager& _sm)
+        :ctx(_ctx), au(_au), sm(_sm), tm(_tm)
     { }
 
     void UIManager::RequestPushPanel(std::unique_ptr<Panel>&& panel) {
@@ -23,22 +24,22 @@ namespace Engine::UISystem {
     }
 
     void UIManager::Update(float dt) {
+        ProcessPendingActions();
+
         if (auto panel = GetCurrentPanel()) {
             panel->Update(dt, ctx);
         }
-
-        ProcessPendingActions();
     }
 
     void UIManager::HandleInput() {
         if (auto panel = GetCurrentPanel()) {
-            panel->HandleInput(ctx, au, sc);
+            panel->HandleInput(ctx, au, sm);
         }
     }
 
     void UIManager::Render() {
-        for (auto& panel : panel_stack) {
-            panel->Render(ctx);
+        for(auto it = panel_stack.begin(); it != panel_stack.end(); ++it) {
+            it->get()->Render(ctx);
         }
     }
 
@@ -90,6 +91,9 @@ namespace Engine::UISystem {
             return;
         }
         panel_stack.pop_back();
+        if (panel_stack.size()) {
+            panel_stack.back()->OnEnter();
+        }
     }
 
     void UIManager::ReplacePanel(std::unique_ptr<Panel>&& panel) {

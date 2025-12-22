@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "../../../Engine/ui.h"
 #include "../../GameData.h"
 namespace Engine::Audio {
@@ -14,18 +14,15 @@ namespace Game::UI {
     class OptionPanel final : public Engine::UISystem::Panel {
     private:
         std::vector<std::unique_ptr<Engine::Core::GameObject>> opts;
-        std::vector<std::unique_ptr<Engine::Core::GameObject>> bcgs;
-        Engine::Audio::AudioManager& au;
-        Engine::Scene::SceneManager& scene_manager;
+        Engine::UISystem::UIManager& ui;
         i16 index = 0;
         i16 old_index = -1;
         bool first = true;
-
+        bool sound_changed = false;
+        bool is_init = false;
     public:
-        OptionPanel(Engine::Audio::AudioManager& _au, Engine::Scene::SceneManager& sm)
-            : au(_au), scene_manager(sm) {
-        }
-
+        OptionPanel(const std::string& ui_name, Engine::UISystem::UIManager& _ui)
+        :Engine::UISystem::Panel(ui_name), ui(_ui) { }
         void Init(Engine::Core::Context& ctx) override;
         void HandleInput(Engine::Core::Context& ctx, Engine::Audio::AudioManager& au,
             Engine::Scene::SceneManager& sm) override;

@@ -1,7 +1,5 @@
 ﻿#pragma once
-#include <thread>
-#include <chrono>
-
+#include "../prefix.h"
 namespace Engine::Time {
 	class time {
 	private:
