@@ -1,8 +1,9 @@
 ﻿#pragma once
-#include <SDL3/SDL_rect.h>
-#include <vector>
-#include <string>
+#include "../prefix.h"
 #include "maths.h"
+namespace Engine::Core::Components {
+    class AnimationComponent;
+}
 
 namespace Engine::Render {
 	constexpr SDL_FRect IGNORE_RECT = { 0, 0, 0, 0 };
@@ -13,11 +14,11 @@ namespace Engine::Render {
 		Maths::Vec2 scale = { 1.0f, 1.0f };
 		float rotation = 0.0f;	//采用Deg
 		AnimationFrame()
-			: rect({ 0,0,0,0 }), duration(0), scale({ 1.0f,1.0f }), rotation(0){
+			: rect({ 0,0,0,0 }), duration(0), scale({ 1.0f,1.0f }), rotation(0) {
 		}
 
 		AnimationFrame(const SDL_FRect& r, float d, const Maths::Vec2& s = { 1.0f, 1.0f }, float rot = 0.0f)
-			: rect(r), duration(d), scale(s), rotation(rot){
+			: rect(r), duration(d), scale(s), rotation(rot) {
 		}
 	};
 
@@ -41,4 +42,5 @@ namespace Engine::Render {
 		bool IsLooping() const { return loop; }
 		bool IsEmpty() const { return frames.empty(); }
 	};
+
 }

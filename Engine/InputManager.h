@@ -27,8 +27,8 @@ namespace Engine::Input {
 		bool IsActionDown(const std::string& action_name) const;
 		bool IsActionPressed(const std::string& action_name) const;
 		bool IsActionReleased(const std::string& action_name) const;
-
 		bool ShouldQuit() const;
+		void ResetAllState();
 		void SetShouldQuit(bool should_quit);
 
 	private:
@@ -42,5 +42,3 @@ namespace Engine::Input {
 
 	};
 }
-
-#include <SDL3/SDL_scancode.h>

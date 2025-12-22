@@ -1,20 +1,18 @@
-﻿cmake_minimum_required (VERSION 3.8)
+﻿cmake_minimum_required (VERSION 3.15)
 
 if (POLICY CMP0141)
   cmake_policy(SET CMP0141 NEW)
   set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
 endif()
 
-project (worky VERSION 0.1.0)
+project (worky VERSION 1.0.0)
 
 
 find_package(SDL3 REQUIRED)
 find_package(SDL3_image REQUIRED)
 find_package(SDL3_mixer REQUIRED)
-find_package(SDL3_ttf REQUIRED)
 find_package(assimp REQUIRED)
-find_package(DirectXTex CONFIG REQUIRED)
-
+find_package(Freetype REQUIRED)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
@@ -24,14 +22,10 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_SOURCE_DIR})
 add_compile_options(/W4)
 
 # 将源代码添加到此项目的可执行文件。
-add_executable (worky
+add_executable (worky WIN32
 main.cpp
 "Engine/engine.h" 
 "Engine/engine.cpp"   
- 
- 
- 
- 
 "Engine/time.h" 
 "Engine/time.cpp" 
 "Engine/resources.h" 
@@ -55,7 +49,6 @@ main.cpp
 "Engine/collider.h"  
 "Engine/collider.cpp" 
 "Engine/Components/EffectComponent.h" 
-
 "Engine/maths.cpp"
 "Engine/SceneManager.h" 
 "Engine/SceneManager.cpp" 
@@ -66,25 +59,31 @@ main.cpp
 "Engine/AudioManager.cpp" 
 "Engine/InputManager.h" 
 "Engine/InputManager.cpp"  
-"Engine/config.h" 
-"Engine/config.cpp" 
 "Engine/animation.h" 
 "Engine/animation.cpp" 
 "Engine/sprite.h" 
 "Engine/Components/AnimationComponent.h" 
 "Engine/Components/AnimationComponent.cpp"  
 "Engine/Components/States/PlayerState.cpp" 
+"Engine/effects.h" 
+"Engine/EffectManager.h"   
+"Engine/ui.h" 
+"Engine/UIManager.h" 
+"Engine/UIManager.cpp"
+"Engine/schedule.h" 
+"Engine/D3D/model.h"  
+"Engine/text.h" 
+"Engine/text.cpp"
+"Engine/camera.h" 
+"Engine/camera.cpp" 
+"Engine/CameraManager.h" 
+"Engine/CameraManager.cpp" 
 "Game/Player/Idel.h" 
 "Game/Player/Idel.cpp" 
-"Game/Player/Slow.h" 
-"Game/Player/Slow.cpp" 
 "Game/Player/Move.h" 
 "Game/Player/Move.cpp" 
-"Game/Player/Skill.h" 
-"Game/Player/Skill.cpp" 
 "Game/StateMachine.h"
 "Game/Item/Item.h"
-"Game/Item/Item.cpp"
 "Game/GameData.h" 
 "Game/Player/Player.h" 
 "Game/Player/Player.cpp"
@@ -93,45 +92,74 @@ main.cpp
 "Game/Enemy/Enemy.h" 
 "Game/Enemy/Enemy.cpp" 
 "Game/Bullet/Bullet.h" 
-"Game/Bullet/Bullet.cpp" 
 "Game/Bullet/Bullet.h"
-"Game/Bullet/Bullet.cpp"
-"Game/Bullet/BulletComponent.h" 
-"Game/Bullet/BulletComponent.cpp" 
 "Game/Bullet/BulletManager.h" 
 "Game/Bullet/BulletManager.cpp" 
 "Game/Scene/TitleScene.h" 
 "Game/Scene/TitleScene.cpp" 
 "Game/Scene/Stage.h" 
 "Game/Scene/Stage.cpp" 
-"Game/Loading.h" 
-"Game/Loading.cpp" 
- 
- 
- 
- 
- "Engine/effects.h" "Engine/EffectManager.h"   "Engine/ui.h" "Engine/UIManager.h" "Engine/UIManager.cpp" "Game/Scene/UIPanel/MainPanel.h" "Game/Scene/UIPanel/MainPanel.cpp" "Engine/schedule.h" "Game/Scene/UIPanel/ChoosePanel.h" "Game/Scene/UIPanel/ChoosePanel.cpp" "Game/Scene/UIPanel/OptionPanel.h" "Game/Scene/UIPanel/OptionPanel.cpp" "Game/Scene/UIPanel/InformationPanel.h" "Game/Scene/UIPanel/InformationPanel.cpp"     "Engine/D3D/model.h" )
+"Game/Scene/Loading.h" 
+"Game/Scene/Loading.cpp" 
+"Game/Scene/UIPanel/MainPanel.h" 
+"Game/Scene/UIPanel/MainPanel.cpp" 
+"Game/Scene/UIPanel/OptionPanel.h" 
+"Game/Scene/UIPanel/OptionPanel.cpp"  
+"Game/Scene/UIPanel/InformationPanel.h" 
+"Game/Scene/UIPanel/InformationPanel.cpp"     
+"Game/Scene/UIPanel/PausePanel.h" 
+"Game/Scene/UIPanel/PausePanel.cpp" 
+"Game/Scene/UIPanel/ScorePanel.h" 
+"Game/Scene/UIPanel/ScorePanel.cpp" 
+"Game/Enemy/EnemyManager.h" 
+"Game/Enemy/EnemyManager.cpp" 
+"Game/Enemy/EnemyComponent.h" 
+"Game/Enemy/EnemyComponent.cpp" 
+"Game/Player/Players/Reimu.h" 
+"Game/Player/Players/Reimu.cpp" 
+"Game/Player/PlayerBulletManager.h" 
+"Game/Player/PlayerBulletManager.cpp" 
+"Game/Item/ItemManager.h" 
+"Game/Item/ItemManager.cpp" 
+"Game/Scene/UIPanel/OverPanel.h" 
+"Game/Scene/UIPanel/OverPanel.cpp"   
+"Game/Scene/UIPanel/PlayerDataPanel.h" 
+"Game/Scene/UIPanel/PlayerDataPanel.cpp" 
+"Game/Script/ScriptLevel.h" 
+"Game/Script/ScriptLevel.cpp" 
+"Game/Script/ScriptBackGround.h" 
+"Game/Script/ScriptBackGround.cpp")
 target_include_directories(worky PRIVATE ${PROJECT_SOURCE_DIR}/include)
+target_compile_definitions(worky PRIVATE 
+    $<$<CONFIG:Release>:SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_OFF>
+)
 
+file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/worky.rc
+     "IDI_ICON1 ICON DISCARDABLE \"${CMAKE_SOURCE_DIR}/favicon.ico\"\n")
+target_sources(worky PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/worky.rc)
 target_link_libraries(
 	worky 
 	SDL3::SDL3
 	SDL3_image::SDL3_image
 	SDL3_mixer::SDL3_mixer
-    SDL3_ttf::SDL3_ttf
 	assimp::assimp
 	d3d11
     dxgi
     d3dcompiler
-	Microsoft::DirectXTex
+	Freetype::Freetype
+    optimized "${CMAKE_SOURCE_DIR}/include/lib/freetype.lib"
+
+    debug "${CMAKE_SOURCE_DIR}/include/lua/Debug/lua.lib"
+    optimized "${CMAKE_SOURCE_DIR}/include/lua/Release/lua.lib"
 )
 
-
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
 if(MSVC)
-    target_compile_options(worky PRIVATE /Zi /Od)  # /Zi: 生成 PDB, /Od: 禁用优化 (Debug)
-    target_compile_definitions(worky PRIVATE D3D11_DEBUG)  # 启用 D3D11 调试层 (加载符号)
+    target_compile_options(worky PRIVATE /Zi /Od)
+    target_compile_definitions(worky PRIVATE D3D11_DEBUG)
 
-    # Post-build: 复制 PDB 到输出目录 (VS 调试需 PDB)
     add_custom_command(TARGET worky POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
         $<TARGET_PDB_FILE:worky> $<TARGET_FILE_DIR:worky>
@@ -145,5 +173,3 @@ endif()
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET worky PROPERTY CXX_STANDARD 20)
 endif()
-
-# TODO: 如有需要，请添加测试并安装目标。

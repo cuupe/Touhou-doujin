@@ -1,0 +1,961 @@
+{
+  "enemy_config": [
+    {
+      "id": "enemy_type_1",
+      "source": "enemy",
+      "rect": [8.0, 0, 48.0, 32.0],
+      "hit_box": [26.0, 26.0],
+      "scale": [1.5, 1.5],
+      "anim": [
+        {
+          "name": "default",
+          "anim_type": "loop",
+          "anim_frames": [
+            {
+              "frame": [0.0, 0.0, 48.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [48.0, 0, 48.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [96.0, 0, 48.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [144.0, 0, 48.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            }
+          ]
+        },
+        {
+          "name": "turn",
+          "anim_type": "no_loop",
+          "anim_frames": [
+            {
+              "frame": [0.0, 32.0, 48.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [48.0, 32.0, 48.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [96.0, 32.0, 48.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [144.0, 32.0, 48.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            }
+          ]
+        },
+        {
+          "name": "move",
+          "anim_type": "loop",
+          "anim_frames": [
+            {
+              "frame": [0.0, 64.0, 48.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [48.0, 64.0, 48.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [96.0, 64.0, 48.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [144.0, 64.0, 48.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "enemy_type_2",
+      "source": "enemy",
+      "rect": [0.0, 96.0, 48.0, 32.0],
+      "scale": [1.5, 1.5],
+      "hit_box": [26.0, 26.0],
+      "anim": [
+        {
+          "name": "default",
+          "anim_type": "loop",
+          "anim_frames": [
+            {
+              "frame": [0.0, 96.0, 48.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [48.0, 96.0, 48.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [96.0, 96.0, 48.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [144.0, 96.0, 48.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            }
+          ]
+        },
+        {
+          "name": "turn",
+          "anim_type": "no_loop",
+          "anim_frames": [
+            {
+              "frame": [0.0, 128.0, 48.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [48.0, 128.0, 48.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [96.0, 128.0, 48.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [144.0, 128.0, 48.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            }
+          ]
+        },
+        {
+          "name": "move",
+          "anim_type": "loop",
+          "anim_frames": [
+            {
+              "frame": [0.0, 160.0, 48.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [48.0, 160.0, 48.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [96.0, 160.0, 48.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [144.0, 160.0, 48.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "enemy_type_3",
+      "source": "enemy",
+      "rect": [0.0, 320.0, 32.0, 32.0],
+      "scale": [1.5, 1.5],
+      "hit_box": [26.0, 26.0],
+      "anim": [
+        {
+          "name": "default",
+          "anim_type": "loop",
+          "anim_frames": [
+            {
+              "frame": [0.0, 320.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [32.0, 320.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [64.0, 320.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [96.0, 320.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            }
+          ]
+        },
+        {
+          "name": "turn",
+          "anim_type": "no_loop",
+          "anim_frames": [
+            {
+              "frame": [128.0, 320.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [160.0, 320.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [192.0, 320.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [224.0, 320.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            }
+          ]
+        },
+        {
+          "name": "move",
+          "anim_type": "loop",
+          "anim_frames": [
+            {
+              "frame": [256.0, 320.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [288.0, 320.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [320.0, 320.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [352.0, 320.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "enemy_type_4",
+      "source": "enemy",
+      "rect": [0.0, 352.0, 32.0, 32.0],
+      "scale": [1.5, 1.5],
+      "hit_box": [26.0, 26.0],
+      "anim": [
+        {
+          "name": "default",
+          "anim_type": "loop",
+          "anim_frames": [
+            {
+              "frame": [0.0, 352.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [32.0, 352.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [64.0, 352.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [96.0, 352.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            }
+          ]
+        },
+        {
+          "name": "turn",
+          "anim_type": "no_loop",
+          "anim_frames": [
+            {
+              "frame": [128.0, 352.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [160.0, 352.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [192.0, 352.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [224.0, 352.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            }
+          ]
+        },
+        {
+          "name": "move",
+          "anim_type": "loop",
+          "anim_frames": [
+            {
+              "frame": [256.0, 352.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [288.0, 352.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [320.0, 352.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [352.0, 352.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "enemy_type_5",
+      "source": "enemy",
+      "rect": [0.0, 384.0, 32.0, 32.0],
+      "scale": [1.5, 1.5],
+      "hit_box": [26.0, 26.0],
+      "anim": [
+        {
+          "name": "default",
+          "anim_type": "loop",
+          "anim_frames": [
+            {
+              "frame": [0.0, 384.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [32.0, 384.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [64.0, 384.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [96.0, 384.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            }
+          ]
+        },
+        {
+          "name": "turn",
+          "anim_type": "no_loop",
+          "anim_frames": [
+            {
+              "frame": [128.0, 384.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [160.0, 384.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [192.0, 384.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [224.0, 384.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            }
+          ]
+        },
+        {
+          "name": "move",
+          "anim_type": "loop",
+          "anim_frames": [
+            {
+              "frame": [256.0, 384.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [288.0, 384.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [320.0, 384.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [352.0, 384.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "enemy_type_6",
+      "source": "enemy",
+      "rect": [0.0, 416.0, 32.0, 32.0],
+      "scale": [1.5, 1.5],
+      "hit_box": [26.0, 26.0],
+      "anim": [
+        {
+          "name": "default",
+          "anim_type": "loop",
+          "anim_frames": [
+            {
+              "frame": [0.0, 416.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [32.0, 416.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [64.0, 416.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [96.0, 416.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            }
+          ]
+        },
+        {
+          "name": "turn",
+          "anim_type": "no_loop",
+          "anim_frames": [
+            {
+              "frame": [128.0, 416.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [160.0, 416.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [192.0, 416.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [224.0, 416.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            }
+          ]
+        },
+        {
+          "name": "move",
+          "anim_type": "loop",
+          "anim_frames": [
+            {
+              "frame": [256.0, 416.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [288.0, 416.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [320.0, 416.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [352.0, 416.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "enemy_type_7",
+      "source": "enemy",
+      "rect": [0.0, 448.0, 64.0, 64.0],
+      "scale": [1.5, 1.5],
+      "hit_box": [45.0, 45.0],
+      "anim": [
+        {
+          "name": "default",
+          "anim_type": "loop",
+          "anim_frames": [
+            {
+              "frame": [0.0, 448.0, 64.0, 64.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [64.0, 448.0, 64.0, 64.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [128.0, 448.0, 64.0, 64.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [192.0, 448.0, 64.0, 64.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            }
+          ]
+        },
+        {
+          "name": "turn",
+          "anim_type": "no_loop",
+          "anim_frames": [
+            {
+              "frame": [256.0, 448.0, 64.0, 64.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [320.0, 448.0, 64.0, 64.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [384.0, 448.0, 64.0, 64.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [448.0, 448.0, 64.0, 64.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            }
+          ]
+        },
+        {
+          "name": "move",
+          "anim_type": "loop",
+          "anim_frames": [
+            {
+              "frame": [384.0, 320.0, 64.0, 64.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [448.0, 320.0, 64.0, 64.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [384.0, 384.0, 64.0, 64.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [448.0, 384.0, 64.0, 64.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "enemy_type_8",
+      "source": "enemy5",
+      "rect": [0.0, 0.0, 32.0, 32.0],
+      "scale": [1.5, 1.5],
+      "hit_box": [26.0, 26.0],
+      "anim": [
+        {
+          "name": "default",
+          "anim_type": "loop",
+          "anim_frames": [
+            {
+              "frame": [0.0, 0.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [32.0, 0.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [64.0, 0.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [96.0, 0.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            }
+          ]
+        },
+        {
+          "name": "move",
+          "anim_type": "loop",
+          "anim_frames": [
+            {
+              "frame": [128.0, 0.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [160.0, 0.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [192.0, 0.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [224.0, 0.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            }
+          ]
+        },
+        {
+          "name": "turn",
+          "anim_type": "no_loop",
+          "anim_frames": [
+            {
+              "frame": [256.0, 0.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [288.0, 0.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [320.0, 0.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [352.0, 0.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "enemy_type_9",
+      "source": "enemy5",
+      "rect": [0.0, 32.0, 32.0, 32.0],
+      "scale": [1.5, 1.5],
+      "hit_box": [26.0, 26.0],
+      "anim": [
+        {
+          "name": "default",
+          "anim_type": "loop",
+          "anim_frames": [
+            {
+              "frame": [0.0, 32.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [32.0, 32.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [64.0, 32.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [96.0, 32.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            }
+          ]
+        },
+        {
+          "name": "move",
+          "anim_type": "loop",
+          "anim_frames": [
+            {
+              "frame": [128.0, 32.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [160.0, 32.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [192.0, 32.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [224.0, 32.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            }
+          ]
+        },
+        {
+          "name": "turn",
+          "anim_type": "no_loop",
+          "anim_frames": [
+            {
+              "frame": [256.0, 32.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [288.0, 32.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [320.0, 32.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [352.0, 32.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "enemy_type_10",
+      "source": "enemy5",
+      "rect": [0.0, 64.0, 32.0, 32.0],
+      "scale": [1.5, 1.5],
+      "hit_box": [26.0, 26.0],
+      "anim": [
+        {
+          "name": "default",
+          "anim_type": "loop",
+          "anim_frames": [
+            {
+              "frame": [0.0, 64.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [32.0, 64.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [64.0, 64.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [96.0, 64.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            }
+          ]
+        },
+        {
+          "name": "move",
+          "anim_type": "loop",
+          "anim_frames": [
+            {
+              "frame": [128.0, 64.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [160.0, 64.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [192.0, 64.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [224.0, 64.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            }
+          ]
+        },
+        {
+          "name": "turn",
+          "anim_type": "no_loop",
+          "anim_frames": [
+            {
+              "frame": [256.0, 64.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [288.0, 64.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [320.0, 64.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [352.0, 64.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "enemy_type_11",
+      "source": "enemy5",
+      "rect": [0.0, 96.0, 32.0, 32.0],
+      "scale": [1.5, 1.5],
+      "hit_box": [26.0, 26.0],
+      "anim": [
+        {
+          "name": "default",
+          "anim_type": "loop",
+          "anim_frames": [
+            {
+              "frame": [0.0, 96.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [32.0, 96.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [64.0, 96.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [96.0, 96.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            }
+          ]
+        },
+        {
+          "name": "move",
+          "anim_type": "loop",
+          "anim_frames": [
+            {
+              "frame": [128.0, 96.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [160.0, 96.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [192.0, 96.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [224.0, 96.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            }
+          ]
+        },
+        {
+          "name": "turn",
+          "anim_type": "no_loop",
+          "anim_frames": [
+            {
+              "frame": [256.0, 96.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [288.0, 96.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [320.0, 96.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            },
+            {
+              "frame": [352.0, 96.0, 32.0, 32.0],
+              "duration": 0.1,
+              "rotation": 0.0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

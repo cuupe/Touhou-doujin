@@ -1,84 +1,94 @@
 ﻿#include "engine.h"
 #include "D3D/model.h"
 namespace Engine {
-    engine::engine(const char* win_name, int width, int height, int flag, int fps)
-        :t(fps), event()
+    engine::engine(const char* win_name, const char* icon_path, int width, int height, int flag, int fps)
+        : t(fps), event(), initialized(false)
     {
-        if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
-            spdlog::error("SDL 初始化失败: {}", SDL_GetError());
-            return;
-        }
-        TTF_Init();
-        spdlog::info("SDL 初始化成功");
+        try {
+            if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
+                throw std::runtime_error(std::string("SDL 初始化失败: ") + SDL_GetError());
+            }
+            spdlog::info("SDL 初始化成功");
+            if (!MIX_Init()) {
+                throw std::runtime_error(std::string("SDL_mixer 初始化失败: ") + SDL_GetError());
+            }
 
-        if (!MIX_Init()) {
-            spdlog::error("SDL_mixer 初始化失败: {}", SDL_GetError());
-            SDL_Quit();
-            return;
-        }
+            window = SDL_CreateWindow(win_name, width, height, flag);
+            if (!window) {
+                throw std::runtime_error(std::string("窗口创建失败: ") + SDL_GetError());
+            }
+            spdlog::info("窗口创建成功");
+            renderer = SDL_CreateRenderer(window, "direct3d11");
+            if (!renderer) {
+                throw std::runtime_error(std::string("D3D11 Renderer 创建失败: ") + SDL_GetError());
+            }
+            spdlog::info("D3D11 Renderer 创建成功");
 
-        window = SDL_CreateWindow(win_name, width, height, flag);
-        if (!window) {
-            spdlog::error("窗口创建失败: {}", SDL_GetError());
-            SDL_Quit();
-            return;
-        }
-        spdlog::info("窗口创建成功");
-        renderer = SDL_CreateRenderer(window, "direct3d11");
-        if (!renderer) {
-            spdlog::error("D3D11 Renderer 创建失败: {}", SDL_GetError());
-            SDL_DestroyWindow(window);
-            SDL_Quit();
-            return;
-        }
+            SDL_Surface* icon_surface = IMG_Load(icon_path);
+            if (!icon_surface) {
+                throw std::runtime_error("加载图标失败: " + std::string(icon_path));
+            }
+            SDL_SetWindowIcon(window, icon_surface);
+            SDL_DestroySurface(icon_surface);
 
-        spdlog::info("D3D11 Renderer 创建成功");
+            SDL_PropertiesID props = SDL_GetRendererProperties(renderer);
+            if (props == 0) {
+                throw std::runtime_error("获取 SDL Renderer Properties 失败");
+            }
+            void* devicePtr = SDL_GetPointerProperty(props, SDL_PROP_RENDERER_D3D11_DEVICE_POINTER, nullptr);
+            if (!devicePtr) {
+                throw std::runtime_error("D3D11 devicePtr 为空");
+            }
 
-
-        SDL_PropertiesID props = SDL_GetRendererProperties(renderer);
-        if (props == 0) {
-            std::cout << "获取 Properties 失败" << std::endl;
-            return;
-        }
-
-        void* devicePtr = SDL_GetPointerProperty(props, SDL_PROP_RENDERER_D3D11_DEVICE_POINTER, nullptr);
-        if (devicePtr) {
             ID3D11Device* rawDevice = static_cast<ID3D11Device*>(devicePtr);
-            if (rawDevice) {
-                ULONG refCount = rawDevice->AddRef();
-
-                device = ComPtr<ID3D11Device>(rawDevice);
-                if (!device) {
-                    spdlog::error("ComPtr<ID3D11Device> 构造失败 (ptr 有效但 ComPtr 为空)");
-                    rawDevice->Release();
-                    return;
-                }
-
-                device->GetImmediateContext(device_context.GetAddressOf());
-                if (!device_context) {
-                    spdlog::error("GetImmediateContext 失败 (device 有效但 context 为空)");
-                    return;
-                }
-                spdlog::info("D3D11 device/context 获取成功");
+            if (!rawDevice) {
+                throw std::runtime_error("static_cast<ID3D11Device*> 失败");
             }
-            else {
-                spdlog::error("static_cast<ID3D11Device*> 失败 (devicePtr 无效类型)");
-                return;
+            device = rawDevice;
+
+            if (!device) {
+                rawDevice->Release();
+                throw std::runtime_error("ComPtr<ID3D11Device> 构造失败");
             }
-        }
-        else {
-            spdlog::error("D3D11 devicePtr 为空，创建失败");
-            return;
-        }
+            device->GetImmediateContext(device_context.GetAddressOf());
+            if (!device_context) {
+                throw std::runtime_error("GetImmediateContext 失败");
+            }
 
-        spdlog::info("D3D11 设备/上下文获取成功（已准备好使用）");
+            spdlog::info("D3D11 设备/上下文获取成功（已准备好使用）");
+            initialized = true;
 
-        initialized = true;
+        }
+        catch (const std::exception& e) {
+            spdlog::error("Engine 构造异常: {}", e.what());
+
+            device_context.Reset();
+            device.Reset();
+            if (renderer) {
+                SDL_DestroyRenderer(renderer);
+                renderer = nullptr;
+            }
+
+            if (window) {
+                SDL_DestroyWindow(window);
+                window = nullptr;
+            }
+            SDL_Quit();
+
+            initialized = false;
+        }
     }
 
     engine::~engine()
     {
         try {
+            if (device_context) {
+                device_context->ClearState();
+                device_context->Flush();
+            }
+            device_context.Reset();
+            device.Reset();
+
             if (renderer) {
                 SDL_DestroyRenderer(renderer);
                 spdlog::debug("Renderer 销毁");
@@ -87,13 +97,12 @@ namespace Engine {
                 SDL_DestroyWindow(window);
                 spdlog::debug("窗口销毁");
             }
-            device.Reset();
-            device_context.Reset();
-            TTF_Quit();
+
             SDL_Quit();
         }
         catch (const std::exception& e) {
             spdlog::error("Engine 清理异常: {}", e.what());
+            return;
         }
         spdlog::info("Engine 清理完成");
     }

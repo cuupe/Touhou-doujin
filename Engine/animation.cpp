@@ -1,8 +1,10 @@
 ﻿#include "../prefix.h"
 #include "animation.h"
+#include "Components/AnimationComponent.h"
 namespace Engine::Render {
 	Animation::Animation(const std::string& name_, bool loop_)
-	:name(name_), loop(loop_){ }
+		:name(name_), loop(loop_) {
+	}
 
 	void Animation::AddFrame(const SDL_FRect& rect_, float dur)
 	{
@@ -53,4 +55,3 @@ namespace Engine::Render {
 		return frames.back();
 	}
 }
-

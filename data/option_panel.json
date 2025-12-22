@@ -1,0 +1,50 @@
+{
+  "option_panel": [
+    {
+      "base_position": [100.0, 600.0],
+      "selected_sprite": {
+        "source": "title_item00",
+        "rect": [0.0, 768.0, 256.0, 64.0]
+      },
+      "normal_sprite": {
+        "source": "title_item00",
+        "rect": [256.0, 768.0, 256.0, 64.0]
+      }
+    },
+    {
+      "base_position": [100.0, 680.0],
+      "name":"bgm",
+      "selected_sprite": {
+        "source": "title_item00",
+        "rect": [0.0, 578.0, 256.0, 64.0]
+      },
+      "normal_sprite": {
+        "source": "title_item00",
+        "rect": [256.0, 578.0, 256.0, 64.0]
+      }
+    },
+    {
+      "base_position": [100.0, 760.0],
+      "name":"sfx",
+      "selected_sprite": {
+        "source": "title_item00",
+        "rect": [0.0, 640.0, 256.0, 64.0]
+      },
+      "normal_sprite": {
+        "source": "title_item00",
+        "rect": [256.0, 640.0, 256.0, 64.0]
+      }
+    },
+    {
+      "base_position": [100.0, 840.0],
+      "selected_sprite": {
+        "source": "title_item00",
+        "rect": [0.0, 512.0, 256.0, 64.0]
+      },
+      "normal_sprite": {
+        "source": "title_item00",
+        "rect": [256.0, 512.0, 256.0, 64.0]
+      }
+    }
+  ]
+}
