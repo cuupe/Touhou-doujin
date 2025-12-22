@@ -15,6 +15,6 @@ namespace Engine::Core::Components::State {
 			spdlog::error("未找到动画组件");
 			return;
 		}
-		animation_component->PlayAnimaiton(name);
+		animation_component->PlayAnimation(name);
 	}
 }

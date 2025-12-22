@@ -6,43 +6,89 @@
 #include "../../Engine/sprite.h"
 #include "../../Engine/collider.h"
 #include "../../Engine/context.h"
+//旧的OOC式驱动
+//namespace Game::Bullets {
+//	struct BulletConfig {
+//		std::string source;
+//		SDL_FRect rect = {0.0f, 0.0f, 0.0f, 0.0f};
+//		Engine::Maths::Vec2 hit_size;
+//		std::vector<Engine::Maths::Vec2> offset;
+//		std::string anim_name = "default";
+//		std::vector<Engine::Render::AnimationFrame> anim;
+//	};
+//
+//	class Bullet final{
+//	private:
+//		std::unique_ptr<Engine::Core::GameObject> core;
+//		Engine::Core::Context& ctx;
+//
+//	public:
+//		Bullet(BulletData&& bullet_data,
+//			Engine::Core::Context& _ctx, std::unique_ptr<Engine::Render::Animation> _an);
+//
+//	public:
+//		Engine::Core::GameObject* GetGameObject() const { return core.get(); }
+//		Bullets::BulletData& GetBulletData() {
+//			return core->GetComponent<Component::BulletComponent>()->GetBulletData();
+//		}
+//		void UpdateBulletData(const BulletConfig& bc, int offset_pitch);
+//	public:
+//		void Update(f32);
+//		void Render();
+//	};
+//}
+
+//DOD式驱动
 namespace Game::Bullets {
+	using f32 = float;
+	using namespace Engine::Maths;
+
+	enum BulletState {
+		BS_UNUSED,
+		BS_ACTIVE,
+		BS_DESTROYING
+	};
+
+	struct BulletConfig {
+		std::string source;
+		SDL_FRect rect = { 0.0f, 0.0f, 0.0f, 0.0f };
+		Vec2 hit_box;
+		std::vector<Vec2> offset;
+		struct BulletAnimationFrame {
+			SDL_FRect source_rect;
+			f32 duration;
+			Engine::Maths::Vec2 scale;
+			f32 rotation;
+		};
+		std::vector<BulletAnimationFrame> anim;
+		std::vector<BulletAnimationFrame> destroy_anim_frames;
+		f32 total_destroy_duration = 0.0f;
+		std::string destroy_sprite_name;
+	};
+
+
 	struct BulletData {
 		std::string sprite_name;
 		SDL_FRect rect;
-		Engine::Maths::Vec2 position;
-		Engine::Maths::Vec2 graze_size;
-		Engine::Maths::Vec2 hit_size;
-		Engine::Maths::Vec2 v;
-		f32 angle_acc;
+		Vec2 position;
+		Vec2 hit_box;
+		Vec2 v;
 		f32 angle;
+		f32 speed;
+		BulletState state = BS_UNUSED;
+		f32 destroy_timer = 0.0f;
+		f32 angle_acc;
 		f32 max_angle;
 		bool restrict_angle = false;
 		f32 speed_acc;
-		f32 speed;
 		f32 max_speed;
 		bool restrict_speed = false;
 		bool is_grazed = false;
-		bool is_active = false;
+		const struct BulletConfig* config_ptr = nullptr;
+		i32 offset_pitch;
+		f32 current_anim_timer = 0.0f;
+		i32 current_anim_frame_index = 0;
 	};
 
-	class Bullet final{
-	private:
-		std::unique_ptr<Engine::Core::GameObject> core;
-		std::unique_ptr<Engine::Core::GameObject> graze;
-		BulletData bd;
-		Engine::Core::Context& ctx;
-	public:
-		Bullet(BulletData& bullet_data,
-			Engine::Core::Context& _ctx);
-
-	public:
-		Engine::Core::GameObject* GetGameObject() const { return core.get(); }
-		Engine::Core::GameObject* GetGrazeObject() const { return graze.get(); }
-		BulletData& GetBulletData() { return bd; }
-
-	public:
-		void Update(f32);
-		void Render();
-	};
+	constexpr i32 MAX_BULLET_SIZE = 1280;
 }

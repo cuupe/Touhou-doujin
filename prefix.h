@@ -1,12 +1,11 @@
 ﻿#pragma once
-//SDL3头文件
+//SDL3
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_properties.h>
 #include <SDL3/SDL_render.h>
 #include <SDL3_image/SDL_image.h>
 #include <SDL3_mixer/SDL_mixer.h>
-#include <SDL3_ttf/SDL_ttf.h>
-//STL头文件
+//STL
 #include <memory>
 #include <iostream>
 #include <string>
@@ -22,19 +21,34 @@
 #include <type_traits>
 #include <utility> 
 #include <optional>
+#include <cmath>
+#include <random>
 
-//DX头文件
+//其他
 #include <d3d11.h>
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
 #include <wrl/client.h>
 #include <dxgi1_4.h>
-
 #include <spdlog/spdlog.h>
 #include <nlohmann/json.hpp>
+#include <ft2build.h>
+#include FT_FREETYPE_H
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+extern "C" {
+#include <lua/lua.h>
+#include <lua/lualib.h>
+#include <lua/lauxlib.h>
+}
+#ifdef max
+#undef max
+#endif
+
+#ifdef min
+#undef min
+#endif
 
 
 

@@ -1,0 +1,32 @@
+{
+  "item_config": {
+    "source": "item",
+    "data": [
+      {
+        "type": "big_power",
+        "rect": [0.0, 0.0, 32.0, 32.0],
+        "scale": [1.5, 1.5]
+      },
+      {
+        "type": "quater_life",
+        "rect": [32.0, 0.0, 32.0, 32.0],
+        "scale": [1.5, 1.5]
+      },
+      {
+        "type": "full_life",
+        "rect": [64.0, 0.0, 32.0, 32.0],
+        "scale": [1.5, 1.5]
+      },
+      {
+        "type": "small_power",
+        "rect": [192.0, 0.0, 16.0, 16.0],
+        "scale": [1.5, 1.5]
+      },
+      {
+        "type": "point_item",
+        "rect": [208.0, 32.0, 16.0, 16.0],
+        "scale": [2.0, 2.0]
+      }
+    ]
+  }
+}

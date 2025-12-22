@@ -1,0 +1,240 @@
+{
+  "player_config": [
+    {
+      "player_1": {
+        "name": "Reimu",
+        "source": "pl00",
+        "align": "center",
+        "scale": [2.0, 2.0],
+        "hit_box": [5.0, 5.0],
+        "anim": [
+          {
+            "name": "idle",
+            "anim_type": "loop",
+            "anim_frames": [
+              {
+                "frame": [0.0, 0.0, 32.0, 48.0],
+                "duration": 0.1,
+                "rotation": 0.0
+              },
+              {
+                "frame": [32.0, 0.0, 32.0, 48.0],
+                "duration": 0.1,
+                "rotation": 0.0
+              },
+              {
+                "frame": [64.0, 0.0, 32.0, 48.0],
+                "duration": 0.1,
+                "rotation": 0.0
+              },
+              {
+                "frame": [96.0, 0.0, 32.0, 48.0],
+                "duration": 0.1,
+                "rotation": 0.0
+              }
+            ]
+          },
+          {
+            "name": "move_forword",
+            "anim_type": "loop",
+            "anim_frames": [
+              {
+                "frame": [128.0, 0.0, 32.0, 48.0],
+                "duration": 0.1
+              },
+              {
+                "frame": [160.0, 0.0, 32.0, 48.0],
+                "duration": 0.1
+              },
+              {
+                "frame": [192.0, 0.0, 32.0, 48.0],
+                "duration": 0.1
+              },
+              {
+                "frame": [224.0, 0.0, 32.0, 48.0],
+                "duration": 0.1
+              }
+            ]
+          },
+          {
+            "name": "left",
+            "anim_type": "no_loop",
+            "anim_frames": [
+              {
+                "frame": [0.0, 48.0, 32.0, 48.0],
+                "duration": 0.05
+              },
+              {
+                "frame": [32.0, 48.0, 32.0, 48.0],
+                "duration": 0.05
+              },
+              {
+                "frame": [64.0, 48.0, 32.0, 48.0],
+                "duration": 0.05
+              },
+              {
+                "frame": [96.0, 48.0, 32.0, 48.0],
+                "duration": 0.05
+              }
+            ]
+          },
+          {
+            "name": "move_left",
+            "anim_type": "loop",
+            "anim_frames": [
+              {
+                "frame": [128.0, 48.0, 32.0, 48.0],
+                "duration": 0.1
+              },
+              {
+                "frame": [160.0, 48.0, 32.0, 48.0],
+                "duration": 0.1
+              },
+              {
+                "frame": [192.0, 48.0, 32.0, 48.0],
+                "duration": 0.1
+              },
+              {
+                "frame": [224.0, 48.0, 32.0, 48.0],
+                "duration": 0.1
+              }
+            ]
+          },
+          {
+            "name": "right",
+            "anim_type": "no_loop",
+            "anim_frames": [
+              {
+                "frame": [0.0, 96.0, 32.0, 48.0],
+                "duration": 0.05,
+                "rotation": 0.0
+              },
+              {
+                "frame": [32.0, 96.0, 32.0, 48.0],
+                "duration": 0.05,
+                "rotation": 0.0
+              },
+              {
+                "frame": [64.0, 96.0, 32.0, 48.0],
+                "duration": 0.05,
+                "rotation": 0.0
+              },
+              {
+                "frame": [96.0, 96.0, 32.0, 48.0],
+                "duration": 0.05,
+                "rotation": 0.0
+              }
+            ]
+          },
+          {
+            "name": "move_right",
+            "anim_type": "loop",
+            "anim_frames": [
+              {
+                "frame": [128.0, 96.0, 32.0, 48.0],
+                "duration": 0.1
+              },
+              {
+                "frame": [160.0, 96.0, 32.0, 48.0],
+                "duration": 0.1
+              },
+              {
+                "frame": [192.0, 96.0, 32.0, 48.0],
+                "duration": 0.1
+              },
+              {
+                "frame": [224.0, 96.0, 32.0, 48.0],
+                "duration": 0.1
+              }
+            ]
+          }
+        ],
+        "bullet_config": [
+          {
+            "bullet_type": "normal_shoot_1",
+            "source": "pl00",
+            "rect": [192.0, 144.0, 64.0, 16.0],
+            "hit_box": [32.0, 32.0],
+            "destroy_anim": {
+              "name": "bullet_destroy_normal_1",
+              "random": false,
+              "anim_type": "no_loop",
+              "anim_frames": [
+                {
+                  "frame": [128.0, 160.0, 16.0, 16.0],
+                  "duration": 0.05
+                },
+                {
+                  "frame": [144.0, 160.0, 16.0, 16.0],
+                  "duration": 0.05
+                },
+                {
+                  "frame": [160.0, 160.0, 16.0, 16.0],
+                  "duration": 0.1
+                },
+                {
+                  "frame": [176.0, 160.0, 16.0, 16.0],
+                  "duration": 0.1
+                }
+              ]
+            }
+          },
+          {
+            "bullet_type": "normal_shoot_2",
+            "source": "pl00",
+            "rect": [192.0, 176.0, 64.0, 16.0],
+            "hit_box": [32.0, 32.0],
+            "destroy_anim": {
+              "name": "bullet_destroy_normal_2",
+              "random": false,
+              "anim_type": "no_loop",
+              "anim_frames": [
+                {
+                  "frame": [128.0, 160.0, 16.0, 16.0],
+                  "duration": 0.05
+                },
+                {
+                  "frame": [144.0, 160.0, 16.0, 16.0],
+                  "duration": 0.05
+                },
+                {
+                  "frame": [160.0, 160.0, 16.0, 16.0],
+                  "duration": 0.1
+                },
+                {
+                  "frame": [176.0, 160.0, 16.0, 16.0],
+                  "duration": 0.1
+                }
+              ]
+            }
+          },
+          {
+            "bullet_type": "trait_bullet",
+            "source": "pl00",
+            "rect": [0.0, 160.0, 16.0, 16.0],
+            "hit_box": [32.0, 32.0],
+            "destroy_anim": {
+              "name": "bullet_destroy_trait",
+              "anim_type": "no_loop",
+              "random": true,
+              "anim_frames": [
+                {
+                  "frame": [64.0, 160.0, 16.0, 16.0],
+                  "duration": 0.05
+                },
+                {
+                  "frame": [80.0, 160.0, 16.0, 16.0],
+                  "duration": 0.05
+                },
+                {
+                  "frame": [96.0, 160.0, 16.0, 16.0],
+                  "duration": 0.1
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -7,13 +7,10 @@ namespace Engine::Core::Collider {
 		auto b_collider = b.GetCollider();
 		auto a_trans = a.GetTransform();
 		auto b_trans = b.GetTransform();
-
-		//粗略计算最小包围圈的碰撞
 		auto a_size = a_collider->Get_AABB_Size() * a_trans->GetScale();
 		auto b_size = b_collider->Get_AABB_Size() * b_trans->GetScale();
 		auto a_pos = a_trans->GetPosition() + a.GetOffset();
 		auto b_pos = b_trans->GetPosition() + b.GetOffset();
-
 
 		if (!CheckAABBOverlap(a_pos, a_size, b_pos, b_size)) {
 			return false;

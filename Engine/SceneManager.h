@@ -34,7 +34,7 @@ namespace Engine::Scene {
 		void RequestPushScene(std::unique_ptr<Scene>&& scene);
 		void RequestPopScene();
 		void RequestReplaceScene(std::unique_ptr<Scene>&& scene);
-
+		
 
 	public:
 		void Update(float);

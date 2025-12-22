@@ -40,6 +40,7 @@ namespace Engine::Core::Components {
 		void SetOffset(const Vec2& offset_) { offset = offset_; }
 		void SetTrigger(bool i_t) { is_trigger = i_t; }
 		void SetActive(bool i_a) { is_active = i_a; }
+		void SetCollider(std::unique_ptr<Collider::Collider> collider_) { collider = std::move(collider_); }
 
 	private:
 		void Init() override;

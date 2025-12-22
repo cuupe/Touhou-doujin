@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include "../prefix.h"
-
 namespace Engine::Render {
 	class Sprite final {
 	private:

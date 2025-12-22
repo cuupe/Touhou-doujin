@@ -1,6 +1,8 @@
 ﻿#include "InputManager.h"
 #include "render.h"
+#include "../prefix.h"
 namespace Engine::Input {
+    using json = nlohmann::json;
 	InputManager::InputManager(Render::Renderer* _renderer)
 		:render(_renderer)
 	{
@@ -10,68 +12,41 @@ namespace Engine::Input {
         }
         actions_to_keyname_map.clear();
         scancode_to_actions_map.clear();
+        try {
 
 
-        //test 硬编码
-        {
-            actions_to_keyname_map.insert({ "move_forward",
-                std::vector<std::string>{
-                "UP"
-            } });
-            actions_to_keyname_map.insert({ "move_back",
-                std::vector<std::string>{
-                "DOWN"
-            } });
-            actions_to_keyname_map.insert({ "move_left",
-                std::vector<std::string>{
-                "LEFT"
-            } });
-            actions_to_keyname_map.insert({ "move_right",
-                std::vector<std::string>{
-                "RIGHT"
-            } });
-            actions_to_keyname_map.insert({ "ok" ,
-                std::vector<std::string>{
-                "Z","RETURN"
-            } });
-            actions_to_keyname_map.insert({ "slow" ,
-                std::vector<std::string>{
-                "LEFT SHIFT"
-            } });
-            actions_to_keyname_map.insert({ "skill" ,
-                std::vector<std::string>{
-                "X"
-            } });
-            actions_to_keyname_map.insert({ "test_generate_bullet",
-                std::vector<std::string>{
-                "I"
-            } });
-            actions_to_keyname_map.insert({ "test_pause",
-                std::vector<std::string>{
-                "K"
-            } });
-            actions_to_keyname_map.insert({ "test",
-            std::vector<std::string>{
-                "L"
-            } });
-            actions_to_keyname_map.insert({ "esc",
-                std::vector<std::string>{
-                "ESCAPE"
-            } });
-        }
+            std::ifstream f("data/input_config.json");
+            json config;
+            f >> config;
 
-        for (const auto& pair : actions_to_keyname_map) {
-            action_states[pair.first] = ActionState::INACTIVE;
-
-            for (const std::string& n : pair.second) {
-                SDL_Scancode s = GetScancodeByString(n);
-                if (s != SDL_SCANCODE_UNKNOWN) {
-                    scancode_to_actions_map[s].push_back(pair.first);
+            for (const auto& i : config.at("input_config")) {
+                std::vector<std::string> str;
+                for (const auto& j : i.at("code")) {
+                    str.emplace_back(j.get<std::string>());
                 }
-                else {
-                    spdlog::error("无法映射按键消息");
+                actions_to_keyname_map.insert({
+                    i.at("name").get<std::string>(),
+                    std::move(str)
+                    });
+            }
+
+            for (const auto& pair : actions_to_keyname_map) {
+                action_states[pair.first] = ActionState::INACTIVE;
+
+                for (const std::string& n : pair.second) {
+                    SDL_Scancode s = GetScancodeByString(n);
+                    if (s != SDL_SCANCODE_UNKNOWN) {
+                        scancode_to_actions_map[s].push_back(pair.first);
+                    }
+                    else {
+                        spdlog::error("无法映射按键消息");
+                    }
                 }
             }
+        }
+        catch (const std::exception& err) {
+            spdlog::error("发生错误");
+            return;
         }
     }
 
@@ -103,6 +78,13 @@ namespace Engine::Input {
     bool InputManager::ShouldQuit() const
     {
         return quit;
+    }
+
+    void InputManager::ResetAllState()
+    {
+        for (auto& pair : action_states) {
+            pair.second = ActionState::INACTIVE;
+        }
     }
 
     void InputManager::SetShouldQuit(bool should_quit)

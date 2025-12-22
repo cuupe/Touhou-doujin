@@ -12,9 +12,9 @@
 #include "../Engine/InputManager.h"
 #include "../Engine/AudioManager.h"
 #include "../Engine/schedule.h"
-#include "../Engine/config.h"
 #include "../Engine/UIManager.h"
 #include "../Engine/D3D/model.h"
+#include "../Engine/text.h"
 
 namespace Game {
 	class MGame final : public Engine::engine {
@@ -25,17 +25,16 @@ namespace Game {
 		std::unique_ptr<Engine::Core::Context> ctx;
 		std::unique_ptr<Engine::Audio::AudioManager> audio;
 		std::unique_ptr<Engine::Resource::ResourceManager> res;
-		std::unique_ptr<Engine::Scene::SceneManager> sc;
+		std::unique_ptr<Engine::Scene::SceneManager> sm;
 		std::unique_ptr<Engine::Input::InputManager> input;
+		std::unique_ptr<Engine::Render::CameraManager> cm;
 		std::unique_ptr<Engine::UISystem::UIManager> ui;
 		std::unique_ptr<Engine::Render::Renderer> r;
 		std::unique_ptr<Engine::Time::Schedule> sch;
-
-	private:
+		std::unique_ptr<Engine::Render::TextManager> text;
 		
-
 	public:
-		MGame(const char* win_name, int width, int height, int flag, int fps);
+		MGame(const char* win_name, const char* icon_path, int width, int height, int flag, int fps);
 		MGame(const MGame&) = delete;
 		MGame(MGame&&) = delete;
 		~MGame();

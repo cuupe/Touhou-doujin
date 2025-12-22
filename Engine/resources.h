@@ -1,11 +1,16 @@
 #pragma once
 #include "../prefix.h"
+
 namespace Engine::Render::D3D {
     struct Vertex;
+    struct Vertex1;
     struct Mesh;
     struct ModelResource;
     using ModelPtr = std::shared_ptr<ModelResource>;
 };
+namespace Engine::Render {
+    class Renderer;
+}
 namespace Engine::Resource {
     using Microsoft::WRL::ComPtr;
     struct SDLTextureDeleter {
@@ -14,7 +19,7 @@ namespace Engine::Resource {
                 SDL_DestroyTexture(t);
             }
         }
-    };//用于释放SDL纹理资源
+    };
     struct TextureResource {
         std::unique_ptr<SDL_Texture, SDLTextureDeleter> texture = nullptr;
         ComPtr<ID3D11ShaderResourceView> d3d_srv;
@@ -45,19 +50,48 @@ namespace Engine::Resource {
     };
     using TrackPtr = std::unique_ptr<MIX_Track, MIXTrackDeleter>;
 
+    struct glyph_data {
+        float u0, v0, u1, v1;
+        float width, height;
+        float x_offset, y_offset;
+        float advance;
+    };
 
-    struct TTFFontDeleter {
-        void operator()(TTF_Font* f) const {
-            if (f) {
-                TTF_CloseFont(f);
+    struct FontResource {
+        FT_Face face = nullptr;
+        ComPtr<ID3D11Texture2D> atlas_texture;
+        ComPtr<ID3D11ShaderResourceView> atlas_srv;
+        int atlas_width = 1024;
+        int atlas_height = 1024;
+        int current_x = 0;
+        int current_y = 0;
+        int max_row_height = 0;
+        int loaded_size = 0;
+
+        std::unordered_map<char32_t, glyph_data> glyphs;
+
+        bool try_pack(int w, int h, int& out_x, int& out_y) {
+            int padding = 1;
+
+            if (current_x + w + padding >= atlas_width) {
+                current_x = 0;
+                current_y += max_row_height + padding;
+                max_row_height = 0;
             }
+
+            if (current_y + h + padding >= atlas_height) {
+                return false;
+            }
+
+            out_x = current_x;
+            out_y = current_y;
+
+            current_x += w + padding;
+            if (h > max_row_height) max_row_height = h;
+
+            return true;
         }
     };
-    struct FontResource {
-        std::unique_ptr<TTF_Font, TTFFontDeleter> font = nullptr;
-        int pointSize = 0;
-    };
-    using FontPtr = std::unique_ptr<TTF_Font, TTFFontDeleter>;
 
 
     class ResourceManager final{
@@ -65,17 +99,17 @@ namespace Engine::Resource {
         std::map<std::string, std::unique_ptr<AudioResource>> audios;
         std::map<std::string, std::unique_ptr<TextureResource>> texs;
         std::map<std::string, std::unique_ptr<FontResource>> fonts;
-
         ComPtr<ID3D11ShaderResourceView> default_srv;
         std::map<std::string, Render::D3D::ModelPtr> models;
 
+        
     public:
         ResourceManager(ID3D11Device* device);
 
     public:
         void LoadTexture(SDL_Renderer* renderer, ID3D11Device* device, const std::string& path);
         void LoadAudio(MIX_Mixer* mixer, const std::string& path, bool predecode = false);
-        void LoadFont(const std::string& font_name, const std::string& path, int size);
+        void LoadFont(ID3D11Device* device, FT_Library ft, const std::string& path, int size);
         Render::D3D::ModelPtr LoadModel(SDL_Renderer* render, ID3D11Device* device, const std::string& path);
         ID3D11ShaderResourceView* GetDefaultSRV() { return default_srv.Get(); }
     public:
@@ -108,6 +142,7 @@ namespace Engine::Resource {
                 return nullptr;
             }
         }
+        const glyph_data* CacheGlyph(ID3D11DeviceContext* ctx, const std::string& font_name, char32_t code_point);
 
         Render::D3D::ModelResource* GetModel(const std::string& name) {
             if (models.find(name) != models.end()) {

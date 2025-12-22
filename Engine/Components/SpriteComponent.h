@@ -29,10 +29,10 @@ namespace Engine::Core::Components {
 
 	public:
 		SpriteComponent(
-			const std::string& t_name,
+			const std::string& sprite_name,
 			ResourceManager& r, std::optional<SDL_FRect> sr = std::nullopt,
-			Align a = Align::NONE, const Vec2& _scale = {1.0f, 1.0f},
-			const SDL_Color& _color_mod = {255, 255, 255, 255}, float _angle = 0.0f,
+			Align a = Align::NONE, const Vec2& _scale = { 1.0f, 1.0f },
+			const SDL_Color& _color_mod = { 255, 255, 255, 255 }, float _angle = 0.0f,
 			bool i_f = false);
 		~SpriteComponent() override = default;
 		SpriteComponent(const SpriteComponent&) = delete;
@@ -59,7 +59,7 @@ namespace Engine::Core::Components {
 		const SDL_FRect& GetRect() const { return rect; }
 		void SetRect(const SDL_FRect& rc) { rect = rc; }
 		const Vec2& GetScale() const { return scale; }
-		void SetScale(const Vec2& new_scale) { scale = new_scale; }
+		void SetScale(const Vec2& new_scale) { scale = new_scale; UpdateOffset(); }
 		const Vec2& GetOffset() const { return offset; }
 		void SetOffset(const Vec2& new_offset) { offset = new_offset; }
 		bool IsHidden() const { return is_hidden; }
@@ -73,7 +73,7 @@ namespace Engine::Core::Components {
 
 	private:
 		void Init() override;
-		void Update(float, Context&) override{}
+		void Update(float, Context&) override {}
 		void Render(Context&) override;
 
 	};

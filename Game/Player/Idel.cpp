@@ -1,6 +1,5 @@
 ﻿#include "Move.h"
 #include "Idel.h"
-#include "Slow.h"
 #include "../../Engine/context.h"
 #include "../../Engine/InputManager.h"
 #include "../../Engine/Components/PlayerComponent.h"
@@ -18,11 +17,14 @@ namespace Game::Components::State::Player {
 
 	std::unique_ptr<Engine::Core::Components::State::PlayerState> IdleState::HandleInput(Context& ctx)
 	{
-		auto input = ctx.GetInputManager();
+		auto& input = ctx.GetInputManager();
 		auto sprite = player_component->GetSpriteComponent();
 
 		if (input.IsActionDown("slow")) {
-			return std::make_unique<SlowState>(player_component);
+			player_component->SetIsSlow(true);
+		}
+		else {
+			player_component->SetIsSlow(false);
 		}
 
 		Vec2 direction = { 0.0f, 0.0f };
@@ -41,18 +43,10 @@ namespace Game::Components::State::Player {
 		}
 		player_component->SetDirection(direction);
 
-		if (input.IsActionDown("slow")) {
-			return std::make_unique<SlowState>(player_component);
+		if (direction.x != 0.0f) {
+			return std::make_unique<MoveState>(player_component);
 		}
 
-		if (direction.x < 0.0f) {
-			PlayAnimation("left");
-			return std::make_unique<MoveState>(player_component);
-		}
-		else if(direction.x > 0.0f){
-			PlayAnimation("right");
-			return std::make_unique<MoveState>(player_component);
-		}
 			
 
 		return nullptr;

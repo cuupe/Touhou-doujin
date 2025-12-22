@@ -3,11 +3,11 @@
 #include "ColliderComponent.h"
 namespace Engine::Core::Components {
     SpriteComponent::SpriteComponent(
-        const std::string& t_name, 
-        ResourceManager& r, std::optional<SDL_FRect> sr, 
+        const std::string& sprite_name,
+        ResourceManager& r, std::optional<SDL_FRect> sr,
         Align a, const Vec2& _scale, const SDL_Color& _color_mod,
         float _angle, bool i_f)
-        :res(&r), s(t_name, sr, i_f), align(a), scale(_scale),
+        :res(&r), s(sprite_name, sr, i_f), align(a), scale(_scale),
         angle(_angle), color_mod(_color_mod)
     {
         if (!res) {
@@ -17,11 +17,11 @@ namespace Engine::Core::Components {
             rect = sr.value();
         }
         else {
-            rect = SDL_FRect{ 0.0f, 0.0f, (float)(res->GetTexture(t_name)->width), 
-                (float)(res->GetTexture(t_name)->height) };
+            rect = SDL_FRect{ 0.0f, 0.0f, (float)(res->GetTexture(sprite_name)->width),
+                (float)(res->GetTexture(sprite_name)->height) };
         }
 
-        spdlog::trace("创建SpriteComponent成功{}", t_name);
+        spdlog::trace("创建SpriteComponent成功{}", sprite_name);
     }
 
     void SpriteComponent::UpdateOffset()
@@ -31,17 +31,17 @@ namespace Engine::Core::Components {
             return;
         }
 
-        Vec2 scale = trans->GetScale();
+        Vec2 tscale = trans->GetScale() * scale;
         switch (align) {
-        case Align::TOP_LEFT:      offset = Vec2{ 0.0f, 0.0f } *scale; break;
-        case Align::TOP_CENTER:    offset = Vec2{ -size.x / 2.0f, 0.0f } *scale; break;
-        case Align::TOP_RIGHT:     offset = Vec2{ -size.x, 0.0f } *scale; break;
-        case Align::CENTER_LEFT:   offset = Vec2{ 0.0f, -size.y / 2.0f } *scale; break;
-        case Align::CENTER:        offset = Vec2{ -size.x / 2.0f, -size.y / 2.0f } *scale; break;
-        case Align::CENTER_RIGHT:  offset = Vec2{ -size.x, -size.y / 2.0f } *scale; break;
-        case Align::BOTTOM_LEFT:   offset = Vec2{ 0.0f, -size.y } *scale; break;
-        case Align::BOTTOM_CENTER: offset = Vec2{ -size.x / 2.0f, -size.y } *scale; break;
-        case Align::BOTTOM_RIGHT:  offset = Vec2{ -size.x, -size.y } *scale; break;
+        case Align::TOP_LEFT:      offset = Vec2{ 0.0f, 0.0f } * tscale; break;
+        case Align::TOP_CENTER:    offset = Vec2{ -size.x / 2.0f, 0.0f } * tscale; break;
+        case Align::TOP_RIGHT:     offset = Vec2{ -size.x, 0.0f } * tscale; break;
+        case Align::CENTER_LEFT:   offset = Vec2{ 0.0f, -size.y / 2.0f } * tscale; break;
+        case Align::CENTER:        offset = Vec2{ -size.x / 2.0f, -size.y / 2.0f } * tscale; break;
+        case Align::CENTER_RIGHT:  offset = Vec2{ -size.x, -size.y / 2.0f } * tscale; break;
+        case Align::BOTTOM_LEFT:   offset = Vec2{ 0.0f, -size.y } * tscale; break;
+        case Align::BOTTOM_CENTER: offset = Vec2{ -size.x / 2.0f, -size.y } * tscale; break;
+        case Align::BOTTOM_RIGHT:  offset = Vec2{ -size.x, -size.y } * tscale; break;
         case Align::NONE:
         default:                                      break;
         }

@@ -5,6 +5,10 @@
 #include "context.h"
 #include "render.h"
 #include "maths.h"
+#ifdef max
+#undef max
+#endif
+
 
 namespace Engine::Render::Effect {
     using namespace Engine::Maths;
@@ -110,7 +114,6 @@ namespace Engine::Render::Effect {
     class FadeEffect : public EffectComponent {
         bool fade_in = false;
         Uint8 start_alpha = 255, end_alpha = 0;
-
     public:
         void Configure(bool in, Uint8 from = 0, Uint8 to = 255) {
             fade_in = in;
@@ -119,7 +122,9 @@ namespace Engine::Render::Effect {
 
         void Apply(float t, float, Context&) override {
             Uint8 a = static_cast<Uint8>(start_alpha + (end_alpha - start_alpha) * t);
-            if (!fade_in) a = static_cast<Uint8>(start_alpha - (start_alpha - end_alpha) * t);
+            if (!fade_in) {
+                a = static_cast<Uint8>(start_alpha - (start_alpha - end_alpha) * t);
+            }
 
             auto spr = owner->GetComponent<SpriteComponent>();
             if (spr) {
@@ -143,6 +148,13 @@ namespace Engine::Render::Effect {
                 original_color = spr->GetColorMod();
             }
             duration = 1e9;
+        }
+
+        void OnFinished() override {
+            auto spr = owner->GetComponent<SpriteComponent>();
+            if (spr) {
+                spr->SetColorMod(original_color);
+            }
         }
 
         void Apply(float t, float dt, Context&) override {
@@ -212,7 +224,7 @@ namespace Engine::Render::Effect {
         }
         void Configure(float from_ang) { start_angle = from_ang; }
         void Apply(float t, float dt, Context&) override {
-            float ease = 1.0f - powf(1.0f - t, 3.0f); // Cubic ease out
+            float ease = 1.0f - powf(1.0f - t, 3.0f);
             float current_rot = original_rot + start_angle * (1.0f - ease);
             auto tr = owner->GetComponent<TransformComponent>();
             if (tr) {
@@ -386,7 +398,7 @@ namespace Engine::Render::Effect {
             alpha = static_cast<Uint8>(fade_in ? 255 * (1.0f - eased) : 255 * eased);
 
             SDL_BlendMode old_blend;
-            auto render = ctx.GetRenderer().getSDLRenderer();
+            auto render = ctx.GetRenderer().GetSDLRenderer();
             SDL_GetRenderDrawBlendMode(render, &old_blend);
 
             SDL_SetRenderDrawBlendMode(render, SDL_BLENDMODE_BLEND);
@@ -400,5 +412,90 @@ namespace Engine::Render::Effect {
         }
 
         void OnFinished() override { }
+    };
+
+    class SwingEffect : public EffectComponent {
+        float amplitude = 30.0f;
+        float angular_speed = 1.0f;
+        float original_rot = 0.0f;
+        float total_time = 0.0f;
+
+    public:
+        void Init() override {
+            auto tr = owner->GetComponent<TransformComponent>();
+            if (tr) {
+                original_rot = tr->GetRotation();
+            }
+            total_time = 0.0f;
+        }
+
+        void OnFinished() override {
+
+        }
+
+        void Configure(float amp, float speed_hz = 0.5f) {
+            amplitude = amp;
+            angular_speed = speed_hz * 2.0f * _PI;
+        }
+
+        void Apply(float t, float dt, Context&) override {
+            total_time += dt;
+            float angle = amplitude * std::sin(angular_speed * total_time);
+
+            auto tr = owner->GetComponent<TransformComponent>();
+            if (tr) {
+                tr->SetRotationDeg(original_rot + angle);
+            }
+        }
+    };
+
+    class InfiniteBreatheColorEffect : public EffectComponent {
+    private:
+        SDL_Color target_color{ 255, 100, 100, 255 };
+        SDL_Color base_color{};
+        float frequency = 1.0f;
+        float total_time = 0.0f;
+        bool initialized = false;
+        bool preserve_alpha = true;
+
+    public:
+        void Init() override {
+            auto spr = owner->GetComponent<SpriteComponent>();
+            if (spr) {
+                base_color = spr->GetColorMod();
+                if (preserve_alpha) {
+                    target_color.a = base_color.a;
+                }
+            }
+            total_time = 0.0f;
+            initialized = true;
+        }
+
+        void Configure(const SDL_Color& target, float freq = 1.0f, bool keep_alpha = true) {
+            target_color = target;
+            frequency = freq;
+            preserve_alpha = keep_alpha;
+        }
+
+        void Apply(float t, float dt, Context&) override {
+            if (!initialized) return;
+            total_time += dt;
+
+            float theta = total_time * _PI * frequency;
+            float wave = std::sin(theta);
+            wave = std::max(0.0f, wave);
+
+            auto spr = owner->GetComponent<SpriteComponent>();
+            if (!spr) return;
+
+            SDL_Color current{
+                static_cast<Uint8>(base_color.r + (target_color.r - base_color.r) * wave),
+                static_cast<Uint8>(base_color.g + (target_color.g - base_color.g) * wave),
+                static_cast<Uint8>(base_color.b + (target_color.b - base_color.b) * wave),
+                preserve_alpha ? base_color.a : static_cast<Uint8>(target_color.a)
+            };
+
+            spr->SetColorMod(current);
+        }
     };
 }

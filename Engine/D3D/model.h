@@ -10,12 +10,20 @@
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dcompiler.lib") 
 namespace Engine::Render::D3D {
+    constexpr int MAX_LIGHTS_SIZE = 16;
     using namespace DirectX;
     using Microsoft::WRL::ComPtr;
     struct Vertex {
-        XMFLOAT3 Pos;
-        XMFLOAT2 Tex;
-        XMFLOAT4 Color;
+        XMFLOAT3 pos;
+        XMFLOAT2 tex;
+        XMFLOAT4 color;
+    };
+
+    struct Vertex1 {
+        XMFLOAT3 pos;
+        XMFLOAT3 norm;
+        XMFLOAT2 tex;
+        XMFLOAT4 color;
     };
 
     struct Mesh {
@@ -26,24 +34,24 @@ namespace Engine::Render::D3D {
         DXGI_FORMAT index_format = DXGI_FORMAT_R32_UINT;
         
         ComPtr<ID3D11ShaderResourceView> diffuseSRV;
+        ComPtr<ID3D11ShaderResourceView> diffuseSRV_a;
         XMFLOAT4 base_color = { 1.0f,1.0f,1.0f,1.0f };
     };
 
-    struct Camera {
+    struct CameraData {
         XMFLOAT3 position;
         XMFLOAT3 target;
         XMFLOAT3 up;
 
         float fov = XM_PIDIV4;
         float near_plane = 0.01f;
-        float far_plane = 1e3;
-
-        Camera(const XMFLOAT3& pos,
+        float far_plane = 1e3f;
+        CameraData(const XMFLOAT3& pos,
             const XMFLOAT3& tar,
             const XMFLOAT3& _up):
             position(pos), target(tar),
             up(_up){ }
-        Camera(const XMFLOAT3& pos,
+        CameraData(const XMFLOAT3& pos,
             const XMFLOAT3& tar,
             const XMFLOAT3& _up,
             float f, float n_p, float f_p)
@@ -61,7 +69,8 @@ namespace Engine::Render::D3D {
         }
 
         XMMATRIX GetProjectionMatrix(float aspect) const {
-            return XMMatrixPerspectiveFovLH(fov, aspect, near_plane, far_plane);
+            float vertical_fov = 2.0f * std::atan(std::tan(fov * 0.5f) / aspect);
+            return XMMatrixPerspectiveFovLH(vertical_fov, aspect, near_plane, far_plane);
         }
     };
 
@@ -83,18 +92,14 @@ namespace Engine::Render::D3D {
         float outer_cos_angle;
 
         Light(
-            // 颜色与强度
             const XMFLOAT4& _color = { 1.0f, 1.0f, 1.0f, 1.0f },
-            // 位置与类型
             const XMFLOAT3& _position = { 0.0f, 0.0f, 0.0f },
             LightType _lightType = LightType::DIRECTIONAL_LIGHT,
-            // 方向与衰减
-            const XMFLOAT3& _direction = { 0.0f, -1.0f, 0.0f }, // 默认向下
+            const XMFLOAT3& _direction = { 0.0f, -1.0f, 0.0f },
             float _constantAtt = 1.0f,
-            // 衰减与聚光灯角度 (默认设置为点光源/定向光常用的值)
             float _linearAtt = 0.0f,
             float _quadratic_attenuation = 0.0f,
-            float _innerConeDeg = 360.0f, // 默认大于 90 度，使其行为像点光源
+            float _innerConeDeg = 360.0f,
             float _outerConeDeg = 360.0f
         ) :
             color(_color),
@@ -105,15 +110,11 @@ namespace Engine::Render::D3D {
             linear_attenuation(_linearAtt),
             quadratic_attenuation(_quadratic_attenuation)
         {
-            // 角度转换为余弦值，用于着色器中的光照计算
-            // 确保输入的角度不是用于三角函数，而是用于余弦比较
             if (_lightType == LightType::SPOT_LIGHT) {
-                // 将角度转换为弧度，然后取余弦值
                 inner_cos_angle = std::cos(XMConvertToRadians(_innerConeDeg));
                 outer_cos_angle = std::cos(XMConvertToRadians(_outerConeDeg));
             }
             else {
-                // 非聚光灯类型，将余弦值设置为允许所有光线通过 (cos(0) = 1.0)
                 inner_cos_angle = -1.0f;
                 outer_cos_angle = -1.0f;
             }
@@ -125,10 +126,17 @@ namespace Engine::Render::D3D {
         }
     };
 
+    struct Fog {
+        float fog_start;
+        float fog_end;
+        XMFLOAT3 fog_color = { 0.5f, 0.5f, 0.5f };
+        XMFLOAT3 fog_enable = { 0.0f, 0.0f, 0.0f };
+    };
+
     struct AnimationKeyFrame {
-        float time; // 时间戳 (Ticks)
+        float time;
         XMFLOAT3 position;
-        XMFLOAT4 rotation; // 使用 XMFLOAT4 存储四元数
+        XMFLOAT4 rotation;
         XMFLOAT3 scale;
         AnimationKeyFrame(
             float t = 0.0f,
@@ -149,17 +157,41 @@ namespace Engine::Render::D3D {
 
     struct ModelResource {
         std::string name;
+        XMMATRIX world_transform = XMMatrixIdentity();
         std::vector<Mesh> meshes;
         std::vector<Light> lights;
-        std::unordered_map<std::string, Camera> cameras;
+        std::unordered_map<std::string, CameraData> cameras;
         std::unordered_map<std::string, AnimationClip> animations;
     };
 
-
-    //拓展光照
+    //常量缓冲区必须按16字节对齐
     struct ConstantBuffer {
-        XMMATRIX m_world;
+        XMFLOAT4X4 world_view_proj;
+    };
+
+    struct CBPerFrame {
         XMMATRIX m_view;
         XMMATRIX m_projection;
+        XMFLOAT4 camera_position; //包含padding
+        XMFLOAT4 ambient_color;
+    };
+
+    struct CBPerObject {
+        XMMATRIX m_world;
+        XMFLOAT4 mesh_color;
+        XMFLOAT4 mix;   //包含padding
+    };
+
+    
+    struct CBLight {
+        Light lights[MAX_LIGHTS_SIZE];
+        XMFLOAT4 light_count; //包含padding
+    };
+
+    struct CBFog {
+        float fog_start = 10.0f;
+        XMFLOAT3 fog_color = { 0.5f, 0.5f, 0.5f };
+        float fog_end = 100.0f;
+        XMFLOAT3 fog_enable = { 0.0f, 0.0f, 0.0f };
     };
 }

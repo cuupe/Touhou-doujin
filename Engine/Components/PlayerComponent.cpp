@@ -7,7 +7,6 @@
 
 #include "../../Game/Player/Idel.h"
 #include "../../Game/Player/Move.h"
-#include "../../Game/Player/Slow.h"
 
 
 namespace Engine::Core::Components {
@@ -18,6 +17,9 @@ namespace Engine::Core::Components {
 	Vec2 PlayerComponent::GetTo(float d_t)
 	{
 		direct.Normalized();
+		if (is_slow) {
+			return speed * d_t * direct * 0.5f;
+		}
 		return speed * d_t * direct;
 	}
 

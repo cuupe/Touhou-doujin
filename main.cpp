@@ -1,11 +1,10 @@
 ﻿#include "prefix.h"
 #include "Game/Game.h"
 #include "Game/GameData.h"
-int main()
+#include <SDL3/SDL_main.h>
+int main(int argc, char* argv[])
 {
-#ifdef _DEBUG
 	SetConsoleOutputCP(CP_UTF8);
-#endif
 
     SDL_MessageBoxButtonData buttons[] = {
         { 0, 0, "窗口化" },
@@ -16,8 +15,8 @@ int main()
     SDL_MessageBoxData messageboxdata = {
         SDL_MESSAGEBOX_INFORMATION,
         nullptr,
-        "请选择模式（逻辑分辨率1280x960）",
-        "请选择以下一个选项：",
+        "请选择窗口模式：",
+        "逻辑分辨率1280x960",
         SDL_arraysize(buttons),
         buttons,
         nullptr
@@ -33,7 +32,7 @@ int main()
     }
 
 
-	Game::MGame g("测试3", SCREEN_WIDTH, SCREEN_HEIGHT, button_id, FPS);
+	Game::MGame g("STG", "favicon.ico", SCREEN_WIDTH, SCREEN_HEIGHT, button_id, FPS);
 	if (g.GetInit()) {
 		g.Run();
 	}
