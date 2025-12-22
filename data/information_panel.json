@@ -1,0 +1,37 @@
+{
+  "information_panel": {
+    "source": "background_view",
+    "rect": [0.0, 0.0, 1280.0, 960.0],
+    "position": [0.0, 0.0],
+    "alpha": 0.8,
+    "title": "说明",
+    "title_config": {
+      "font_size": 50.0,
+      "color": [255, 255, 255, 255],
+      "line_spacing": 10.0
+    },
+    "content": [
+      "本游戏基于SDL3和DirectX11开发，使用C++编程语言编写。",
+      "这是STG游戏，其素材来自东方绀珠传和LuaStg的开源素材。",
+      "游戏的控制如下：方向键移动，左Shift进入低速模式，",
+      "Z键射击，X键使用技能。",
+      "使用库：SDL, Assimp, Spdlog, nlohmann, Freetype",
+      "图形API：Directx11",
+      "                              ——developed by cuupe"
+    ],
+    "content_config": {
+      "font_size": 20.0,
+      "color": [255, 255, 255, 255],
+      "line_spacing": 10.0
+    },
+    "base_position": [100.0, 840.0],
+    "selected_sprite": {
+      "source": "title_item00",
+      "rect": [0.0, 512.0, 256.0, 64.0]
+    },
+    "normal_sprite": {
+      "source": "title_item00",
+      "rect": [256.0, 512.0, 256.0, 64.0]
+    }
+  }
+}

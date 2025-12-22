@@ -16,8 +16,8 @@ namespace Engine {
 		SDL_Event event;
 
 	public:
-		engine(const char* win_name, int width,
-			int height, int flag, int fps);
+		engine(const char* win_name, const char* icon_path,
+			int width, int height, int flag, int fps);
 		engine(const engine&) = delete;
 		engine(engine&&) = delete;
 		engine& operator=(const engine&) = delete;

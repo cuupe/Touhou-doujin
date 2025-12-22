@@ -11,8 +11,7 @@ namespace Engine::UISystem {
 namespace Game::Scene {
 	class TitleScene final :public Engine::Scene::Scene {
 	private:
-		Engine::Audio::AudioManager& au;
-		Engine::UISystem::UIManager& ui;
+		Data data;
 
 	public:
 		TitleScene(const std::string&, Engine::Core::Context&, Engine::Scene::SceneManager&,

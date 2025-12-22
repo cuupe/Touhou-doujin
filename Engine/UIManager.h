@@ -1,12 +1,14 @@
 ﻿#pragma once
 #include "ui.h"
-#include <vector>
-#include <memory>
+#include "../prefix.h"
 namespace Engine::Core {
     class Context;
 }
 namespace Engine::Audio {
     class AudioManager;
+}
+namespace Engine::Render {
+    class TextManager;
 }
 namespace Engine::Scene {
     class SceneManager;
@@ -16,7 +18,8 @@ namespace Engine::UISystem {
     private:
         Core::Context& ctx;
         Audio::AudioManager& au;
-        Scene::SceneManager& sc;
+        Scene::SceneManager& sm;
+        Render::TextManager& tm;
         std::vector<std::unique_ptr<Panel>> panel_stack;
 
         enum class PendingAction { NONE, PUSH, POP, REPLACE };
@@ -25,9 +28,8 @@ namespace Engine::UISystem {
 
     public:
         UIManager(Core::Context&, Audio::AudioManager&,
-            Scene::SceneManager&);
+            Render::TextManager&, Scene::SceneManager&);
         ~UIManager() { Clear(); }
-
         UIManager(const UIManager&) = delete;
         UIManager& operator=(const UIManager&) = delete;
         UIManager(UIManager&&) = delete;
@@ -45,7 +47,11 @@ namespace Engine::UISystem {
         void RequestPushPanel(std::unique_ptr<Panel>&& panel);
         void RequestPopPanel();
         void RequestReplacePanel(std::unique_ptr<Panel>&& panel);
-
+        Core::Context& GetContext() const { return ctx; }
+        Audio::AudioManager& GetAudioManager() const { return au; }
+        Scene::SceneManager& GetSceneManager() const { return sm; }
+        Render::TextManager& GetTextManager() const { return tm; }
+    public:
         void Update(float dt);
         void Render();
         void HandleInput();

@@ -13,7 +13,9 @@ namespace Engine::Audio {
 
 	private:
 		Engine::Resource::TrackPtr bgm;	//背景音乐
+		float bgm_sound;
 		std::map<std::string, Engine::Resource::TrackPtr> sfx;	//音频轨道 - 音效
+		float sfx_sound;
 	
 	public:
 		explicit AudioManager(Context&);
@@ -33,7 +35,6 @@ namespace Engine::Audio {
 		void StopBGM();
 		bool IsBGMPlaying() const;
 		void AddTrack_SFX(const std::string&);
-		void PlaySFXById(int id);
 		void PlaySFX(const std::string&, const std::string&);
 		void SetSound(float);
 		void SetBGMSound(float);

@@ -9,6 +9,14 @@ namespace Engine::Render {
 	class Renderer;
 }
 using namespace Engine::Render;
+namespace Engine::Audio {
+	class AudioManager;
+}
+using namespace Engine::Audio;
+namespace Engine::UISystem {
+	class UIManager;
+}
+using namespace Engine::UISystem;
 namespace Engine::Scene {
 	class SceneManager;
 
@@ -17,12 +25,15 @@ namespace Engine::Scene {
 		std::string scene_name;
 		Context& ctx;
 		SceneManager& scene_manager;
+		AudioManager& au;
+		UIManager& ui;
 		bool is_init = false;
 		std::vector<std::unique_ptr<GameObject>> game_objects;
 		std::vector<std::unique_ptr<GameObject>> pending;
+		
 
 	public:
-		Scene(const std::string& s_n, Context& c, SceneManager& s_m);
+		Scene(const std::string& s_n, Context& c, SceneManager& s_m, AudioManager& _au, UIManager& _ui);
 		virtual ~Scene();
 		Scene(const Scene&) = delete;
 		Scene& operator=(const Scene&) = delete;
@@ -35,7 +46,7 @@ namespace Engine::Scene {
 		virtual void Render();
 		virtual void HandleInput();
 		virtual void Destroy();
-
+		virtual void Reset();
 	public:
 		virtual void AddGameObject(std::unique_ptr<GameObject>&& g_o);
 		virtual void AddGameObjectSafe(std::unique_ptr<GameObject>&& g_o);

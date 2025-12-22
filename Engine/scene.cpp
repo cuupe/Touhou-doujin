@@ -1,9 +1,10 @@
 ﻿#include "scene.h"
 #include "GameObject.h"
-
+#include "CameraManager.h"
 namespace Engine::Scene {
-	Scene::Scene(const std::string& s_n, Context& c, SceneManager& s_m)
-		:scene_name(s_n), ctx(c), scene_manager(s_m)
+	Scene::Scene(const std::string& s_n, Context& c, SceneManager& s_m,
+		AudioManager& _au, UIManager& _ui)
+		:scene_name(s_n), ctx(c), scene_manager(s_m), au(_au), ui(_ui)
 	{
 		spdlog::trace("场景构建完成");
 	}
@@ -81,6 +82,9 @@ namespace Engine::Scene {
 		is_init = false;
 		spdlog::trace("场景{}清理完成", scene_name);
 	}
+
+	void Scene::Reset()
+	{ }
 
 	void Scene::AddGameObject(std::unique_ptr<GameObject>&& g_o)
 	{

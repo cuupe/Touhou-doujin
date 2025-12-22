@@ -1,16 +1,13 @@
 ﻿#pragma once
-#include <cmath>
-#include <random>
-constexpr float _PI = 3.141592653f;
-constexpr float _2PI = 6.283185306f;
-constexpr float _1_2_PI = 1.5707963265f;
-
+#include "../prefix.h"
 namespace Engine::Core::Components {
 	class ColliderComponent;
 }
 using namespace Engine::Core::Components;
 namespace Engine::Maths {
-	//泛用二维向量
+	constexpr float _PI = 3.141592653f;
+	constexpr float _2PI = 6.283185306f;
+	constexpr float _1_2_PI = 1.5707963265f;
 	struct Vec2 {
 		float x;
 		float y;
@@ -244,6 +241,22 @@ namespace Engine::Maths {
 		BOTTOM_CENTER,  
 		BOTTOM_RIGHT    
 	};
+
+	inline aiMatrix4x4 get_global_transformation(const aiNode* node) {
+		aiMatrix4x4 transform = node->mTransformation;
+		const aiNode* current = node->mParent;
+
+		while (current != nullptr) {
+			transform = current->mTransformation * transform;
+			current = current->mParent;
+		}
+		return transform;
+	}
+	inline DirectX::XMMATRIX ai_mat_to_dx_mat(const aiMatrix4x4& mat) {
+		DirectX::XMMATRIX dx_mat = DirectX::XMLoadFloat4x4(reinterpret_cast<const DirectX::XMFLOAT4X4*>(&mat));
+		return DirectX::XMMatrixTranspose(dx_mat);
+	}
+
 
 	float GetRandomFloat(float min, float max);
 	int GetRandomInt(int min, int max);

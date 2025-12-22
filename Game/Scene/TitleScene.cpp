@@ -2,17 +2,14 @@
 #include "Stage.h"
 #include "../../Engine/UIManager.h"
 #include "UIPanel/MainPanel.h"
-//#include "../UI/SettingsPanel.h"
-//#include "../UI/InformationPanel.h"
-
 #include "../../Engine/EffectManager.h"
 #include "../../Engine/Components/TransformComponent.h"
 #include "../../Engine/Components/SpriteComponent.h"
-
 namespace Game::Scene {
     TitleScene::TitleScene(const std::string& name, Engine::Core::Context& ctx,
-        Engine::Scene::SceneManager& sm, Engine::Audio::AudioManager& _au, Engine::UISystem::UIManager& _ui)
-        : Engine::Scene::Scene(name, ctx, sm), au(_au), ui(_ui)
+        Engine::Scene::SceneManager& sm, Engine::Audio::AudioManager& _au, 
+        Engine::UISystem::UIManager& _ui)
+        : Engine::Scene::Scene(name, ctx, sm, _au, _ui)
     { }
 
     void TitleScene::CreateBackgrounds()
@@ -29,7 +26,8 @@ namespace Game::Scene {
     void TitleScene::Init()
     {
         CreateBackgrounds();
-        ui.RequestPushPanel(std::make_unique<Game::UI::MainMenuPanel>(au, scene_manager));
+        
+        ui.RequestPushPanel(std::make_unique<Game::UI::MainPanel>("menu", ui));
         Scene::Init();
     }
 
@@ -47,6 +45,7 @@ namespace Game::Scene {
 
     void TitleScene::Render()
     {
+        ctx.GetRenderer().Begin2D();
         Scene::Render();
         ui.Render();
     }

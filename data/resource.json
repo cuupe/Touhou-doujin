@@ -1,0 +1,380 @@
+{
+  "base": [
+    {
+      "type": "texture",
+      "name": "gamebg1",
+      "path": "resources/textures/UI/gamebg1.png",
+      "transform": {
+        "x": 0.0,
+        "y": 0.0
+      },
+      "sprite": {
+        "x": 0.0,
+        "y": 0.0,
+        "w": 1280.0,
+        "h": 960.0
+      }
+    },
+    {
+      "type": "texture",
+      "name": "loading",
+      "path": "resources/textures/UI/loading.png",
+      "transform": {
+        "x": 950.0,
+        "y": 700.0
+      },
+      "sprite": {
+        "x": 0.0,
+        "y": 0.0,
+        "w": 256.0,
+        "h": 128.0
+      },
+      "anim": {
+        "freq": 1.0,
+        "min_alpha": 150
+      }
+    }
+  ],
+  "resources": [
+    {
+      "type": "texture",
+      "name": "gamebg",
+      "path": "resources/textures/UI/gamebg.png"
+    },
+    {
+      "type": "texture",
+      "name": "hint",
+      "path": "resources/textures/UI/hint.png"
+    },
+    {
+      "type": "texture",
+      "name": "pause",
+      "path": "resources/textures/UI/pause.png"
+    },
+    {
+      "type": "texture",
+      "name": "player_00",
+      "path": "resources/textures/UI/player_00.png"
+    },
+    {
+      "type": "texture",
+      "name": "rank",
+      "path": "resources/textures/UI/rank.png"
+    },
+    {
+      "type": "texture",
+      "name": "result00",
+      "path": "resources/textures/UI/result00.png"
+    },
+    {
+      "type": "texture",
+      "name": "title",
+      "path": "resources/textures/UI/title.png"
+    },
+    {
+      "type": "texture",
+      "name": "background_view",
+      "path": "resources/textures/UI/background_view.png"
+    },
+    {
+      "type": "texture",
+      "name": "score_bcg",
+      "path": "resources/textures/UI/score_bcg.png"
+    },
+    {
+      "type": "texture",
+      "name": "title_bk00",
+      "path": "resources/textures/UI/title_bk00.png"
+    },
+    {
+      "type": "texture",
+      "name": "title_item00",
+      "path": "resources/textures/UI/title_item00.png"
+    },
+    {
+      "type": "texture",
+      "name": "ascii",
+      "path": "resources/textures/UI/ascii.png"
+    },
+    {
+      "type": "texture",
+      "name": "title_pattern1",
+      "path": "resources/textures/UI/title_pattern1.png"
+    },
+    {
+      "type": "texture",
+      "name": "title_ver",
+      "path": "resources/textures/UI/title_ver.png"
+    },
+    {
+      "type": "texture",
+      "name": "bullet1",
+      "path": "resources/textures/bullet/bullet1.png"
+    },
+    {
+      "type": "texture",
+      "name": "bullet2",
+      "path": "resources/textures/bullet/bullet2.png"
+    },
+    {
+      "type": "texture",
+      "name": "bullet3",
+      "path": "resources/textures/bullet/bullet3.png"
+    },
+    {
+      "type": "texture",
+      "name": "bullet4",
+      "path": "resources/textures/bullet/bullet4.png"
+    },
+    {
+      "type": "texture",
+      "name": "bullet5",
+      "path": "resources/textures/bullet/bullet5.png"
+    },
+    {
+      "type": "texture",
+      "name": "eff_base",
+      "path": "resources/textures/effect/eff_base.png"
+    },
+    {
+      "type": "texture",
+      "name": "eff_deadcircle",
+      "path": "resources/textures/effect/eff_deadcircle.png"
+    },
+    {
+      "type": "texture",
+      "name": "eff_magicsquare",
+      "path": "resources/textures/effect/eff_magicsquare.png"
+    },
+    {
+      "type": "texture",
+      "name": "eff_sloweffect",
+      "path": "resources/textures/effect/eff_sloweffect.png"
+    },
+    {
+      "type": "texture",
+      "name": "eff_splash",
+      "path": "resources/textures/effect/eff_splash.png"
+    },
+    {
+      "type": "texture",
+      "name": "etbreak",
+      "path": "resources/textures/effect/etbreak.png"
+    },
+    {
+      "type": "texture",
+      "name": "eff_charge",
+      "path": "resources/textures/effect/eff_charge.png"
+    },
+    {
+      "type": "texture",
+      "name": "enemy",
+      "path": "resources/textures/enemy/enemy.png"
+    },
+    {
+      "type": "texture",
+      "name": "enemy_aura",
+      "path": "resources/textures/enemy/enemy_aura.png"
+    },
+    {
+      "type": "texture",
+      "name": "enemy2",
+      "path": "resources/textures/enemy/enemy2.png"
+    },
+    {
+      "type": "texture",
+      "name": "enemy5",
+      "path": "resources/textures/enemy/enemy5.png"
+    },
+    {
+      "type": "texture",
+      "name": "item",
+      "path": "resources/textures/item/item.png"
+    },
+    {
+      "type": "texture",
+      "name": "pl00",
+      "path": "resources/textures/player/pl00/pl00.png"
+    },
+    {
+      "type": "texture",
+      "name": "pl00b",
+      "path": "resources/textures/player/pl00/pl00b.png"
+    },
+    {
+      "type": "texture",
+      "name": "pl00f",
+      "path": "resources/textures/player/pl00/pl00f.png"
+    },
+    {
+      "type": "audio",
+      "name": "bgm_menu",
+      "path": "resources/audios/bgm/menu.mp3"
+    },
+    {
+      "type": "audio",
+      "name": "bgm1",
+      "path": "resources/audios/bgm/bgm1.mp3"
+    },
+    {
+      "type": "audio",
+      "name": "bgm2",
+      "path": "resources/audios/bgm/bgm2.mp3"
+    },
+    {
+      "type": "audio",
+      "name": "bgm3",
+      "path": "resources/audios/bgm/bgm3.mp3"
+    },
+    {
+      "type": "audio",
+      "name": "playerdata",
+      "path": "resources/audios/bgm/playerdata.mp3"
+    },
+    {
+      "type": "audio",
+      "name": "options",
+      "path": "resources/audios/bgm/options.mp3"
+    },
+    {
+      "type": "audio",
+      "name": "info",
+      "path": "resources/audios/bgm/info.mp3"
+    },
+    {
+      "type": "audio",
+      "name": "gameover",
+      "path": "resources/audios/bgm/gameover.mp3"
+    },
+    {
+      "type": "audio",
+      "name": "se_tan00",
+      "path": "resources/audios/sfx/se_tan00.wav"
+    },
+    {
+      "type": "audio",
+      "name": "se_tan01",
+      "path": "resources/audios/sfx/se_tan01.wav"
+    },
+    {
+      "type": "audio",
+      "name": "se_graze",
+      "path": "resources/audios/sfx/se_graze.wav"
+    },
+    {
+      "type": "audio",
+      "name": "se_plst00",
+      "path": "resources/audios/sfx/se_plst00.wav"
+    },
+    {
+      "type": "audio",
+      "name": "se_pldead00",
+      "path": "resources/audios/sfx/se_pldead00.wav"
+    },
+    {
+      "type": "audio",
+      "name": "se_item00",
+      "path": "resources/audios/sfx/se_item00.wav"
+    },
+    {
+      "type": "audio",
+      "name": "se_item01",
+      "path": "resources/audios/sfx/se_item01.wav"
+    },
+    {
+      "type": "audio",
+      "name": "se_select00",
+      "path": "resources/audios/sfx/se_select00.wav"
+    },
+    {
+      "type": "audio",
+      "name": "se_invalid",
+      "path": "resources/audios/sfx/se_invalid.wav"
+    },
+    {
+      "type": "audio",
+      "name": "se_ok00",
+      "path": "resources/audios/sfx/se_ok00.wav"
+    },
+    {
+      "type": "audio",
+      "name": "se_cancel00",
+      "path": "resources/audios/sfx/se_cancel00.wav"
+    },
+    {
+      "type": "audio",
+      "name": "se_pause",
+      "path": "resources/audios/sfx/se_pause.wav"
+    },
+    {
+      "type": "audio",
+      "name": "se_damage00",
+      "path": "resources/audios/sfx/se_damage00.wav"
+    },
+    {
+      "type": "audio",
+      "name": "se_damage01",
+      "path": "resources/audios/sfx/se_damage01.wav"
+    },
+    {
+      "type": "audio",
+      "name": "se_enep00",
+      "path": "resources/audios/sfx/se_enep00.wav"
+    },
+    {
+      "type": "audio",
+      "name": "se_enep01",
+      "path": "resources/audios/sfx/se_enep01.wav"
+    },
+    {
+      "type": "audio",
+      "name": "se_enep02",
+      "path": "resources/audios/sfx/se_enep02.wav"
+    },
+    {
+      "type": "audio",
+      "name": "se_etbreak",
+      "path": "resources/audios/sfx/se_etbreak.wav"
+    },
+    {
+      "type": "audio",
+      "name": "se_power0",
+      "path": "resources/audios/sfx/se_power0.wav"
+    },
+    {
+      "type": "audio",
+      "name": "se_power1",
+      "path": "resources/audios/sfx/se_power1.wav"
+    },
+    {
+      "type": "font",
+      "name": "hwzs",
+      "path": "resources/fonts/hwzs.TTF"
+    },
+    {
+      "type": "font",
+      "name": "msyh",
+      "path": "resources/fonts/msyh.ttc"
+    },
+    {
+      "type": "texture",
+      "name": "stage04a",
+      "path": "resources/textures/stage/bcg4/stage04a.png"
+    },
+    {
+      "type": "texture",
+      "name": "stage04b",
+      "path": "resources/textures/stage/bcg4/stage04b.png"
+    },
+    {
+      "type": "texture",
+      "name": "stage04c",
+      "path": "resources/textures/stage/bcg4/stage04c.png"
+    },
+    {
+      "type": "texture",
+      "name": "stage04d",
+      "path": "resources/textures/stage/bcg4/stage04d.png"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "input_config": [
+    {
+      "name": "move_forward",
+      "code": ["UP"]
+    },
+    {
+      "name": "move_back",
+      "code": ["DOWN"]
+    },
+    {
+      "name": "move_left",
+      "code": ["LEFT"]
+    },
+    {
+      "name": "move_right",
+      "code": ["RIGHT"]
+    },
+    {
+      "name": "ok",
+      "code": ["RETURN", "Z"]
+    },
+    {
+      "name": "slow",
+      "code": ["LEFT SHIFT"]
+    },
+    {
+      "name": "skill",
+      "code": ["X"]
+    },
+    {
+      "name": "esc",
+      "code": ["ESCAPE"]
+    }
+  ]
+}
