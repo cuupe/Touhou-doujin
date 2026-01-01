@@ -81,12 +81,12 @@ float4 cal_light(PS_IN input)
         float attenuation = 1.0f;
         float diffuse_factor = 0.0f;
 
-        if (current_light.light_type == 0) // 平行�?
+        if (current_light.light_type == 0) // å¹³è¡Œå…?
         {
             light_direction = -normalize(current_light.direction);
             diffuse_factor = saturate(dot(w_norm, light_direction));
         }
-        else if (current_light.light_type == 1) // 点光�?
+        else if (current_light.light_type == 1) // ç‚¹å…‰æº?
         {
             float3 light_vec = current_light.position - input.w_pos;
             float dist = length(light_vec);
@@ -95,10 +95,10 @@ float4 cal_light(PS_IN input)
             attenuation = 1.0f / (current_light.constant_attenuation +
                                   current_light.linear_attenuation * dist +
                                   current_light.quadratic_attenuation * dist * dist);
-            attenuation = max(attenuation, 0.1f); // 限制最小衰�?
+            attenuation = max(attenuation, 0.1f); // é™åˆ¶æœ€å°è¡°å‡?
             diffuse_factor = saturate(dot(w_norm, light_direction));
         }
-        else if (current_light.light_type == 2) // 聚光�?
+        else if (current_light.light_type == 2) // èšå…‰ç?
         {
             float3 light_vec = current_light.position - input.w_pos;
             float dist = length(light_vec);
@@ -134,11 +134,11 @@ float4 cal_light(PS_IN input)
         }
         else
         {
-            return ambient_color; // 未知光源类型
+            return ambient_color;
         }
 
         float4 light_contribution = current_light.color * diffuse_factor * attenuation;
-        light_contribution = min(light_contribution, float4(1.0f, 1.0f, 1.0f, 1.0f)); // 限制单个光源贡献
+        light_contribution = min(light_contribution, float4(1.0f, 1.0f, 1.0f, 1.0f));
         total_light += light_contribution;
     }
 
